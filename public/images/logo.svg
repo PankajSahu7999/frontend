@@ -1,0 +1,40 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 500 500" width="100%" height="100%">
+  <defs>
+    <!-- Smooth Gradient for Star and Circle -->
+    <linearGradient id="vectorGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#3165CD" />
+      <stop offset="45%" stop-color="#4A7BD1" />
+      <stop offset="75%" stop-color="#B88094" />
+      <stop offset="100%" stop-color="#D98A6C" />
+    </linearGradient>
+
+    <!-- Subtle Shadow for Icon Container -->
+    <filter id="subtleShadow" x="-10%" y="-10%" width="120%" height="120%">
+      <feDropShadow dx="0" dy="4" stdDeviation="8" flood-color="#000000" flood-opacity="0.06" />
+    </filter>
+  </defs>
+
+  <!-- Background Canvas -->
+  <rect width="100%" height="100%" fill="#FFFFFF" />
+
+  <!-- App Icon Container -->
+  <rect x="185" y="150" width="130" height="130" rx="30" fill="#FFFFFF" stroke="#E2E8F0" stroke-width="1.5" filter="url(#subtleShadow)" />
+
+  <!-- Main Star Vector Shape -->
+  <path d="M 250 172 
+           C 252 200, 258 211, 288 215 
+           C 258 219, 252 230, 250 258 
+           C 248 230, 242 219, 212 215 
+           C 242 211, 248 200, 250 172 Z" 
+        fill="url(#vectorGradient)" />
+
+  <!-- Orbit Circle Vector -->
+  <circle cx="275" cy="188" r="10" fill="url(#vectorGradient)" />
+
+  <!-- Logo Typography -->
+  <text x="250" y="322" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif" font-size="20" text-anchor="middle" letter-spacing="1">
+    <tspan fill="#64748B" font-weight="300">CASINO</tspan>
+    <tspan fill="#1E293B" font-weight="800">REVIEWS</tspan>
+    <tspan fill="#64748B" font-weight="300">BOOK</tspan>
+  </text>
+</svg>
