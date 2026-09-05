@@ -3,6 +3,7 @@ import React, { useState, useEffect } from 'react';
 import { Table, Column } from '@/components/admin/Table';
 import { Button, Select, Input } from '@/components/admin/FormElements';
 import { BarChart3, DollarSign, TrendingUp, Filter, Download, Eye } from 'lucide-react';
+import { buildApiUrl } from '@/config/api.config';
 
 interface ConversionData {
   conversions: any[];
@@ -36,11 +37,12 @@ export default function HasOffersConversionsPage() {
 
   const fetchCasinos = async () => {
     try {
-      const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/admin/casinos`);
+      const res = await fetch(buildApiUrl('/admin/casinos'));
       const data = await res.json();
-      setCasinos(data);
-      if (data.length > 0) {
-        setSelectedCasino(data[0].id);
+      const list = Array.isArray(data) ? data : data.casinos || [];
+      setCasinos(list);
+      if (list.length > 0) {
+        setSelectedCasino(list[0].id);
       }
     } catch (err) {
       console.error("Failed to fetch casinos", err);
@@ -62,13 +64,13 @@ export default function HasOffersConversionsPage() {
       if (endDate) params.append('end_date', endDate);
 
       const res = await fetch(
-        `${process.env.NEXT_PUBLIC_API_URL}/hasoffers/conversions/${selectedCasino}?${params}`
+        buildApiUrl(`/hasoffers/conversions/${selectedCasino}?${params}`)
       );
       
       if (res.ok) {
         const data: ConversionData = await res.json();
-        setConversions(data.conversions);
-        setPagination(data.pagination);
+        setConversions(Array.isArray(data.conversions) ? data.conversions : []);
+        setPagination(data.pagination || { total: 0, limit: 50, offset: 0 });
       }
     } catch (err) {
       console.error("Failed to fetch conversions", err);

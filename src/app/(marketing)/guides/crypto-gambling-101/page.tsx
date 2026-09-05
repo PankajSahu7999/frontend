@@ -741,8 +741,8 @@ const PAGE_URL = "https://casinoreviewbook.com/guides/crypto-gambling-101/";
 const graph = buildSchemaGraph({
   webpage: webpageSchema({
     url: PAGE_URL,
-    title: metadata.title,
-    description: metadata.description,
+    title: typeof metadata.title === 'string' ? metadata.title : 'Crypto Gambling 101 Guide',
+    description: metadata.description || 'Learn crypto gambling rules, safety, and bonuses',
   }),
   breadcrumb: breadcrumbSchema({
     pageUrl: PAGE_URL,

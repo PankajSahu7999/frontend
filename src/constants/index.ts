@@ -136,7 +136,7 @@ export const DEFAULT_SEO: Metadata = {
 
   description: SITE.description,
 
-  keywords: SITE.keywords,
+  keywords: [...SITE.keywords],
 
   applicationName: SITE.applicationName,
 

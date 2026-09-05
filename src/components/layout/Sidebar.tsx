@@ -145,6 +145,7 @@ const menuItems = [
     },
      { name: 'Compare Casinos', href: '/compare-casinos', icon: Scale },
      { name: 'Casinos by Country', href: '/casinos-by-country', icon: Globe },
+     { name: 'Casino Bonuses', href: '/casino-bonuses', icon: Gift },
     { name: 'Casino News', href: '/news', icon: Megaphone },
     {
         name: 'Guides & Strategy',

@@ -107,8 +107,6 @@ export function generateSEO({
       capable: true,
       title: SITE.siteName,
       statusBarStyle: "default",
-      creator: SITE.twitter,
-      images: [absoluteOgImage],
     },
 
     formatDetection: {
@@ -122,12 +120,7 @@ export function generateSEO({
         should_fallback: true,
       },
     },
-    archives: {
-      item: {
-        "@type": "WebPage",
-        "@id": url,
-      },
-    },
+    archives: [url],
 
     other: {
       "theme-color": "#0F172A",

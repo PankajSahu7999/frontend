@@ -2,6 +2,7 @@
 import React, { useState, useEffect } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/admin/FormElements';
 import { BarChart3, TrendingUp, DollarSign, Users, MousePointerClick, AlertCircle } from 'lucide-react';
+import { buildApiUrl } from '@/config/api.config';
 
 interface DashboardStats {
   total_conversions: number;
@@ -39,18 +40,20 @@ export default function HasOffersDashboard() {
     setIsLoading(true);
     setError(null);
     try {
-      // Fetch overall stats (we'll need to create this endpoint or aggregate from existing ones)
-      const [conversionsRes, configsRes] = await Promise.all([
-        fetch(`${process.env.NEXT_PUBLIC_API_URL}/admin/hasoffers/configs`),
-        fetch(`${process.env.NEXT_PUBLIC_API_URL}/admin/casinos`)
+      // Fetch overall stats
+      const [configsRes, casinosRes] = await Promise.all([
+        fetch(buildApiUrl('/admin/hasoffers/configs')),
+        fetch(buildApiUrl('/admin/casinos'))
       ]);
 
-      if (!conversionsRes.ok || !configsRes.ok) {
+      if (!configsRes.ok || !casinosRes.ok) {
         throw new Error('Failed to fetch dashboard data');
       }
 
-      const configs = await conversionsRes.json();
-      const casinos = await configsRes.json();
+      const configsRaw = await configsRes.json();
+      const casinosRaw = await casinosRes.json();
+      const configs = Array.isArray(configsRaw) ? configsRaw : [];
+      const casinos = Array.isArray(casinosRaw) ? casinosRaw : casinosRaw.casinos || [];
 
       // Calculate overall stats
       const activeConfigs = configs.filter((c: any) => c.status === 'active').length;
@@ -60,18 +63,18 @@ export default function HasOffersDashboard() {
         casinos.map(async (casino: any) => {
           try {
             const analyticsRes = await fetch(
-              `${process.env.NEXT_PUBLIC_API_URL}/hasoffers/analytics/${casino.id}`
+              buildApiUrl(`/hasoffers/analytics/${casino.id}`)
             );
             if (analyticsRes.ok) {
               const analytics = await analyticsRes.json();
               return {
                 casino_id: casino.id,
                 casino_name: casino.name,
-                total_conversions: analytics.overview.total_conversions,
-                total_clicks: analytics.overview.total_clicks,
-                conversion_rate: analytics.overview.conversion_rate,
-                total_revenue: parseFloat(analytics.overview.total_revenue) || 0,
-                total_payout: parseFloat(analytics.overview.total_payout) || 0
+                total_conversions: analytics.overview?.total_conversions || 0,
+                total_clicks: analytics.overview?.total_clicks || 0,
+                conversion_rate: analytics.overview?.conversion_rate || 0,
+                total_revenue: parseFloat(analytics.overview?.total_revenue) || 0,
+                total_payout: parseFloat(analytics.overview?.total_payout) || 0
               };
             }
             return null;
