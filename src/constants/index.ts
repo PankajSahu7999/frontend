@@ -130,13 +130,12 @@ export const DEFAULT_SEO: Metadata = {
 
   title: {
     default: SITE.title,
-
     template: "%s | Casino Review Book",
   },
 
   description: SITE.description,
 
-  keywords: SITE.keywords,
+  keywords: [...SITE.keywords],
 
   applicationName: SITE.applicationName,
 
@@ -165,6 +164,7 @@ export const DEFAULT_SEO: Metadata = {
     index: true,
     follow: true,
     nocache: false,
+
     googleBot: {
       index: true,
       follow: true,
@@ -174,37 +174,56 @@ export const DEFAULT_SEO: Metadata = {
     },
   },
 
-  verification: {
-    google: process.env.GOOGLE_SITE_VERIFICATION || "",
+  // verification: {
+  //   google: process.env.GOOGLE_SITE_VERIFICATION || "",
+  //   bing: process.env.BING_SITE_VERIFICATION || "",
+  //   // yandex: process.env.YANDEX_SITE_VERIFICATION,
+  //   // baidu: process.env.BAIDU_SITE_VERIFICATION,
+  // },
 
-    // bing: process.env.BING_SITE_VERIFICATION,
-    // yandex: process.env.YANDEX_SITE_VERIFICATION,
-    // baidu: process.env.BAIDU_SITE_VERIFICATION,
+  verification: {
+    ...(process.env.GOOGLE_SITE_VERIFICATION
+      ? {
+          google: process.env.GOOGLE_SITE_VERIFICATION,
+        }
+      : {}),
+
+    other: {
+      ...(process.env.BING_SITE_VERIFICATION
+        ? {
+            "msvalidate.01": process.env.BING_SITE_VERIFICATION,
+          }
+        : {}),
+
+      ...(process.env.YANDEX_SITE_VERIFICATION
+        ? {
+            "yandex-verification": process.env.YANDEX_SITE_VERIFICATION,
+          }
+        : {}),
+
+      ...(process.env.BAIDU_SITE_VERIFICATION
+        ? {
+            "baidu-site-verification": process.env.BAIDU_SITE_VERIFICATION,
+          }
+        : {}),
+    },
   },
 
   manifest: "/site.webmanifest",
 
   openGraph: {
     type: "website",
-
     url: SITE.url,
-
     locale: SITE.locale,
-
     siteName: SITE.siteName,
-
     title: SITE.title,
-
     description: SITE.description,
 
     images: [
       {
         url: SITE.ogImage,
-
         width: 1200,
-
         height: 630,
-
         alt: SITE.siteName,
       },
     ],
@@ -212,16 +231,14 @@ export const DEFAULT_SEO: Metadata = {
 
   twitter: {
     card: "summary_large_image",
-
     creator: SITE.name,
-
     site: SITE.siteName,
-
     title: SITE.name,
-
     description: SITE.description,
-
     // images: [SITE.twitterImage],
+    images: [
+      { url: SITE.ogImage, width: 1200, height: 630, alt: SITE.siteName },
+    ],
   },
 
   icons: {

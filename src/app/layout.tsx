@@ -17,8 +17,7 @@ const geistMono = Geist_Mono({
 });
 
 import { DEFAULT_SEO } from "@/constants";
-import JsonLd from "@/components/seo/JsonLd";
-import { organizationSchema, websiteSchema } from "@/lib/seo/schemas";
+
 
 export const metadata: Metadata = DEFAULT_SEO;
 
@@ -38,8 +37,8 @@ export default function RootLayout({
         <link rel="preload" href="/videos/hero/main-banner1.webp" as="image" fetchPriority="high" />
       </head>
       <body className="min-h-full flex flex-col">
-        <JsonLd data={organizationSchema()} />
-        <JsonLd data={websiteSchema()} />
+        {/* <JsonLd data={organizationSchema()} />
+        <JsonLd data={websiteSchema()} /> */}
 
         <ReduxProvider>
           <DataInitializer />

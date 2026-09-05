@@ -39,6 +39,5 @@ export default function robots(): MetadataRoute.Robots {
       `${SITE.url}/sitemap-news.xml`,
       `${SITE.url}/sitemap-images.xml`,
     ],
-    host: `${SITE.url}`,
   };
 }
