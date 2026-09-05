@@ -1,14 +1,18 @@
 'use client';
 import React, { useState, useEffect } from 'react';
-import { useRouter } from 'next/navigation';
+import { useRouter, useParams } from 'next/navigation';
 import { Input, Textarea, Select, Button } from '@/components/admin/FormElements';
 import { ArrowLeft, Save, ExternalLink, Trash2 } from 'lucide-react';
+import { buildApiUrl } from '@/config/api.config';
 
-export default function EditHasOffersConfigPage({ params }: { params: { id: string } }) {
+export default function EditHasOffersConfigPage() {
   const router = useRouter();
+  const params = useParams();
+  const id = params.id as string;
+
   const [isLoading, setIsLoading] = useState(true);
   const [isSaving, setIsSaving] = useState(false);
-  const [casinos, setCasinos] = useState([]);
+  const [casinos, setCasinos] = useState<any[]>([]);
   const [formData, setFormData] = useState({
     casino_id: '',
     network_domain: '',
@@ -19,13 +23,15 @@ export default function EditHasOffersConfigPage({ params }: { params: { id: stri
   });
 
   useEffect(() => {
-    fetchConfig();
+    if (id) {
+      fetchConfig();
+    }
     fetchCasinos();
-  }, [params.id]);
+  }, [id]);
 
   const fetchConfig = async () => {
     try {
-      const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/admin/hasoffers/configs/${params.id}`);
+      const res = await fetch(buildApiUrl(`/admin/hasoffers/configs/${id}`));
       if (res.ok) {
         const data = await res.json();
         setFormData(data);
@@ -38,9 +44,9 @@ export default function EditHasOffersConfigPage({ params }: { params: { id: stri
 
   const fetchCasinos = async () => {
     try {
-      const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/admin/casinos`);
+      const res = await fetch(buildApiUrl('/admin/casinos'));
       const data = await res.json();
-      setCasinos(data);
+      setCasinos(Array.isArray(data) ? data : data.casinos || []);
     } catch (err) {
       console.error("Failed to fetch casinos", err);
     }
@@ -51,7 +57,7 @@ export default function EditHasOffersConfigPage({ params }: { params: { id: stri
     setIsSaving(true);
 
     try {
-      const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/admin/hasoffers/configs/${params.id}`, {
+      const res = await fetch(buildApiUrl(`/admin/hasoffers/configs/${id}`), {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(formData)
@@ -74,7 +80,7 @@ export default function EditHasOffersConfigPage({ params }: { params: { id: stri
     if (!confirm('Are you sure you want to delete this configuration?')) return;
 
     try {
-      const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/admin/hasoffers/configs/${params.id}`, {
+      const res = await fetch(buildApiUrl(`/admin/hasoffers/configs/${id}`), {
         method: 'DELETE'
       });
 

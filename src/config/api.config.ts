@@ -20,10 +20,12 @@ export const getMediaUrl = (path?: string) => {
     try {
       const parsedUrl = new URL(path);
       const baseUrl = API_CONFIG.mediaBaseURL || process.env.NEXT_PUBLIC_API_URL || '';
-      const isLocalHost = ['localhost', '127.0.0.1'].includes(parsedUrl.hostname);
-      // If the stored URL points to localhost (old dev data) rewrite it to the configured origin
-      if (isLocalHost && baseUrl) {
-        const configuredOrigin = new URL(baseUrl.replace(/\/api\/?$/, '')).origin;
+      if (!baseUrl) return path;
+
+      const configuredOrigin = new URL(baseUrl.replace(/\/api\/?$/, '')).origin;
+
+      // If this is an uploaded media file, ensure it points to the active environment origin
+      if (parsedUrl.pathname.startsWith('/uploads/')) {
         return `${configuredOrigin}${parsedUrl.pathname}${parsedUrl.search}${parsedUrl.hash}`;
       }
       return path;

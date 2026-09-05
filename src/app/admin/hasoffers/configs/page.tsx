@@ -4,6 +4,7 @@ import { useRouter } from 'next/navigation';
 import { Table, Column } from '@/components/admin/Table';
 import { Button } from '@/components/admin/FormElements';
 import { Plus, ExternalLink, Copy, Check } from 'lucide-react';
+import { buildApiUrl } from '@/config/api.config';
 
 export default function HasOffersConfigsPage() {
   const [configs, setConfigs] = useState<any[]>([]);
@@ -19,15 +20,15 @@ export default function HasOffersConfigsPage() {
   const fetchData = async () => {
     try {
       const [configsRes, casinosRes] = await Promise.all([
-        fetch(`${process.env.NEXT_PUBLIC_API_URL}/admin/hasoffers/configs`),
-        fetch(`${process.env.NEXT_PUBLIC_API_URL}/admin/casinos`)
+        fetch(buildApiUrl('/admin/hasoffers/configs')),
+        fetch(buildApiUrl('/admin/casinos'))
       ]);
 
       if (configsRes.ok && casinosRes.ok) {
         const configsData = await configsRes.json();
         const casinosData = await casinosRes.json();
-        setConfigs(configsData);
-        setCasinos(casinosData);
+        setConfigs(Array.isArray(configsData) ? configsData : []);
+        setCasinos(Array.isArray(casinosData) ? casinosData : casinosData.casinos || []);
       }
     } catch (err) {
       console.error("Failed to fetch data", err);
@@ -39,7 +40,7 @@ export default function HasOffersConfigsPage() {
     if (!confirm('Are you sure you want to delete this configuration?')) return;
 
     try {
-      const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/admin/hasoffers/configs/${id}`, {
+      const res = await fetch(buildApiUrl(`/admin/hasoffers/configs/${id}`), {
         method: 'DELETE'
       });
 

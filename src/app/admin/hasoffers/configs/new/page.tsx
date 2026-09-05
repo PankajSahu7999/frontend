@@ -3,11 +3,12 @@ import React, { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { Input, Textarea, Select, Button } from '@/components/admin/FormElements';
 import { ArrowLeft, Save, ExternalLink } from 'lucide-react';
+import { buildApiUrl } from '@/config/api.config';
 
 export default function NewHasOffersConfigPage() {
   const router = useRouter();
   const [isLoading, setIsLoading] = useState(false);
-  const [casinos, setCasinos] = useState([]);
+  const [casinos, setCasinos] = useState<any[]>([]);
   const [formData, setFormData] = useState({
     casino_id: '',
     network_domain: '',
@@ -20,15 +21,15 @@ export default function NewHasOffersConfigPage() {
   useEffect(() => {
     fetchCasinos();
     // Set default postback URL
-    const defaultUrl = `${window.location.origin}/api/hasoffers/postback`;
+    const defaultUrl = buildApiUrl('/hasoffers/postback');
     setFormData(prev => ({ ...prev, postback_url: defaultUrl }));
   }, []);
 
   const fetchCasinos = async () => {
     try {
-      const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/admin/casinos`);
+      const res = await fetch(buildApiUrl('/admin/casinos'));
       const data = await res.json();
-      setCasinos(data);
+      setCasinos(Array.isArray(data) ? data : data.casinos || []);
     } catch (err) {
       console.error("Failed to fetch casinos", err);
     }
@@ -39,7 +40,7 @@ export default function NewHasOffersConfigPage() {
     setIsLoading(true);
 
     try {
-      const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/admin/hasoffers/configs`, {
+      const res = await fetch(buildApiUrl('/admin/hasoffers/configs'), {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(formData)
