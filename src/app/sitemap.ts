@@ -2,64 +2,21 @@ import type { MetadataRoute } from "next";
 
 import { SITE } from "@/constants";
 
-import { getAllNews, getAllCasinos, getAllCategories } from "@/lib/seo/seoApi";
+import { getAllNews, getAllCasinos, getAllCategories, getAllGuides } from "@/lib/seo/seoApi";
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const now = new Date();
-
-  // const staticPages: MetadataRoute.Sitemap = [
-  //   {
-  //     url: SITE.url,
-  //     lastModified: now,
-  //     changeFrequency: "daily",
-  //     priority: 1,
-  //   },
-  //   {
-  //     url: `${SITE.url}/news`,
-  //     lastModified: now,
-  //     changeFrequency: "hourly",
-  //     priority: 0.9,
-  //   },
-  //   {
-  //     url: `${SITE.url}/casinos`,
-  //     lastModified: now,
-  //     changeFrequency: "daily",
-  //     priority: 0.9,
-  //   },
-  //   {
-  //     url: `${SITE.url}/bonuses`,
-  //     lastModified: now,
-  //     changeFrequency: "daily",
-  //     priority: 0.9,
-  //   },
-  //   {
-  //     url: `${SITE.url}/about-us`,
-  //     lastModified: now,
-  //     changeFrequency: "monthly",
-  //     priority: 0.5,
-  //   },
-  //   {
-  //     url: `${SITE.url}/contact-us`,
-  //     lastModified: now,
-  //     changeFrequency: "monthly",
-  //     priority: 0.5,
-  //   },
-  //   {
-  //     url: `${SITE.url}/responsible-gambling`,
-  //     lastModified: now,
-  //     changeFrequency: "monthly",
-  //     priority: 0.6,
-  //   },
-  // ];
 
   const staticPages = [
     "",
     "/casinos",
     "/bonuses",
+    "/casino-bonuses",
     "/games",
     "/news",
     "/compare-casinos",
     "/casinos-by-country",
+    "/guides",
     "/guides/how-to-win",
     "/guides/crypto-gambling-101",
     "/about-us",
@@ -77,14 +34,15 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
 
   /*
   |--------------------------------------------------------------------------
-  | Dynamic Pages (News, Casinos, Categories)
+  | Dynamic Pages (News, Casinos, Categories, Guides)
   |--------------------------------------------------------------------------
   */
 
-  const [news, casinos, categories] = await Promise.all([
+  const [news, casinos, categories, guides] = await Promise.all([
     getAllNews(),
     getAllCasinos(),
     getAllCategories(),
+    getAllGuides(),
   ]);
 
   const newsUrls: MetadataRoute.Sitemap = (Array.isArray(news) ? news : []).map((item: any) => ({
@@ -108,5 +66,13 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     priority: 0.85,
   }));
 
-  return [...staticPagesSitemap, ...newsUrls, ...casinoUrls, ...categoryUrls];
+  const guideUrls: MetadataRoute.Sitemap = (Array.isArray(guides) ? guides : []).map((item: any) => ({
+    url: `${SITE.url}/guides/${item.slug}`,
+    lastModified: new Date(item.updated_at ?? item.published_at ?? now),
+    changeFrequency: "weekly",
+    priority: 0.8,
+  }));
+
+  return [...staticPagesSitemap, ...newsUrls, ...casinoUrls, ...categoryUrls, ...guideUrls];
 }
+

@@ -1,30 +1,3 @@
-// 'use client';
-
-// import Link from 'next/link';
-// import {
-//   ArrowRight,
-//   CheckCircle2,
-//   ShieldCheck,
-//   Search,
-//   TrendingUp,
-//   Award,
-//   Globe,
-//   Sparkles,
-//   Scale,
-//   HeartHandshake,
-//   BookOpen,
-//   HelpCircle,
-//   AlertTriangle,
-//   Ban,
-//   UserCheck,
-//   Zap,
-//   ExternalLink,
-//   Building2,
-//   ChevronRight,
-//   FileCheck2,
-//   Lock,
-// } from 'lucide-react';
-
 import {
   breadcrumbSchema,
   buildSchemaGraph,
