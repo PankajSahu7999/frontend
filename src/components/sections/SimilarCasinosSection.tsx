@@ -111,12 +111,7 @@ function SimilarCasinoCard({ casino }: { casino: any }) {
 
   return (
     <Link href={`/casino/${casino.slug}`}>
-      <div
-        className="rounded-[24px] p-[2px] "
-        style={{
-          background: "linear-gradient(158.37deg, #FF9C2C 2.3%, #FFF1CC 15.9%, #B45B1B 24.24%, #FFC170 62.4%, #FEE5B3 75.76%, #9F5E26 90.07%)",
-        }}
-      >
+      <div className="card-animated-border rounded-[24px] p-[2px] shrink-0 cursor-pointer">
         <div
           className="flex flex-col p-4 rounded-[22px] justify-between"
           style={{
@@ -205,7 +200,7 @@ function SimilarCasinoCard({ casino }: { casino: any }) {
             </div>
 
             <div className="mt-4">
-              <button className="w-full h-11 bg-white hover:bg-gray-50 border border-gray-200 rounded-xl flex items-center justify-center font-bold text-[14px] text-[#2E68FB] transition-colors shadow-sm">
+              <button className="btn-play-now w-full h-11 bg-white hover:bg-gray-50 border border-gray-200 rounded-xl flex items-center justify-center font-bold text-[14px] text-[#2E68FB] shadow-sm">
                 Play Now
               </button>
             </div>

@@ -243,6 +243,7 @@ function CasinoCard({ casino }: { casino: any }) {
 
             {/* Card body */}
             <div
+                className="card-animated-border p-[2px] cursor-pointer"
                 style={{
                     position: 'absolute',
                     top: `${CARD_TOP}px`,
@@ -250,14 +251,22 @@ function CasinoCard({ casino }: { casino: any }) {
                     width: `${CARD_W}px`,
                     height: `${CARD_H}px`,
                     zIndex: 20,
-                    borderRadius: '18px',
-                    overflow: 'hidden',
-                    background:
-                        'linear-gradient(175deg, #D4E1FF 0%, #EAF0FF 45%, #F4F7FF 100%)',
-                    display: 'flex',
-                    flexDirection: 'column',
+                    borderRadius: '20px',
                 }}
             >
+                <div
+                    style={{
+                        width: '100%',
+                        height: '100%',
+                        borderRadius: '18px',
+                        overflow: 'hidden',
+                        background:
+                            'linear-gradient(175deg, #D4E1FF 0%, #EAF0FF 45%, #F4F7FF 100%)',
+                        display: 'flex',
+                        flexDirection: 'column',
+                        position: 'relative',
+                    }}
+                >
                 <div
                     style={{
                         position: 'absolute',
@@ -365,6 +374,7 @@ function CasinoCard({ casino }: { casino: any }) {
                     }}
                 >
                     <button
+                        className="btn-play-now px-4 py-1.5 rounded-lg"
                         style={{
                             fontSize: '10.5px',
                             fontWeight: 700,
@@ -391,6 +401,7 @@ function CasinoCard({ casino }: { casino: any }) {
                             backgroundColor: '#2F63FF',
                         }}
                     />
+                </div>
                 </div>
             </div>
         </div>

@@ -84,7 +84,7 @@ export default function UserReviewsSection({
  
 
   {/* Outer Gradient Border */}
-  <div className="rounded-[24px] bg-[linear-gradient(158.37deg,#FF9C2C_2.3%,#FFF1CC_15.9%,#B45B1B_24.24%,#FFC170_62.4%,#FEE5B3_75.76%,#9F5E26_90.07%)] p-[2px]">
+  <div className="card-animated-border rounded-[24px] p-[2px] cursor-pointer">
 
     {/* Inner Gradient Background */}
     <div className="rounded-[22px] bg-[linear-gradient(231.79deg,#D5EDFF_32.55%,#EEECFF_43.54%,#F9F3FF_53.23%,#F5FCFF_66.16%,#E9F5FF_79.08%)] p-4">

@@ -128,25 +128,19 @@ function CasinoCard({ casino }: { casino: any }) {
   const imageUrl = getImageUrl(casino.logo || casino.featured_image || '/images/888.png');
 
   return (
-    <div
-  className="rounded-[24px] p-[2px]"
-  style={{
-    background:
-      "linear-gradient(158.37deg, #FF9C2C 2.3%, #FFF1CC 15.9%, #B45B1B 24.24%, #FFC170 62.4%, #FEE5B3 75.76%, #9F5E26 90.07%)",
-  }}
->
-  <div
-    className="flex flex-col p-4 rounded-[22px] justify-between"
-    style={{
-      width: "340px",
-      minHeight: "400px",
-      background:
-        "linear-gradient(231.79deg, #D5EDFF 32.55%, #EEECFF 43.54%, #F9F3FF 53.23%, #F5FCFF 66.16%, #E9F5FF 79.08%)",
-    }}
-  >
+    <div className="card-animated-border rounded-[24px] p-[2px] shrink-0 cursor-pointer">
+      <div
+        className="flex flex-col p-4 rounded-[22px] justify-between transition-colors duration-200"
+        style={{
+          width: "340px",
+          minHeight: "400px",
+          background:
+            "linear-gradient(231.79deg, #D5EDFF 32.55%, #EEECFF 43.54%, #F9F3FF 53.23%, #F5FCFF 66.16%, #E9F5FF 79.08%)",
+        }}
+      >
       {/* 1. Header (Logo + Title) */}
       <div className="flex gap-3 items-center">
-        <div className="relative w-20 h-20 bg-white rounded-xl overflow-hidden shadow-sm flex-shrink-0 border border-gray-100 p-1">
+        <div className="relative w-20 h-20 bg-white rounded-xl overflow-hidden shadow-sm flex-shrink-0 border border-gray-100 p-1 group-hover:scale-105 transition-transform duration-200">
           <Image
             src={imageUrl}
             alt={casino.name || 'Casino'}
@@ -156,7 +150,7 @@ function CasinoCard({ casino }: { casino: any }) {
           />
         </div>
         <div>
-          <h3 className="text-[22px] font-bold text-[#151515] leading-tight">
+          <h3 className="text-[22px] font-bold text-[#151515] leading-tight hover:text-[#2E68FB] transition-colors">
             {casino.name || 'BC Game Casino'}
           </h3>
           <p
@@ -187,17 +181,17 @@ function CasinoCard({ casino }: { casino: any }) {
         </div>
 
         <div className="flex gap-1">
-          <span className="text-[9px] font-bold text-white px-2 py-0.5 rounded-md bg-gradient-to-r from-[#FFB000] to-[#FF8A00]">
+          <span className="text-[9px] font-bold text-white px-2 py-0.5 rounded-md bg-gradient-to-r from-[#FFB000] to-[#FF8A00] shadow-2xs">
             Top Pick
           </span>
-          <span className="text-[9px] font-bold text-white px-2 py-0.5 rounded-md bg-[#00B67A]">
+          <span className="text-[9px] font-bold text-white px-2 py-0.5 rounded-md bg-[#00B67A] shadow-2xs">
             Fast Pay
           </span>
         </div>
       </div>
 
       {/* 3. Main Welcome Bonus Box */}
-      <div className="mt-3 p-3 rounded-xl bg-[#2E68FB] text-white flex flex-col justify-center">
+      <div className="mt-3 p-3 rounded-xl bg-[#2E68FB] text-white flex flex-col justify-center shadow-sm">
         <span className="text-[9px] font-semibold tracking-wider uppercase text-blue-100">
           Exclusive Welcome
         </span>
@@ -209,7 +203,7 @@ function CasinoCard({ casino }: { casino: any }) {
       {/* 4. Details 2x2 Info Grid */}
       <div className="grid grid-cols-2 gap-2 mt-3">
         {/* Min Deposit */}
-        <div className="p-2 bg-white/40 border border-[#2E68FB20] rounded-lg">
+        <div className="p-2 bg-white/50 border border-[#2E68FB20] rounded-lg">
           <span className="block text-[9px] font-semibold text-[#2E68FB] uppercase">
             Min Deposit
           </span>
@@ -219,7 +213,7 @@ function CasinoCard({ casino }: { casino: any }) {
         </div>
 
         {/* Payout */}
-        <div className="p-2 bg-white/40 border border-[#2E68FB20] rounded-lg">
+        <div className="p-2 bg-white/50 border border-[#2E68FB20] rounded-lg">
           <span className="block text-[9px] font-semibold text-[#2E68FB] uppercase">
             Payout
           </span>
@@ -229,7 +223,7 @@ function CasinoCard({ casino }: { casino: any }) {
         </div>
 
         {/* Games */}
-        <div className="p-2 bg-white/40 border border-[#2E68FB20] rounded-lg">
+        <div className="p-2 bg-white/50 border border-[#2E68FB20] rounded-lg">
           <span className="block text-[9px] font-semibold text-[#00B67A] uppercase">
             Games
           </span>
@@ -239,7 +233,7 @@ function CasinoCard({ casino }: { casino: any }) {
         </div>
 
         {/* Established Year */}
-        <div className="p-2 bg-white/40 border border-[#2E68FB20] rounded-lg">
+        <div className="p-2 bg-white/50 border border-[#2E68FB20] rounded-lg">
           <span className="block text-[9px] font-semibold text-[#2E68FB] uppercase">
             Established Year
           </span>
@@ -258,7 +252,7 @@ function CasinoCard({ casino }: { casino: any }) {
             boxShadow: '0px 2px 0px 0px #2E68FB',
             background: 'linear-gradient(180deg, #CDDCFB 0%, #588CF3 100%)',
           }}
-          className="flex-1 text-white text-[12px] font-bold transition-all hover:brightness-105 active:scale-95"
+          className="btn-play-now flex-1 text-white text-[12px] font-bold flex items-center justify-center cursor-pointer"
           onClick={() => {
             if (casino.website_url) {
               window.open(casino.website_url, '_blank');
@@ -276,7 +270,7 @@ function CasinoCard({ casino }: { casino: any }) {
             borderRadius: "12px",
             background: "linear-gradient(180deg, #FFE11F 0%, #FF8533 100%)",
           }}
-          className="inline-flex items-center justify-center text-[#1F1F1F] text-[12px] font-bold transition-all hover:brightness-105 active:scale-95"
+          className="btn-review inline-flex items-center justify-center text-[#1F1F1F] text-[12px] font-bold cursor-pointer"
         >
           Reviews
         </Link>

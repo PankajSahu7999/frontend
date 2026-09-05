@@ -1151,7 +1151,7 @@ export default function CasinoReviewClient({ casino }: Props) {
   return (
     <div className="mx-auto px-4 py-10 font-sans text-gray-800 min-h-screen">
       {/* HERO */}
-      <div className="rounded-2xl p-[2px] bg-[linear-gradient(158.37deg,_#FF9C2C_2.3%,_#FFF1CC_15.9%,_#B45B1B_24.24%,_#FFC170_62.4%,_#FEE5B3_75.76%,_#9F5E26_90.07%)]">
+      <div className="card-animated-border rounded-2xl p-[2px] bg-[linear-gradient(158.37deg,_#FF9C2C_2.3%,_#FFF1CC_15.9%,_#B45B1B_24.24%,_#FFC170_62.4%,_#FEE5B3_75.76%,_#9F5E26_90.07%)]">
         <div
           className="rounded-[14px] p-6 shadow-sm flex flex-col md:flex-row gap-6 items-center justify-between"
           style={{
@@ -1229,7 +1229,7 @@ export default function CasinoReviewClient({ casino }: Props) {
                 casino.default_affiliate_url ||
                 casino.website_url
               }
-              className="h-14 rounded-2xl text-white text-lg font-bold flex items-center justify-center transition-all hover:brightness-105 active:translate-y-[1px]"
+              className="btn-play-now h-14 rounded-2xl text-white text-lg font-bold flex items-center justify-center"
               style={{
                 background: "linear-gradient(180deg, #CDDCFB 0%, #588CF3 100%)",
                 boxShadow: "0px 2px 0px 0px #2E68FB",
@@ -1351,7 +1351,7 @@ export default function CasinoReviewClient({ casino }: Props) {
         <h2 className="font-poppins text-[24px] font-bold leading-[24px] tracking-normal text-[#16171D] mb-3">
           Welcome Bonus & Promotions
         </h2>
-        <div className="rounded-2xl bg-[linear-gradient(158.37deg,#FF9C2C_2.3%,#FFF1CC_15.9%,#B45B1B_24.24%,#FFC170_62.4%,#FEE5B3_75.76%,#9F5E26_90.07%)] p-[1px]">
+        <div className="card-animated-border rounded-2xl bg-[linear-gradient(158.37deg,#FF9C2C_2.3%,#FFF1CC_15.9%,#B45B1B_24.24%,#FFC170_62.4%,#FEE5B3_75.76%,#9F5E26_90.07%)] p-[1px]">
           <div className="rounded-2xl p-6 bg-[linear-gradient(0deg,rgba(255,255,255,0.033),rgba(255,255,255,0.033)),linear-gradient(231.79deg,#D5EDFF_32.55%,#EEECFF_43.54%,#F9F3FF_53.23%,#F5FCFF_66.16%,#E9F5FF_79.08%)]">
             <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 pb-4 border-b border-[#2E68FB]">
               <div>
@@ -1378,7 +1378,7 @@ export default function CasinoReviewClient({ casino }: Props) {
                   casino.default_affiliate_url ||
                   casino.website_url
                 }
-                className="inline-flex items-center justify-center gap-[3px] w-[195px] h-[52px] px-[10px] py-[14px] rounded-[12px] font-poppins font-semibold text-[14px] leading-[100%] tracking-normal text-[#16171D] bg-[linear-gradient(180deg,#FFE11F_0%,#FF8533_100%)] shadow-[0px_2px_0px_0px_#E36D1F] transition-all duration-200 hover:opacity-95 shrink-0"
+                className="btn-amber-glow inline-flex items-center justify-center gap-[3px] w-[195px] h-[52px] px-[10px] py-[14px] rounded-[12px] font-poppins font-semibold text-[14px] leading-[100%] tracking-normal text-[#16171D] bg-[linear-gradient(180deg,#FFE11F_0%,#FF8533_100%)] shadow-[0px_2px_0px_0px_#E36D1F] transition-all duration-200 hover:opacity-95 shrink-0"
               >
                 Claim Bonus <span className="text-base">▶</span>
               </CasinoAffiliateButton>
@@ -1651,7 +1651,7 @@ export default function CasinoReviewClient({ casino }: Props) {
                 casino.default_affiliate_url ||
                 casino.website_url
               }
-              className="inline-flex items-center justify-center gap-[4px] w-[168px] h-[52px] rounded-[12px] px-[10px] py-[14px] font-poppins font-semibold text-[16px] leading-[100%] tracking-normal text-[#16171D] bg-[linear-gradient(180deg,#FFE11F_0%,#FF8533_100%)] shadow-[0px_2px_0px_0px_#E36D1F] transition-all duration-200 hover:opacity-95"
+              className="btn-amber-glow inline-flex items-center justify-center gap-[4px] w-[168px] h-[52px] rounded-[12px] px-[10px] py-[14px] font-poppins font-semibold text-[16px] leading-[100%] tracking-normal text-[#16171D] bg-[linear-gradient(180deg,#FFE11F_0%,#FF8533_100%)] shadow-[0px_2px_0px_0px_#E36D1F]"
             >
               Visit {casino.name} <span className="text-[16px]">▶</span>
             </CasinoAffiliateButton>

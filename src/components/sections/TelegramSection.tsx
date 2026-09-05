@@ -8,9 +8,10 @@ export function TelegramSection() {
     <section className="w-full mt-8">
      <div
   className="
-    p-[4px]
+    card-animated-border
+    p-[3px]
     rounded-[16px]
-    bg-[linear-gradient(158.37deg,#FF9C2C_2.3%,#FFF1CC_15.9%,#B45B1B_24.24%,#FFC170_62.4%,#FEE5B3_75.76%,#9F5E26_90.07%)]
+    cursor-pointer
   "
 >
   <div
@@ -40,6 +41,7 @@ export function TelegramSection() {
 
             <button
               className="
+                btn-play-now
                 mx-auto mt-4
                 w-[204px]
                 h-[35px]
