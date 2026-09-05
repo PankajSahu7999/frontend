@@ -1,19 +1,3 @@
-// 'use client';
-
-// import React, { useState, useEffect, useMemo } from "react";
-// import Link from "next/link";
-// import Image from "next/image";
-// import {
-//   Search,
-//   BookOpen,
-//   Sparkles,
-//   Clock,
-//   Layers,
-//   ChevronRight,
-//   ShieldCheck,
-// } from "lucide-react";
-// import { getGuideDisplayImage } from "@/utils/guideImages";
-// import { buildApiUrl } from "@/config/api.config";
 import { generateSEO } from "@/lib/seo";
 import HowToWinClient from "./HowToWinClient";
 import {
@@ -21,6 +5,7 @@ import {
   breadcrumbSchema,
   buildSchemaGraph,
   faqSchema,
+  howToSchema,
   searchActionSchema,
   webpageSchema,
 } from "@/lib/seo/schemas";
@@ -95,6 +80,7 @@ const graph = buildSchemaGraph({
         name: "How to Win",
         url: PAGE_URL,
       },
+      
     ],
   }),
   article: articleSchema({
@@ -151,6 +137,40 @@ const graph = buildSchemaGraph({
     siteUrl: "https://casinoreviewsbook.com",
     searchPath: "/search",
   }),
+  howTo: howToSchema({
+    pageUrl: PAGE_URL,
+    name: "How to Win at Online Casinos",
+    description:
+      "A step-by-step approach to playing online casino games with better long-term odds.",
+    steps: [
+      {
+        name: "Check the game's RTP before you play",
+        text: "Look up the Return to Player (RTP) percentage for the specific slot or table game. Higher RTP generally means better long-term value, though it never guarantees short-term results.",
+        url: `${PAGE_URL}#rtp`,
+      },
+      {
+        name: "Choose games with a lower house edge",
+        text: "Blackjack played with optimal basic strategy, certain baccarat bets, and some video poker variants typically offer the lowest house edge among casino games.",
+        url: `${PAGE_URL}#house-edge`,
+      },
+      {
+        name: "Set a bankroll and stick to it",
+        text: "Decide how much you can afford to lose before you start playing, and treat that amount as your total budget for the session — never chase losses beyond it.",
+        url: `${PAGE_URL}#bankroll`,
+      },
+      {
+        name: "Read bonus terms before claiming",
+        text: "Check wagering requirements, maximum bet limits while a bonus is active, and which games count toward clearing it before you opt in to any promotion.",
+        url: `${PAGE_URL}#bonuses`,
+      },
+      {
+        name: "Play only at licensed, audited casinos",
+        text: "Confirm the casino holds a valid gaming license and has independently audited RNG/RTP figures before depositing any real money.",
+        url: `${PAGE_URL}#licensing`,
+      },
+    ],
+    totalTime: "PT10M", // optional, only if genuinely accurate
+  })
 });
 
 // export default function HowToWinGuidesHubPage() {
@@ -226,12 +246,12 @@ const graph = buildSchemaGraph({
 //     }
 //   };
 
-  export default function Page() {
+export default function Page() {
   return (
-        <>
-          <JsonLd data={graph} />
-          <HowToWinClient />
-        </>
+    <>
+      <JsonLd data={graph} />
+      <HowToWinClient />
+    </>
     // <div className="w-full pb-16">
     //   {/* Hero Card matching the site's design language */}
     //   <div className="bg-white rounded-2xl border border-gray-200/80 shadow-[0px_4px_16px_rgba(38,123,220,0.08)] p-6 sm:p-10 mb-8">

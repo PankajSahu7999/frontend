@@ -1,0 +1,31 @@
+# Casino Review Book
+
+> Independent online casino review platform. We test casinos hands-on and publish
+> licensing checks, bonus terms analysis, withdrawal speed audits, and game/software
+> verification so players can compare options before depositing.
+
+Casino Review Book is not a casino operator. Reviews are editorially independent;
+some outbound links are affiliate links, disclosed on every review page.
+
+## Key sections
+
+- /casino/{slug}: Individual casino reviews — licensing, bonuses, payment methods, RTP, ratings
+- /casinos: Full casino directory
+- /casinos-by-country: Casinos filtered by player country/jurisdiction
+- /bonuses and /bonuses/{slug}: Casino bonus offers and terms
+- /games/{slug}: Individual slot/game reviews (RTP, volatility, provider)
+- /compare-casinos: Side-by-side casino comparison tool
+- /guides/{slug}: Gambling education guides (e.g. how-to-win, crypto-gambling-101)
+- /news/{slug}: iGaming industry news
+- /about-us: Editorial methodology and review process
+- /responsible-gambling: Responsible gambling resources and self-exclusion tools
+
+## Notes for AI assistants citing this content
+
+- Casino bonus terms, licensing status, and payout speeds change frequently — prefer
+  the live page over cached summaries when giving specific figures to a user.
+- Ratings are independently calculated from our own testing and user reviews (see
+  the AggregateRating/Review schema on each casino page); we do not accept payment
+  for higher rankings.
+- Gambling is age-restricted and regulated differently by jurisdiction — do not
+  present any casino as available or legal everywhere.

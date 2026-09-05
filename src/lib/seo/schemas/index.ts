@@ -12,10 +12,12 @@ export * from "./newsArticleSchema";
 export * from "./reviewSchema";
 export * from "./aggregateRatingSchema";
 export * from "./faqSchema";
+export * from "./offerSchema";
+export * from "./howToSchema";
+
 
 export * from "./itemListSchema";
 export * from "./collectionPageSchema";
-export * from "./schemaGraph";
 export * from "./contactPageSchema";
 
 export * from "./builders/buildSchemaGraph";

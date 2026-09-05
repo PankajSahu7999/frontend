@@ -18,7 +18,6 @@ export function personSchema({
   sameAs = [],
 }: PersonSchemaProps) {
   return {
-    "@context": "https://schema.org",
 
     "@type": "Person",
 

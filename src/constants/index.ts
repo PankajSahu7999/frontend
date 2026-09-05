@@ -9,7 +9,7 @@ export const SITE = {
   baseUrl: new URL("https://casinoreviewsbook.com"),
 
   title:
-    "Casino Review Book | Trusted Online Casino Reviews, Bonuses & Gambling Guides",
+    "Casino Review Book, Trusted Online Casino Reviews, Bonuses & Gambling Guides",
 
   description:
     "Casino Review Book is a trusted online casino review platform providing honest casino reviews, exclusive casino bonuses, sportsbook reviews, crypto casino guides, slot reviews, payment method guides, gambling strategies, and responsible gambling resources for players worldwide.",
@@ -61,7 +61,7 @@ export const SITE = {
 
     defaultAuthorId: "https://casinoreviewsbook.com/#author",
   },
-  searchAction: "https://casinoreviewsbook.com/search?q={search_term_string}",
+  searchAction: "https://casinoreviewsbook.com/search?q=",
 
   legalName: "Casino Review Book",
   foundingDate: "2024",

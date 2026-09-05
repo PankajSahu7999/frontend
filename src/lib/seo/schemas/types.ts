@@ -1,3 +1,4 @@
+
 export interface SchemaBuilderOptions {
   organization?: object;
 
@@ -28,4 +29,8 @@ export interface SchemaBuilderOptions {
   searchAction?: object;
 
   newsArticle?: object;
+
+  offer?: object;
+
+  howTo?: object;
 }

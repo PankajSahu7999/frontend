@@ -33,8 +33,6 @@ export function webpageSchema({
   breadcrumbId,
 }: WebPageSchemaProps) {
   return {
-    "@context": "https://schema.org",
-
     "@type": type,
 
     "@id": `${url}#webpage`,
@@ -55,7 +53,7 @@ export function webpageSchema({
     publisher: {
       "@id": `${SITE.url}/#organization`,
     },
-    author: SITE.author,
+    author: { "@id": `${SITE.url}/#organization` },
 
     primaryImageOfPage: {
       "@id": `${url}#primaryimage`,

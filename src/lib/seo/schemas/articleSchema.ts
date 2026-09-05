@@ -23,7 +23,6 @@ export function articleSchema({
   type = "Article",
 }: ArticleSchemaProps) {
   return {
-    "@context": "https://schema.org",
 
     "@type": type,
 

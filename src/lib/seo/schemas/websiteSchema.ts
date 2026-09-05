@@ -2,7 +2,6 @@ import { SITE } from "@/constants";
 
 export function websiteSchema() {
   return {
-    "@context": "https://schema.org",
     "@type": "WebSite",
     "@id": `${SITE.url}/#website`,
 
@@ -27,7 +26,7 @@ export function websiteSchema() {
       target: {
         "@type": "EntryPoint",
 
-        urlTemplate: `${SITE.searchURL}{search_term_string}`,
+        urlTemplate: `${SITE.searchURL}`,
       },
       "query-input": "required name=search_term_string",
     },

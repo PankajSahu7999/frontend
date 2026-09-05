@@ -6,68 +6,20 @@ import { getAllNews, getAllCasinos, getAllCategories } from "@/lib/seo/seoApi";
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const now = new Date();
-
-  // const staticPages: MetadataRoute.Sitemap = [
-  //   {
-  //     url: SITE.url,
-  //     lastModified: now,
-  //     changeFrequency: "daily",
-  //     priority: 1,
-  //   },
-  //   {
-  //     url: `${SITE.url}/news`,
-  //     lastModified: now,
-  //     changeFrequency: "hourly",
-  //     priority: 0.9,
-  //   },
-  //   {
-  //     url: `${SITE.url}/casinos`,
-  //     lastModified: now,
-  //     changeFrequency: "daily",
-  //     priority: 0.9,
-  //   },
-  //   {
-  //     url: `${SITE.url}/bonuses`,
-  //     lastModified: now,
-  //     changeFrequency: "daily",
-  //     priority: 0.9,
-  //   },
-  //   {
-  //     url: `${SITE.url}/about-us`,
-  //     lastModified: now,
-  //     changeFrequency: "monthly",
-  //     priority: 0.5,
-  //   },
-  //   {
-  //     url: `${SITE.url}/contact-us`,
-  //     lastModified: now,
-  //     changeFrequency: "monthly",
-  //     priority: 0.5,
-  //   },
-  //   {
-  //     url: `${SITE.url}/responsible-gambling`,
-  //     lastModified: now,
-  //     changeFrequency: "monthly",
-  //     priority: 0.6,
-  //   },
-  // ];
-
   const staticPages = [
     "",
-    "/casinos",
     "/bonuses",
-    "/games",
     "/news",
     "/compare-casinos",
     "/casinos-by-country",
+    "/guides",
     "/guides/how-to-win",
     "/guides/crypto-gambling-101",
     "/about-us",
     "/contact-us",
     "/responsible-gambling",
-    "/editorial-policy",
-  ]; 
-  
+  ];
+
   const staticPagesSitemap: MetadataRoute.Sitemap = staticPages.map((path) => ({
     url: `${SITE.url}${path}`,
     lastModified: new Date(),
@@ -82,26 +34,32 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   */
 
   const [news, casinos, categories] = await Promise.all([
-    getAllNews(),
-    getAllCasinos(),
-    getAllCategories(),
+    getAllNews().catch(() => []),
+    getAllCasinos().catch(() => []),
+    getAllCategories().catch(() => []),
   ]);
 
-  const newsUrls: MetadataRoute.Sitemap = (Array.isArray(news) ? news : []).map((item: any) => ({
-    url: `${SITE.url}/news/${item.slug}`,
-    lastModified: new Date(item.updated_at ?? item.created_at ?? now),
-    changeFrequency: "daily",
-    priority: 0.8,
-  }));
+  const newsUrls: MetadataRoute.Sitemap = (Array.isArray(news) ? news : []).map(
+    (item: any) => ({
+      url: `${SITE.url}/news/${item.slug}`,
+      lastModified: new Date(item.updated_at ?? item.created_at ?? now),
+      changeFrequency: "daily",
+      priority: 0.8,
+    }),
+  );
 
-  const casinoUrls: MetadataRoute.Sitemap = (Array.isArray(casinos) ? casinos : []).map((item: any) => ({
+  const casinoUrls: MetadataRoute.Sitemap = (
+    Array.isArray(casinos) ? casinos : []
+  ).map((item: any) => ({
     url: `${SITE.url}/casino/${item.slug}`,
     lastModified: new Date(item.updated_at ?? item.created_at ?? now),
     changeFrequency: "daily",
     priority: 0.9,
   }));
 
-  const categoryUrls: MetadataRoute.Sitemap = (Array.isArray(categories) ? categories : []).map((item: any) => ({
+  const categoryUrls: MetadataRoute.Sitemap = (
+    Array.isArray(categories) ? categories : []
+  ).map((item: any) => ({
     url: `${SITE.url}/casinos/${item.slug}`,
     lastModified: new Date(item.updated_at ?? item.created_at ?? now),
     changeFrequency: "daily",

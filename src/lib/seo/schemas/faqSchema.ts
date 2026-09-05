@@ -15,7 +15,6 @@ export function faqSchema({
   faqs,
 }: FAQSchemaProps) {
   return {
-     "@context": "https://schema.org",
     "@type": "FAQPage",
 
     "@id": `${pageUrl}#faq`,

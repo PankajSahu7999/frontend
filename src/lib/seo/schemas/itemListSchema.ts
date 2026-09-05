@@ -18,7 +18,6 @@ export function itemListSchema({
   items,
 }: ItemListSchemaProps) {
   return {
-    "@context": "https://schema.org",
     "@type": "ItemList",
     "@id": `${pageUrl}#itemlist`,
     name: itemListName,

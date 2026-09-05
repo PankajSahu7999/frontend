@@ -26,7 +26,6 @@ export function newsArticleSchema({
   modified,
 }: NewsArticleSchemaProps) {
   return {
-    "@context": "https://schema.org",
 
     "@type": "NewsArticle",
 

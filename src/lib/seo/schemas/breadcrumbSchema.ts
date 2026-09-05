@@ -12,12 +12,8 @@ export interface BreadcrumbSchemaProps {
   items: BreadcrumbItem[];
 }
 
-export function breadcrumbSchema({
-  pageUrl,
-  items,
-}: BreadcrumbSchemaProps) {
+export function breadcrumbSchema({ pageUrl, items }: BreadcrumbSchemaProps) {
   return {
-    "@context": "https://schema.org",
     "@type": "BreadcrumbList",
     "@id": `${pageUrl}#breadcrumb`,
 
@@ -25,9 +21,7 @@ export function breadcrumbSchema({
       "@type": "ListItem",
       position: index + 1,
       name: item.name,
-      item:{
-        "@id": item.url
-      },
+      item: item.url,
     })),
   };
 }

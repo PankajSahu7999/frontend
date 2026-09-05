@@ -1,21 +1,8 @@
-
-
 import { Metadata } from "next";
 import { notFound } from "next/navigation";
-
 import CasinoReviewClient from "./CasinoReviewClient";
-
 import JsonLd from "@/components/seo/JsonLd";
-
 import { generateSEO } from "@/lib/seo";
-
-import Image from "next/image";
-import { CircleFlag } from "react-circle-flags";
-import SimilarCasinosSection from "@/components/sections/SimilarCasinosSection";
-import UserReviewsSection from "@/components/sections/UserReviewsSection";
-import CasinoAffiliateButton from "@/components/CasinoAffiliateButton";
-import Breadcrumbs from "@/components/seo/Breadcrumbs";
-// import { faqSchema } from "@/lib/seo/schemas/faqSchema";
 import {
   buildSchemaGraph,
   aggregateRatingSchema,
@@ -25,6 +12,7 @@ import {
   reviewSchema,
   searchActionSchema,
   webpageSchema,
+  offerSchema,
 } from "@/lib/seo/schemas";
 
 const SITE_URL = "https://casinoreviewsbook.com";
@@ -44,7 +32,7 @@ async function getCasino(slug: string) {
   return res.json();
 }
 
-async function fetchReviews(casinoId: number) {
+async function fetchReviews(casinoId: string) {
   try {
     const res = await fetch(
       `${process.env.NEXT_PUBLIC_API_URL}/casino-reviews/casino/${casinoId}`,
@@ -74,15 +62,15 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
       title: "Casino Not Found",
       description: "Casino review not found.",
       path: `/casino/${slug}`,
+      noIndex: true,
+      // robots: { index: false, follow: false },
     });
   }
 
   return generateSEO({
-    title:
-      casino.meta_title ??
-      `${casino.name} Review ${new Date().getFullYear()} | Bonus, Games, RTP & Rating`,
+    title: `${casino.name} Review ${new Date().getFullYear()}: Bonus, Games, RTP & Rating`,
 
-    description: casino.meta_description ?? casino.short_description,
+    description: casino.overview ?? casino.short_description,
 
     path: `/casino/${casino.slug}`,
 
@@ -146,22 +134,27 @@ export default async function Page({ params }: Props) {
       casinoName: casino.name,
       reviews: allReviews || [],
     }),
+    aggregateRating:
+      aggregateRatingSchema({
+        pageUrl: PAGE_URL,
+        casinoName: casino.name,
+        reviews: allReviews || [],
+      }) ?? undefined,
+    offer:
+      offerSchema({
+        pageUrl: PAGE_URL,
+        casinoName: casino.name,
+        offerUrl: casino.affiliate_url ?? casino.website_url,
+        bonuses: casino.bonuses || [],
+      }) ?? undefined,
 
-    aggregateRating: aggregateRatingSchema({
-      pageUrl: PAGE_URL,
-      casinoName: casino.name,
-      reviews: allReviews || [],
-    }),
-
-    // offer: offerSchema({
-    //   casino,
-    // }),
-
-    image: imageSchema({
-      imageUrl: casino.featured_image,
-      pageUrl: PAGE_URL,
-      caption: casino.name,
-    }),
+    image: casino.featured_image
+      ? imageSchema({
+          imageUrl: casino.featured_image,
+          pageUrl: PAGE_URL,
+          caption: casino.name,
+        })
+      : undefined,
 
     faq: faqSchema({
       pageUrl: PAGE_URL,
@@ -209,11 +202,7 @@ export default async function Page({ params }: Props) {
   return (
     <>
       <JsonLd data={graph} />
-
       <CasinoReviewClient casino={casino} />
-      {/* <CasinoReviewClient
-      
-      /> */}
     </>
   );
 }

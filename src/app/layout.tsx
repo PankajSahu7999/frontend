@@ -19,7 +19,7 @@ const geistMono = Geist_Mono({
 import { DEFAULT_SEO } from "@/constants";
 
 
-export const metadata: Metadata = DEFAULT_SEO;
+// export const metadata: Metadata = DEFAULT_SEO;
 
 export default function RootLayout({
   children,

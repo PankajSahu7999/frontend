@@ -2,7 +2,6 @@ import { SITE } from "@/constants";
 
 export function organizationSchema() {
   return {
-    "@context": "https://schema.org",
     "@type": "Organization",
     "@id": `${SITE.url}/#organization`,
 
@@ -42,12 +41,11 @@ export function organizationSchema() {
 
     contactPoint: {
       "@type": "ContactPoint",
-
       contactType: "Customer Support",
-
       availableLanguage: "English",
+      email: SITE.email,
     },
-    publishingPrinciples: "https://casinoreviewsbook.com/policies/privacy-policy",
+    publishingPrinciples: `${SITE.url}/privacy-policy`,
     foundingDate: SITE.foundingDate,
     sameAs:SITE.sameAs.filter(Boolean),
   };

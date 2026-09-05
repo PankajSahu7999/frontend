@@ -27,6 +27,7 @@ export default function robots(): MetadataRoute.Robots {
       },
       {
         userAgent: ["Googlebot-News", "Googlebot-Image", "Googlebot-Video","OAI-SearchBot"],
+        allow:"/"
       },
       {
         userAgent: ["GPTBot", "ChatGPT-User", "ClaudeBot", "PerplexityBot", "Google-Extended"],
