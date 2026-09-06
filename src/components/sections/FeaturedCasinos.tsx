@@ -60,7 +60,7 @@ export async function FeaturedCasinos() {
           {casinos.map((casino: any) => (
             <Card
               key={casino.id}
-              className="flex flex-col overflow-hidden transition-all hover:shadow-[0_0_20px_rgba(212,175,55,0.15)] bg-slate-800 border-slate-700"
+              className="card-animated-border p-[2px] rounded-2xl flex flex-col overflow-hidden bg-slate-800 border-0 cursor-pointer"
             >
               <CardHeader className="bg-slate-950 pb-4 border-b border-slate-800 flex items-center justify-center pt-8">
                 <Image
@@ -138,7 +138,7 @@ export async function FeaturedCasinos() {
 
               <CardFooter className="pt-0 flex flex-col gap-3">
                 <Button
-                  className="w-full text-slate-900 font-bold"
+                  className="btn-amber-glow w-full text-slate-900 font-bold"
                   asChild
                 >
                   <a
@@ -152,7 +152,7 @@ export async function FeaturedCasinos() {
 
                 <Button
                   variant="link"
-                  className="w-full text-sm"
+                  className="btn-review w-full text-sm"
                   asChild
                 >
                   <Link href={`/casino/${casino.slug}`}>

@@ -1,49 +1,42 @@
-import { Metadata } from "next";
-import HomeContent from "./HomeContent";
-import JsonLd from "@/components/seo/JsonLd";
-import { DEFAULT_SEO } from "@/constants";
+import { SITE } from "@/constants";
+import { generateSEO } from "@/lib/seo";
 import {
   buildSchemaGraph,
   organizationSchema,
-  webpageSchema,
   websiteSchema,
+  webpageSchema,
 } from "@/lib/seo/schemas";
-import { generateSEO } from "@/lib/seo/metadata";
+import JsonLd from "@/components/seo/JsonLd";
+import HomeContent from "./HomeContent";
 
-
-// export const metadata: Metadata = DEFAULT_SEO;
 export const metadata = generateSEO({
-  title:
-    "Casino Review Book | Trusted Online Casino Reviews, Bonuses & Gambling Guides",
-  description:
-    "Independent, hands-on casino reviews, exclusive bonus offers, crypto casino guides, slot reviews, and responsible gambling resources — audited and updated for players worldwide.",
+  title: SITE.title,
+  description: SITE.description,
   path: "/",
   keywords: [
-    "casino reviews",
-    "online casino reviews",
     "best online casinos",
+    "casino reviews",
     "casino bonuses",
-    "trusted casino reviews",
+    "top rated online casinos",
+    "safe online gambling",
+    "verified casino sites",
   ],
 });
 
-
-const graph = buildSchemaGraph({
-  organization: organizationSchema(),
-  website: websiteSchema(),
-  webpage: webpageSchema({
-    url: "https://casinoreviewsbook.com",
-    title:
-      "Casino Review Book, Trusted Online Casino Reviews, Bonuses & Gambling Guides",
-    description:
-      "Casino Review Book is a trusted online casino review platform providing honest casino reviews, exclusive casino bonuses, sportsbook reviews, crypto casino guides, slot reviews, payment method guides, gambling strategies, and responsible gambling resources for players worldwide.",
-  }),
-});
-
 export default function Home() {
+  const homeSchema = buildSchemaGraph({
+    organization: organizationSchema(),
+    website: websiteSchema(),
+    webpage: webpageSchema({
+      url: SITE.url,
+      title: SITE.title,
+      description: SITE.description,
+    }),
+  });
+
   return (
     <>
-      <JsonLd data={graph} />
+      <JsonLd data={homeSchema} />
       <HomeContent />
     </>
   );

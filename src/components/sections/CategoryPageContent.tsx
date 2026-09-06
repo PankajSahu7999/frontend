@@ -77,18 +77,16 @@ function CasinoCard({ casino, index }: { casino: Casino; index: number }) {
   ].filter(Boolean) as { text: string; icon: React.ElementType }[];
 
   return (
-    <div className="w-full bg-white rounded-2xl shadow-sm hover:shadow-md transition-shadow duration-300 relative overflow-hidden pt-8 lg:pt-0">
+    <div className="card-animated-border w-full rounded-2xl shadow-sm relative pt-8 lg:pt-0 p-[2px] cursor-pointer">
       <div className="absolute top-0 left-0 bg-gradient-to-r from-amber-500 to-orange-500 text-white text-[10px] font-bold px-4 py-1 rounded-tl-2xl rounded-br-xl uppercase tracking-wider z-10">
         #{index + 1} Ranked
       </div>
 
       <div
-        className="w-full rounded-xl border-[2.5px] p-4 sm:p-5 lg:p-6 flex flex-col lg:grid lg:grid-cols-[150px_1fr_220px] items-stretch gap-5"
+        className="w-full rounded-xl p-4 sm:p-5 lg:p-6 flex flex-col lg:grid lg:grid-cols-[150px_1fr_220px] items-stretch gap-5"
         style={{
           background:
             'linear-gradient(231.79deg, #D5EDFF 32.55%, #EEECFF 43.54%, #F9F3FF 53.23%, #F5FCFF 66.16%, #E9F5FF 79.08%)',
-          borderImage:
-            'linear-gradient(158.37deg, #FF9C2C 2.3%, #FFF1CC 15.9%, #B45B1B 24.24%, #FFC170 62.4%, #FEE5B3 75.76%, #9F5E26 90.07%) 1',
         }}
       >
         {/* Logo */}
@@ -205,14 +203,14 @@ function CasinoCard({ casino, index }: { casino: Casino; index: number }) {
               href={casino.website_url || '#'}
               target="_blank"
               rel="noopener noreferrer"
-              className="w-full py-3 px-5 rounded-xl font-bold text-sm text-white bg-gradient-to-b from-blue-500 to-indigo-600 hover:from-blue-600 hover:to-indigo-700 active:scale-[0.98] transition-all shadow-md shadow-indigo-100 flex items-center justify-center gap-2"
+              className="btn-play-now w-full py-3 px-5 rounded-xl font-bold text-sm text-white bg-gradient-to-b from-blue-500 to-indigo-600 hover:from-blue-600 hover:to-indigo-700 flex items-center justify-center gap-2 shadow-md shadow-indigo-100"
             >
               <span>Claim Bonus</span>
               <span>&#8599;</span>
             </a>
             <Link
               href={`/casino/${casino.slug}`}
-              className="w-full py-3 px-5 rounded-xl font-bold text-sm text-slate-700 bg-white hover:bg-slate-50 active:scale-[0.98] transition-all flex items-center justify-center border border-slate-200 shadow-sm"
+              className="btn-review w-full py-3 px-5 rounded-xl font-bold text-sm text-slate-700 bg-white hover:bg-slate-50 flex items-center justify-center border border-slate-200 shadow-sm"
             >
               Read Review
             </Link>

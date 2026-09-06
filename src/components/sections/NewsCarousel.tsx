@@ -109,8 +109,9 @@ export function NewsCarousel() {
           {/* Featured large card */}
           <div
             key={featured.id}
-            className="w-[85vw] sm:w-[450px] lg:w-[476px] h-auto lg:h-[520px] shrink-0 snap-center rounded-2xl p-[14px] flex flex-col gap-6 bg-white border border-slate-100 shadow-sm lg:shadow-none"
+            className="card-animated-border w-[85vw] sm:w-[450px] lg:w-[476px] h-auto lg:h-[520px] shrink-0 snap-center rounded-2xl p-[2px] cursor-pointer"
           >
+            <div className="w-full h-full rounded-[14px] p-[14px] flex flex-col gap-6 bg-white">
             <div
               className="w-full h-[200px] sm:h-[280px] rounded-xl bg-cover bg-center shrink-0"
               style={{ backgroundImage: `url(${featured.featured_image})` }}
@@ -138,6 +139,7 @@ export function NewsCarousel() {
                 ))}
               </div>
             </div>
+            </div>
           </div>
 
           {/* Right stacked cards (Becomes next items in the horizontal row on mobile) */}
@@ -145,12 +147,15 @@ export function NewsCarousel() {
             {[second, third].map((item) => (
               <div
                 key={item.id}
-                className="w-[85vw] sm:w-[450px] lg:w-full xl:w-[675px] h-auto lg:h-[249px] shrink-0 snap-center rounded-2xl p-[14px] border border-[#2E68FB] flex flex-col sm:flex-row gap-6"
-                style={{
-                  background:
-                    'linear-gradient(231.79deg, #D5EDFF 32.55%, #EEECFF 43.54%, #F9F3FF 53.23%, #F5FCFF 66.16%, #E9F5FF 79.08%)',
-                }}
+                className="card-animated-border w-[85vw] sm:w-[450px] lg:w-full xl:w-[675px] h-auto lg:h-[249px] shrink-0 snap-center rounded-2xl p-[2px] cursor-pointer"
               >
+                <div
+                  className="w-full h-full rounded-[14px] p-[14px] flex flex-col sm:flex-row gap-6"
+                  style={{
+                    background:
+                      'linear-gradient(231.79deg, #D5EDFF 32.55%, #EEECFF 43.54%, #F9F3FF 53.23%, #F5FCFF 66.16%, #E9F5FF 79.08%)',
+                  }}
+                >
                 <div
                   className="w-full sm:w-[200px] lg:w-[260px] h-[160px] sm:h-full rounded-xl bg-cover bg-center shrink-0"
                   style={{ backgroundImage: `url(${item.featured_image})` }}
@@ -175,6 +180,7 @@ export function NewsCarousel() {
                       <Tag key={tag.label} label={tag.label} color={tag.color} />
                     ))}
                   </div>
+                </div>
                 </div>
               </div>
             ))}

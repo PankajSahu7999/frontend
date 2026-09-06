@@ -124,22 +124,16 @@ function CasinoCard({ casino }: { casino: any }) {
   const imageUrl = getImageUrl(casino.logo || casino.featured_image || '/images/888.png');
 
   return (
-    <div
-  className="rounded-[24px] p-[2px]"
-  style={{
-    background:
-      "linear-gradient(158.37deg, #FF9C2C 2.3%, #FFF1CC 15.9%, #B45B1B 24.24%, #FFC170 62.4%, #FEE5B3 75.76%, #9F5E26 90.07%)",
-  }}
->
-  <div
-    className="flex flex-col p-4 rounded-[22px] justify-between"
-    style={{
-      width: "340px",
-      minHeight: "400px",
-      background:
-        "linear-gradient(231.79deg, #D5EDFF 32.55%, #EEECFF 43.54%, #F9F3FF 53.23%, #F5FCFF 66.16%, #E9F5FF 79.08%)",
-    }}
-  >
+    <div className="card-animated-border rounded-[24px] p-[2px] shrink-0 cursor-pointer">
+      <div
+        className="flex flex-col p-4 rounded-[22px] justify-between"
+        style={{
+          width: "340px",
+          minHeight: "400px",
+          background:
+            "linear-gradient(231.79deg, #D5EDFF 32.55%, #EEECFF 43.54%, #F9F3FF 53.23%, #F5FCFF 66.16%, #E9F5FF 79.08%)",
+        }}
+      >
       {/* 1. Header (Logo + Title) */}
       <div className="flex gap-3 items-center">
         <div className="relative w-20 h-20 bg-white rounded-xl overflow-hidden shadow-sm flex-shrink-0 border border-gray-100 p-1">
@@ -254,7 +248,7 @@ function CasinoCard({ casino }: { casino: any }) {
             boxShadow: '0px 2px 0px 0px #2E68FB',
             background: 'linear-gradient(180deg, #CDDCFB 0%, #588CF3 100%)',
           }}
-          className="flex-1 text-white text-[12px] font-bold transition-all hover:brightness-105 active:scale-95"
+          className="btn-play-now flex-1 text-white text-[12px] font-bold"
           onClick={() => {
             if (casino.website_url) {
               window.open(casino.website_url, '_blank');
@@ -272,7 +266,7 @@ function CasinoCard({ casino }: { casino: any }) {
             borderRadius: "12px",
             background: "linear-gradient(180deg, #FFE11F 0%, #FF8533 100%)",
           }}
-          className="inline-flex items-center justify-center text-[#1F1F1F] text-[12px] font-bold transition-all hover:brightness-105 active:scale-95"
+          className="btn-review inline-flex items-center justify-center text-[#1F1F1F] text-[12px] font-bold"
         >
           Reviews
         </Link>

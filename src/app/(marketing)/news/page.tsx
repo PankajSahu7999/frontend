@@ -222,8 +222,6 @@
 //             </div>
 //         </main>
 //     );
-// }
-
 import {
   breadcrumbSchema,
   buildSchemaGraph,
@@ -255,51 +253,51 @@ export const metadata = generateSEO({
 
 const PAGE_URL = "https://casinoreviewsbook.com/news";
 
-const news = await getAllNews();
+export default async function Page() {
+  const news = await getAllNews();
+  const newsList = Array.isArray(news) ? news : [];
 
-const graph = buildSchemaGraph({
-  webpage: webpageSchema({
-    url: PAGE_URL,
-    title: "iGaming & Casino News | Latest Industry Updates, Trends & Insights",
-    description:
-      "Latest iGaming and casino industry news covering regulations, technology, trends, player safety, and market developments.",
-  }),
-  collectionPage: collectionPageSchema({
-    pageUrl: PAGE_URL,
-    title: "iGaming & Casino News | Latest Industry Updates, Trends & Insights",
-    description:
-      "Latest iGaming and casino industry news covering regulations, technology, trends, player safety, and market developments.",
-  }),
-  breadcrumb: breadcrumbSchema({
-    pageUrl: PAGE_URL,
-    items: [
-      {
-        name: "Home",
-        url: "https://casinoreviewsbook.com",
-      },
-      {
-        name: "News",
-        url: PAGE_URL,
-      },
-    ],
-  }),
-  itemList: itemListSchema({
-    pageUrl: PAGE_URL,
-    itemListName: "Latest iGaming & Casino News",
-    items:
-      news.map((news: any, index: number) => ({
+  const graph = buildSchemaGraph({
+    webpage: webpageSchema({
+      url: PAGE_URL,
+      title: "iGaming & Casino News | Latest Industry Updates, Trends & Insights",
+      description:
+        "Latest iGaming and casino industry news covering regulations, technology, trends, player safety, and market developments.",
+    }),
+    collectionPage: collectionPageSchema({
+      pageUrl: PAGE_URL,
+      title: "iGaming & Casino News | Latest Industry Updates, Trends & Insights",
+      description:
+        "Latest iGaming and casino industry news covering regulations, technology, trends, player safety, and market developments.",
+    }),
+    breadcrumb: breadcrumbSchema({
+      pageUrl: PAGE_URL,
+      items: [
+        {
+          name: "Home",
+          url: "https://casinoreviewsbook.com",
+        },
+        {
+          name: "News",
+          url: PAGE_URL,
+        },
+      ],
+    }),
+    itemList: itemListSchema({
+      pageUrl: PAGE_URL,
+      itemListName: "Latest iGaming & Casino News",
+      items: newsList.map((item: any, index: number) => ({
         position: index + 1,
-        name: news.title,
-        url: `https://casinoreviewsbook.com/news/${news.slug}`,
-      })) ?? [],
-  }),
-  searchAction: searchActionSchema({
-    siteUrl: "https://casinoreviewsbook.com",
-    searchPath: "/search",
-  }),
-});
+        name: item.title,
+        url: `https://casinoreviewsbook.com/news/${item.slug}`,
+      })),
+    }),
+    searchAction: searchActionSchema({
+      siteUrl: "https://casinoreviewsbook.com",
+      searchPath: "/search",
+    }),
+  });
 
-export default function Page() {
   return (
     <>
       <JsonLd data={graph} />

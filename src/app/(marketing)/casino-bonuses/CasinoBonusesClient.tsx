@@ -293,11 +293,7 @@ export default function CasinoBonusesClient({
                     return (
                       <div
                         key={item.id || idx}
-                        className="rounded-[24px] p-[2px] transition-transform duration-200 hover:-translate-y-1 hover:shadow-xl w-full"
-                        style={{
-                          background:
-                            'linear-gradient(158.37deg, #FF9C2C 2.3%, #FFF1CC 15.9%, #B45B1B 24.24%, #FFC170 62.4%, #FEE5B3 75.76%, #9F5E26 90.07%)',
-                        }}
+                        className="card-animated-border rounded-[24px] p-[2px] w-full cursor-pointer"
                       >
                         <div
                           className="flex flex-col p-4 rounded-[22px] justify-between h-full"
@@ -425,7 +421,7 @@ export default function CasinoBonusesClient({
                                 boxShadow: '0px 2px 0px 0px #2E68FB',
                                 background: 'linear-gradient(180deg, #CDDCFB 0%, #588CF3 100%)',
                               }}
-                              className="flex-1 text-white text-[12px] font-bold transition-all hover:brightness-105 active:scale-95 flex items-center justify-center gap-1"
+                              className="btn-play-now flex-1 text-white text-[12px] font-bold flex items-center justify-center gap-1"
                             >
                               Visit Casino ↗
                             </a>
@@ -438,7 +434,7 @@ export default function CasinoBonusesClient({
                                 borderRadius: '12px',
                                 background: 'linear-gradient(180deg, #FFE11F 0%, #FF8533 100%)',
                               }}
-                              className="inline-flex items-center justify-center text-[#1F1F1F] text-[12px] font-bold transition-all hover:brightness-105 active:scale-95 shrink-0"
+                              className="btn-review inline-flex items-center justify-center text-[#1F1F1F] text-[12px] font-bold shrink-0"
                             >
                               Reviews
                             </Link>

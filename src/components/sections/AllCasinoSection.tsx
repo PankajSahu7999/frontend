@@ -156,18 +156,17 @@ function CasinoCard({ casino, index }: { casino: any; index: number }) {
     const winRate = casino.win_rate || '98.2%';
 
     return (
-        <div className="w-full bg-white rounded-[15px] p-[12px] shadow-sm relative pt-8 lg:pt-[12px]">
+        <div className="card-animated-border w-full rounded-[16px] p-[2px] shadow-sm relative pt-8 lg:pt-[2px] cursor-pointer">
             {/* Top Badge Tag */}
-            <div className="absolute top-0 left-0 bg-gradient-to-r from-amber-500 to-orange-500 text-white text-[10px] sm:text-xs font-bold px-4 py-1 rounded-tl-[12px] rounded-br-xl uppercase tracking-wider z-10">
+            <div className="absolute top-0 left-0 bg-gradient-to-r from-amber-500 to-orange-500 text-white text-[10px] sm:text-xs font-bold px-4 py-1 rounded-tl-[14px] rounded-br-xl uppercase tracking-wider z-10">
                 Rank #{index + 1} Best Choice
             </div>
 
             {/* Changed from flex to grid on desktop to force precise allocations */}
             <div
-                className="w-full rounded-[12px] border-[3px] p-4 sm:p-5 lg:p-6 flex flex-col lg:grid lg:grid-cols-[160px_1fr_240px] items-stretch justify-between gap-6"
+                className="w-full rounded-[14px] p-4 sm:p-5 lg:p-6 flex flex-col lg:grid lg:grid-cols-[160px_1fr_240px] items-stretch justify-between gap-6"
                 style={{
                     background: 'linear-gradient(231.79deg, #D5EDFF 32.55%, #EEECFF 43.54%, #F9F3FF 53.23%, #F5FCFF 66.16%, #E9F5FF 79.08%)',
-                    borderImage: 'linear-gradient(158.37deg, #FF9C2C 2.3%, #FFF1CC 15.9%, #B45B1B 24.24%, #FFC170 62.4%, #FEE5B3 75.76%, #9F5E26 90.07%) 1',
                 }}
             >
                 {/* 1. Brand Logo Container */}
@@ -297,7 +296,7 @@ function CasinoCard({ casino, index }: { casino: any; index: number }) {
                     {/* Buttons with rich internal vertical padding (py) instead of strict heights */}
                     <div className="w-full flex flex-col gap-3 max-w-sm lg:max-w-none px-2 lg:px-0">
                         <button
-                            className="w-full py-3.5 lg:py-4 px-6 rounded-xl font-bold text-sm lg:text-base text-white bg-gradient-to-b from-blue-500 to-indigo-600 hover:from-blue-600 hover:to-indigo-700 active:scale-[0.98] transition-all shadow-md shadow-indigo-100 flex items-center justify-center gap-2"
+                            className="btn-play-now w-full py-3.5 lg:py-4 px-6 rounded-xl font-bold text-sm lg:text-base text-white bg-gradient-to-b from-blue-500 to-indigo-600 hover:from-blue-600 hover:to-indigo-700 flex items-center justify-center gap-2 shadow-md shadow-indigo-100"
                             onClick={() => {
                                 if (casino.website_url) {
                                     window.open(casino.website_url, '_blank', 'noopener,noreferrer');
@@ -310,7 +309,7 @@ function CasinoCard({ casino, index }: { casino: any; index: number }) {
 
                         <Link
                             href={`/casino/${casino.slug}`}
-                            className="w-full py-3.5 lg:py-4 px-6 rounded-xl font-bold text-sm lg:text-base text-slate-700 bg-white hover:bg-slate-50 active:scale-[0.98] transition-all flex items-center justify-center border border-slate-200 shadow-sm"
+                            className="btn-review w-full py-3.5 lg:py-4 px-6 rounded-xl font-bold text-sm lg:text-base text-slate-700 bg-white hover:bg-slate-50 flex items-center justify-center border border-slate-200 shadow-sm"
                         >
                             Read Review
                         </Link>

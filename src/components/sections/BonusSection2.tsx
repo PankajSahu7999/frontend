@@ -8,10 +8,11 @@ export function BonuesSection2() {
       {/* Gradient Border */}
       <div
         className="
+          card-animated-border
           relative
-          p-[4px]
+          p-[3px]
           rounded-[16px]
-          bg-[linear-gradient(158.37deg,#FF9C2C_2.3%,#FFF1CC_15.9%,#B45B1B_24.24%,#FFC170_62.4%,#FEE5B3_75.76%,#9F5E26_90.07%)]
+          cursor-pointer
         "
       >
         {/* Card */}
@@ -38,6 +39,7 @@ export function BonuesSection2() {
 
               <button
                 className="
+                  btn-amber-glow
                   inline-flex items-center justify-center
                   w-full sm:w-[227px]
                   h-[49px]
@@ -49,7 +51,6 @@ export function BonuesSection2() {
                   tracking-wide
                   bg-[linear-gradient(180deg,#FFE11F_0%,#FF8533_100%)]
                   shadow-[0px_3px_0px_0px_#E36D1F]
-                  transition-transform active:scale-[0.98]
                 "
               >
                 Play Now

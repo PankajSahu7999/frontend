@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 import { SITE } from "@/constants";
-import { getAllCasinos, getAllNews } from "@/lib/seo/seoApi";
+import { getAllCasinos, getAllNews, getAllGuides } from "@/lib/seo/seoApi";
+import { getGuideDisplayImage } from "@/utils/guideImages";
 
 // --- SEO XML Helper Functions Built-in ---
 function escapeXML(str: string): string {
@@ -22,16 +23,16 @@ export const revalidate = 86400;
 export async function GET() {
   try {
     // Resolve all asynchronous image datasets concurrently
-    const [casinosData, newsData] = await Promise.all([
+    const [casinosData, newsData, guidesData] = await Promise.all([
       getAllCasinos(),
       getAllNews(),
-      // getAllGuides(), // Uncomment if guide images are to be included
+      getAllGuides(),
     ]);
 
     // Safety fallback initialization to avoid runtime filter/loop crashes
     const casinos = Array.isArray(casinosData) ? casinosData : [];
     const news = Array.isArray(newsData) ? newsData : [];
-    // const guides = Array.isArray(guidesData) ? guidesData : [];
+    const guides = Array.isArray(guidesData) ? guidesData : [];
 
     const urls: string[] = [];
 
@@ -62,7 +63,7 @@ export async function GET() {
       if (casino.screenshot) {
         images.push(`
     <image:image>
-      <image:loc>${escapeXML(casino.featured_image)}</image:loc>
+      <image:loc>${escapeXML(casino.featured_image || casino.screenshot)}</image:loc>
       <image:title>${escapeXML(casino.name || "Casino")} Screenshot</image:title>
          <image:caption>${escapeXML(casino.name || "Casino")}</image:caption>
     </image:image>`);
@@ -104,19 +105,23 @@ export async function GET() {
     | Guide Images
     |--------------------------------------------------------------------------
     */
-    //     guides.forEach((guide: any) => {
-    //       if (!guide?.slug || !guide?.image) return;
-    //       const slug = guide.slug.startsWith('/') ? guide.slug.slice(1) : guide.slug;
+    guides.forEach((guide: any) => {
+      if (!guide?.slug) return;
+      const slug = guide.slug.startsWith('/') ? guide.slug.slice(1) : guide.slug;
+      const img = getGuideDisplayImage(guide);
 
-    //       urls.push(`
-    //   <url>
-    //     <loc>${baseUrl}/guides/${slug}</loc>
-    //     <image:image>
-    //       <image:loc>${escapeXML(guide.image)}</image:loc>
-    //       <image:title>${escapeXML(guide.title || 'Guide Image')}</image:title>
-    //     </image:image>
-    //   </url>`);
-    //     });
+      if (img) {
+        urls.push(`
+  <url>
+    <loc>${baseUrl}/guides/${slug}</loc>
+    <image:image>
+      <image:loc>${escapeXML(img.startsWith('/') ? `${baseUrl}${img}` : img)}</image:loc>
+      <image:title>${escapeXML(guide.title || 'Guide Image')}</image:title>
+      <image:caption>${escapeXML(guide.title || 'Guide')}</image:caption>
+    </image:image>
+  </url>`);
+      }
+    });
 
     const xml = createXML(`
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:image="http://www.google.com/schemas/sitemap-image/1.1">

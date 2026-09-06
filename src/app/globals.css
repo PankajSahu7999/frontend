@@ -41,10 +41,148 @@ body {
   border: 1px solid rgba(255, 255, 255, 0.5);
 }
 
+/* Card Gradient Border Shimmer Animation */
+@keyframes borderShimmer {
+  0% {
+    background-position: 0% 0%;
+  }
+  25% {
+    background-position: 100% 0%;
+  }
+  50% {
+    background-position: 100% 100%;
+  }
+  75% {
+    background-position: 0% 100%;
+  }
+  100% {
+    background-position: 0% 0%;
+  }
+}
+
+.card-animated-border {
+  position: relative;
+  background: linear-gradient(135deg, #FF9C2C 0%, #FFF1CC 25%, #B45B1B 45%, #FFC170 70%, #9F5E26 100%) !important;
+  background-size: 300% 300% !important;
+  background-position: 0% 0% !important;
+  transition: box-shadow 0.3s ease, filter 0.3s ease, background 0.3s ease;
+}
+
+.card-animated-border:hover {
+  background: linear-gradient(135deg, #FF9C2C, #2E68FB, #00D26A, #FF3E6C, #8B5CF6, #FF9C2C, #2E68FB) !important;
+  background-size: 300% 300% !important;
+  animation: borderShimmer 2.2s linear infinite !important;
+  box-shadow: 0 0 24px rgba(46, 104, 251, 0.45), 0 0 14px rgba(255, 156, 44, 0.45);
+  filter: brightness(1.08);
+}
+
 .card-gold-border {
   border-radius: 1rem;
   background: linear-gradient(158.37deg, #FF9C2C 2.3%, #FFF1CC 15.9%, #B45B1B 24.24%, #FFC170 62.4%, #FEE5B3 75.76%, #9F5E26 90.07%);
   padding: 1px;
+}
+
+/* Play Now / Visit Casino Button Animation */
+.btn-play-now {
+  position: relative;
+  overflow: hidden;
+  transition: all 0.25s cubic-bezier(0.34, 1.56, 0.64, 1);
+  will-change: transform, filter, box-shadow;
+}
+
+.btn-play-now::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -120%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent 0%, rgba(255, 255, 255, 0.45) 50%, transparent 100%);
+  transition: left 0.65s cubic-bezier(0.4, 0, 0.2, 1);
+  pointer-events: none;
+}
+
+.btn-play-now:hover::before {
+  left: 120%;
+}
+
+.btn-play-now:hover {
+  transform: translateY(-2px) scale(1.02);
+  filter: brightness(1.08);
+  box-shadow: 0 8px 20px -4px rgba(46, 104, 251, 0.5), 0 3px 6px -1px rgba(46, 104, 251, 0.3) !important;
+}
+
+.btn-play-now:active {
+  transform: translateY(1px) scale(0.97);
+  filter: brightness(0.96);
+}
+
+/* Read Review Button Animation */
+.btn-review {
+  position: relative;
+  overflow: hidden;
+  transition: all 0.25s cubic-bezier(0.34, 1.56, 0.64, 1);
+  will-change: transform, filter, box-shadow;
+}
+
+.btn-review::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -120%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent 0%, rgba(255, 255, 255, 0.5) 50%, transparent 100%);
+  transition: left 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+  pointer-events: none;
+}
+
+.btn-review:hover::before {
+  left: 120%;
+}
+
+.btn-review:hover {
+  transform: translateY(-2px) scale(1.03);
+  filter: brightness(1.1);
+  box-shadow: 0 8px 18px -4px rgba(255, 133, 51, 0.5) !important;
+}
+
+.btn-review:active {
+  transform: translateY(1px) scale(0.97);
+  filter: brightness(0.95);
+}
+
+/* Amber Glow CTAs */
+.btn-amber-glow {
+  position: relative;
+  overflow: hidden;
+  transition: all 0.25s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.btn-amber-glow::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -120%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent 0%, rgba(255, 255, 255, 0.4) 50%, transparent 100%);
+  transition: left 0.6s ease;
+  pointer-events: none;
+}
+
+.btn-amber-glow:hover::before {
+  left: 120%;
+}
+
+.btn-amber-glow:hover {
+  transform: translateY(-2px) scale(1.02);
+  filter: brightness(1.08);
+  box-shadow: 0 8px 20px -4px rgba(245, 158, 11, 0.5) !important;
+}
+
+.btn-amber-glow:active {
+  transform: translateY(1px) scale(0.97);
 }
 
 .badge-gold {
@@ -57,5 +195,6 @@ body {
   background: #2E68FB;
   color: #ffffff;
 }
+
 
 

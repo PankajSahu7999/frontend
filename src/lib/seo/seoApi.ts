@@ -119,3 +119,22 @@ export async function getAllCategories() {
     return [];
   }
 }
+
+export async function getAllGuides() {
+  try {
+    const baseUrl = API_CONFIG.baseURL || process.env.NEXT_PUBLIC_API_URL || 'http://localhost:4000/api';
+    const res = await fetch(`${baseUrl}/guides?status=published`, {
+      next: {
+        revalidate: 3600,
+      },
+    });
+
+    if (!res.ok) return [];
+    const data = await res.json();
+    return data.guides || (Array.isArray(data) ? data : []);
+  } catch (error) {
+    console.error("Guides fetch error", error);
+    return [];
+  }
+}
+

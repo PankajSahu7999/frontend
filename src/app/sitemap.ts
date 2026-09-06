@@ -2,7 +2,7 @@ import type { MetadataRoute } from "next";
 
 import { SITE } from "@/constants";
 
-import { getAllNews, getAllCasinos, getAllCategories } from "@/lib/seo/seoApi";
+import { getAllNews, getAllCasinos, getAllCategories, getAllGuides } from "@/lib/seo/seoApi";
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const now = new Date();
@@ -29,7 +29,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
 
   /*
   |--------------------------------------------------------------------------
-  | Dynamic Pages (News, Casinos, Categories)
+  | Dynamic Pages (News, Casinos, Categories, Guides)
   |--------------------------------------------------------------------------
   */
 
@@ -66,5 +66,13 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     priority: 0.85,
   }));
 
-  return [...staticPagesSitemap, ...newsUrls, ...casinoUrls, ...categoryUrls];
+  const guideUrls: MetadataRoute.Sitemap = (Array.isArray(guides) ? guides : []).map((item: any) => ({
+    url: `${SITE.url}/guides/${item.slug}`,
+    lastModified: new Date(item.updated_at ?? item.published_at ?? now),
+    changeFrequency: "weekly",
+    priority: 0.8,
+  }));
+
+  return [...staticPagesSitemap, ...newsUrls, ...casinoUrls, ...categoryUrls, ...guideUrls];
 }
+
