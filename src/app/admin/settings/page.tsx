@@ -84,7 +84,7 @@ export default function SettingsPage() {
             label="Site Name" 
             value={formData.site_name} 
             onChange={(e) => setFormData({...formData, site_name: e.target.value})} 
-            placeholder="CasinoLab"
+            placeholder="Casino"
           />
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -119,7 +119,7 @@ export default function SettingsPage() {
             label="Footer Text" 
             value={formData.footer_text} 
             onChange={(e) => setFormData({...formData, footer_text: e.target.value})} 
-            placeholder="© 2024 CasinoLab. All rights reserved."
+            placeholder="© 2024 Casino Review Book. All rights reserved."
           />
 
           <div className="pt-6 border-t border-slate-100">
@@ -129,19 +129,19 @@ export default function SettingsPage() {
                 label="Facebook URL" 
                 value={formData.facebook_url} 
                 onChange={(e) => setFormData({...formData, facebook_url: e.target.value})} 
-                placeholder="https://facebook.com/casinolab"
+                placeholder="https://facebook.com/casinoreviewbook"
               />
               <Input 
                 label="Twitter URL" 
                 value={formData.twitter_url} 
                 onChange={(e) => setFormData({...formData, twitter_url: e.target.value})} 
-                placeholder="https://twitter.com/casinolab"
+                placeholder="https://twitter.com/casinoreviewbook"
               />
               <Input 
                 label="Instagram URL" 
                 value={formData.instagram_url} 
                 onChange={(e) => setFormData({...formData, instagram_url: e.target.value})} 
-                placeholder="https://instagram.com/casinolab"
+                placeholder="https://instagram.com/casinoreviewbook"
               />
             </div>
           </div>

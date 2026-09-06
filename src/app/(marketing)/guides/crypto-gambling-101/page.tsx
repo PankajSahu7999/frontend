@@ -700,7 +700,6 @@
 import { generateSEO } from "@/lib/seo";
 import CryptoGambling101Client from "./CryptoGambling101Client";
 import {
-  articleSchema,
   breadcrumbSchema,
   buildSchemaGraph,
   faqSchema,
@@ -761,28 +760,7 @@ const graph = buildSchemaGraph({
       },
     ],
   }),
-  article: articleSchema({
-    url: PAGE_URL,
-    title:
-      "Crypto Gambling 101: Beginner's Guide to Bitcoin Casinos, Web3 & Provably Fair Gaming",
-    description:
-      "Learn everything about crypto gambling, Bitcoin casinos, blockchain technology, crypto wallets, deposits, withdrawals, security and provably fair gaming.",
-    articleSection: "Crypto Gambling Guides",
-    published: "2026-01-01",
-    modified: `${new Date().toISOString().split("T")[0]}`,
-    keywords: [
-      "Crypto Gambling",
-      "Bitcoin Casino",
-      "Provably Fair",
-      "Blockchain",
-      "Crypto Wallet",
-      "USDT Casino",
-      "Ethereum Casino",
-      "Web3 Gambling",
-    ],
-    authorUrl: "https://casinoreviewbook.com/",
-  }),
-  faq: faqSchema({
+   faq: faqSchema({
     pageUrl: PAGE_URL,
     faqs: [
       {

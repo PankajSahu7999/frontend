@@ -47,7 +47,9 @@ export function generateSEO({
     applicationName: SITE.applicationName,
     category: "Casino",
     referrer: "origin-when-cross-origin",
-    authors: [{ name: SITE.author || SITE.name }],
+    authors: authors?.length
+      ? authors.map((name) => ({ name }))
+      : [{ name: SITE.author || SITE.name }],
     creator: SITE.author || SITE.name,
     publisher: SITE.publisher || SITE.name,
 

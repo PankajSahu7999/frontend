@@ -1,8 +1,8 @@
-import React from 'react';
-import Link from 'next/link';
-import Image from 'next/image';
-import { notFound } from 'next/navigation';
-import type { Metadata } from 'next';
+import React from "react";
+import Link from "next/link";
+import Image from "next/image";
+import { notFound } from "next/navigation";
+import type { Metadata } from "next";
 import {
   BookOpen,
   Calendar,
@@ -13,10 +13,13 @@ import {
   Sparkles,
   Flame,
   CheckCircle2,
-} from 'lucide-react';
-import Script from 'next/script';
-import { getGuideDisplayImage } from '@/utils/guideImages';
-import { buildApiUrl } from '@/config/api.config';
+} from "lucide-react";
+import Script from "next/script";
+import { getGuideDisplayImage } from "@/utils/guideImages";
+import { buildApiUrl } from "@/config/api.config";
+import { generateSEO } from "@/lib/seo/metadata";
+import { articleSchema, breadcrumbSchema, buildSchemaGraph } from "@/lib/seo/schemas";
+import JsonLd from "@/components/seo/JsonLd";
 
 interface GuidePageProps {
   params: Promise<{ slug: string }>;
@@ -24,53 +27,50 @@ interface GuidePageProps {
 
 async function getGuideData(slug: string) {
   try {
-    const res = await fetch(
-      buildApiUrl(`/guides/slug/${slug}`),
-      { next: { revalidate: 60 } }
-    );
+    const res = await fetch(buildApiUrl(`/guides/slug/${slug}`), {
+      next: { revalidate: 60 },
+    });
     if (!res.ok) {
       return null;
     }
     return await res.json();
   } catch (err) {
-    console.error('Error fetching guide data:', err);
+    console.error("Error fetching guide data:", err);
     return null;
   }
 }
 
-export async function generateMetadata({ params }: GuidePageProps): Promise<Metadata> {
+export async function generateMetadata({
+  params,
+}: GuidePageProps): Promise<Metadata> {
   const { slug } = await params;
   const data = await getGuideData(slug);
   if (!data?.guide) {
-    return {
-      title: 'Guide Not Found | CasinoLab',
-      description: 'The requested casino guide could not be found.',
-    };
+    return generateSEO({
+      title: "Guide Not Found",
+      description: "The requested casino guide could not be found.",
+      path: `/guides/${slug}`,
+      noIndex: true,
+    });
   }
 
   const guide = data.guide;
-  const title = guide.meta_title || `${guide.title} | CasinoLab Guides`;
-  const description = guide.meta_description || guide.excerpt || `Read our comprehensive guide to ${guide.title}.`;
+  const title = guide.meta_title || `${guide.title} | Casino Guides`;
+  const description =
+    guide.meta_description ||
+    guide.excerpt ||
+    `Read our comprehensive guide to ${guide.title}.`;
   const imgSrc = getGuideDisplayImage(guide);
 
-  return {
+  return generateSEO({
     title,
     description,
-    openGraph: {
-      title,
-      description,
-      type: 'article',
-      publishedTime: guide.published_at,
-      authors: [guide.author_name || 'Casino Expert'],
-      images: [{ url: imgSrc }],
-    },
-    twitter: {
-      card: 'summary_large_image',
-      title,
-      description,
-      images: [imgSrc],
-    },
-  };
+    path: `/guides/${slug}`,
+    image: imgSrc,
+    type: "article",
+    publishedTime: guide.published_at,
+    authors: [guide.author_name || "Casino Expert"],
+  });
 }
 
 export default async function SingleGuidePage({ params }: GuidePageProps) {
@@ -84,90 +84,95 @@ export default async function SingleGuidePage({ params }: GuidePageProps) {
   const guide = data.guide;
   const relatedGuides = data.relatedGuides || [];
 
-  const wordCount = (guide.content || guide.excerpt || '').split(/\s+/).length;
+  const wordCount = (guide.content || guide.excerpt || "").split(/\s+/).length;
   const readingTime = Math.max(3, Math.ceil(wordCount / 200));
 
   const formattedDate = guide.published_at
-    ? new Date(guide.published_at).toLocaleDateString('en-GB', {
-        day: '2-digit',
-        month: 'short',
-        year: 'numeric',
+    ? new Date(guide.published_at).toLocaleDateString("en-GB", {
+        day: "2-digit",
+        month: "short",
+        year: "numeric",
       })
-    : '';
+    : "";
 
   const heroImageSrc = getGuideDisplayImage(guide);
 
-  // Structured Data (Schema.org)
-  const articleSchema = {
-    '@context': 'https://schema.org',
-    '@type': 'Article',
-    headline: guide.title,
-    description: guide.excerpt,
-    image: heroImageSrc,
-    datePublished: guide.published_at,
-    dateModified: guide.updated_at || guide.published_at,
-    author: {
-      '@type': 'Person',
-      name: guide.author_name || 'CasinoLab Expert Analyst',
-    },
-    publisher: {
-      '@type': 'Organization',
-      name: 'CasinoLab',
-      logo: {
-        '@type': 'ImageObject',
-        url: 'https://casinolab.com/logo.png',
-      },
-    },
-    mainEntityOfPage: {
-      '@type': 'WebPage',
-      '@id': `https://casinolab.com/guides/${guide.slug}`,
-    },
-  };
+  const baseUrl = "https://casinoreviewsbook.com";
+  const articleUrl = `${baseUrl}/guides/${guide.slug}`;
 
-  const breadcrumbSchema = {
-    '@context': 'https://schema.org',
-    '@type': 'BreadcrumbList',
-    itemListElement: [
-      {
-        '@type': 'ListItem',
-        position: 1,
-        name: 'Home',
-        item: 'https://casinolab.com',
+  // Structured Data (Schema.org)
+  const graph = buildSchemaGraph({
+    article: articleSchema({
+      type: "Article",
+      title: guide.title,
+      description: guide.excerpt,
+      image: heroImageSrc,
+      url: articleUrl,
+      author: {
+        "@type": "Person",
+        name: guide.author_name || "Casino Expert Analyst",
+        ...(guide.author_slug
+          ? { url: `${baseUrl}/authors/${guide.author_slug}` }
+          : {}),
       },
-      {
-        '@type': 'ListItem',
-        position: 2,
-        name: 'Casino Guides',
-        item: 'https://casinolab.com/guides/how-to-win',
+      published: guide.published_at,
+      modified: guide.updated_at || guide.published_at,
+      articleSection: guide.category,
+      publisher: {
+        "@type": "Organization",
+        name: "Casino Reviews Book",
+        logo: {
+          "@type": "ImageObject",
+          url: `${baseUrl}/logo.png`,
+        },
       },
-      {
-        '@type': 'ListItem',
-        position: 3,
-        name: guide.category || 'Guides',
-        item: `https://casinolab.com/guides/how-to-win#${(guide.category || 'more').toLowerCase().replace(/[^a-z0-9]+/g, '-')}`,
+      mainEntityOfPage: {
+        "@type": "WebPage",
+        "@id": articleUrl,
       },
-      {
-        '@type': 'ListItem',
-        position: 4,
-        name: guide.title,
-        item: `https://casinolab.com/guides/${guide.slug}`,
-      },
-    ],
-  };
+      keywords: [
+        "Casino Strategy",
+        "RTP",
+        "House Edge",
+        "Blackjack",
+        "Roulette",
+        "Bankroll",
+      ],
+      ...(guide.word_count ? { wordCount: guide.word_count } : {}),
+    }),
+    breadcrumb: breadcrumbSchema({
+      pageUrl: articleUrl,
+      items: [
+        {
+          name: "Home",
+          url: baseUrl,
+        },
+        {
+          name: "Casino Guide",
+          url: `${baseUrl}/guides`,
+        },
+        {
+          name: "Casino Guides",
+          url: `${baseUrl}/guides/how-to-win`,
+        },
+        {
+          name: guide.category || "Guides",
+          url: `${baseUrl}/guides/how-to-win#${(guide.category || "more")
+            .toLowerCase()
+            .replace(/[^a-z0-9]+/g, "-")}`,
+        },
+        {
+          name: guide.title,
+          url: articleUrl,
+        },
+      ],
+    }),
+  });
 
   return (
     <article className="w-full pb-16">
       {/* Schema Injection */}
-      <Script
-        id="guide-article-schema"
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(articleSchema) }}
-      />
-      <Script
-        id="guide-breadcrumb-schema"
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }}
-      />
+      <JsonLd data={graph} />
 
       {/* Main Container Card matching the site's layout */}
       <div className="bg-white rounded-2xl border border-gray-200/80 shadow-[0px_4px_16px_rgba(38,123,220,0.08)] p-6 sm:p-10 mb-8">
@@ -177,7 +182,10 @@ export default async function SingleGuidePage({ params }: GuidePageProps) {
             Home
           </Link>
           <ChevronRight size={13} className="text-gray-400" />
-          <Link href="/guides/how-to-win" className="hover:text-gray-900 transition-colors">
+          <Link
+            href="/guides/how-to-win"
+            className="hover:text-gray-900 transition-colors"
+          >
             Casino Guides
           </Link>
           <ChevronRight size={13} className="text-gray-400" />
@@ -209,7 +217,9 @@ export default async function SingleGuidePage({ params }: GuidePageProps) {
                 <div className="w-7 h-7 rounded-full bg-amber-100 border border-amber-300 flex items-center justify-center text-amber-800 font-bold text-xs">
                   CL
                 </div>
-                <span className="font-semibold text-gray-800">{guide.author_name || 'Casino Expert'}</span>
+                <span className="font-semibold text-gray-800">
+                  {guide.author_name || "Casino Expert"}
+                </span>
               </div>
               <span>•</span>
               <div className="flex items-center gap-1">
@@ -252,44 +262,67 @@ export default async function SingleGuidePage({ params }: GuidePageProps) {
         <div className="prose max-w-none prose-headings:font-bold prose-headings:text-gray-900 prose-h2:text-xl prose-h2:sm:text-2xl prose-h2:border-b prose-h2:border-gray-200 prose-h2:pb-2 prose-h2:mt-8 prose-h3:text-lg prose-h3:text-gray-800 prose-p:text-gray-700 prose-p:leading-relaxed prose-p:text-sm prose-p:sm:text-base prose-li:text-gray-700 prose-li:text-sm prose-li:sm:text-base prose-strong:text-gray-900">
           {guide.content ? (
             <div className="space-y-6">
-              {guide.content.split('\n\n').map((paragraph: string, idx: number) => {
-                const trimmed = paragraph.trim();
-                if (trimmed.startsWith('# ')) {
-                  return null;
-                }
-                if (trimmed.startsWith('## ')) {
+              {guide.content
+                .split("\n\n")
+                .map((paragraph: string, idx: number) => {
+                  const trimmed = paragraph.trim();
+                  if (trimmed.startsWith("# ")) {
+                    return null;
+                  }
+                  if (trimmed.startsWith("## ")) {
+                    return (
+                      <h2
+                        key={idx}
+                        className="text-xl sm:text-2xl font-bold text-gray-900 border-b border-gray-200 pb-2 mt-8"
+                      >
+                        {trimmed.replace("## ", "")}
+                      </h2>
+                    );
+                  }
+                  if (trimmed.startsWith("### ")) {
+                    return (
+                      <h3
+                        key={idx}
+                        className="text-lg font-bold text-gray-900 mt-6"
+                      >
+                        {trimmed.replace("### ", "")}
+                      </h3>
+                    );
+                  }
+                  if (trimmed.startsWith("- ")) {
+                    const items = trimmed
+                      .split("\n")
+                      .filter((l: string) => l.startsWith("- "));
+                    return (
+                      <ul key={idx} className="space-y-2 my-4 pl-1">
+                        {items.map((item: string, iIdx: number) => (
+                          <li
+                            key={iIdx}
+                            className="flex items-start gap-2.5 text-sm text-gray-700"
+                          >
+                            <CheckCircle2
+                              size={16}
+                              className="text-amber-500 shrink-0 mt-0.5"
+                            />
+                            <span>
+                              {item
+                                .replace("- ", "")
+                                .replace(/\*\*(.*?)\*\*/g, "$1")}
+                            </span>
+                          </li>
+                        ))}
+                      </ul>
+                    );
+                  }
                   return (
-                    <h2 key={idx} className="text-xl sm:text-2xl font-bold text-gray-900 border-b border-gray-200 pb-2 mt-8">
-                      {trimmed.replace('## ', '')}
-                    </h2>
+                    <p
+                      key={idx}
+                      className="text-sm sm:text-base text-gray-700 leading-relaxed"
+                    >
+                      {trimmed}
+                    </p>
                   );
-                }
-                if (trimmed.startsWith('### ')) {
-                  return (
-                    <h3 key={idx} className="text-lg font-bold text-gray-900 mt-6">
-                      {trimmed.replace('### ', '')}
-                    </h3>
-                  );
-                }
-                if (trimmed.startsWith('- ')) {
-                  const items = trimmed.split('\n').filter((l: string) => l.startsWith('- '));
-                  return (
-                    <ul key={idx} className="space-y-2 my-4 pl-1">
-                      {items.map((item: string, iIdx: number) => (
-                        <li key={iIdx} className="flex items-start gap-2.5 text-sm text-gray-700">
-                          <CheckCircle2 size={16} className="text-amber-500 shrink-0 mt-0.5" />
-                          <span>{item.replace('- ', '').replace(/\*\*(.*?)\*\*/g, '$1')}</span>
-                        </li>
-                      ))}
-                    </ul>
-                  );
-                }
-                return (
-                  <p key={idx} className="text-sm sm:text-base text-gray-700 leading-relaxed">
-                    {trimmed}
-                  </p>
-                );
-              })}
+                })}
             </div>
           ) : (
             <p className="text-gray-500">Detailed guide content coming soon.</p>
@@ -307,7 +340,8 @@ export default async function SingleGuidePage({ params }: GuidePageProps) {
               Ready to Put This Strategy into Practice?
             </h3>
             <p className="text-xs sm:text-sm text-slate-300 mt-1 max-w-md">
-              Discover top-rated online casinos offering high RTPs, quick withdrawals, and lucrative welcome bonuses.
+              Discover top-rated online casinos offering high RTPs, quick
+              withdrawals, and lucrative welcome bonuses.
             </p>
           </div>
           <Link

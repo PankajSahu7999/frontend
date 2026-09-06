@@ -1,7 +1,6 @@
 import { generateSEO } from "@/lib/seo";
 import HowToWinClient from "./HowToWinClient";
 import {
-  articleSchema,
   breadcrumbSchema,
   buildSchemaGraph,
   faqSchema,
@@ -83,26 +82,7 @@ const graph = buildSchemaGraph({
       
     ],
   }),
-  article: articleSchema({
-    type: "TechArticle",
-    title:
-      "How to Win at Online Casinos: Odds, Smart Play, RTP & Bankroll Strategies",
-    description:
-      "Learn how RTP, volatility, bankroll management and casino game mathematics affect your long-term gambling results.",
-    url: PAGE_URL,
-    authorUrl: "https://casinoreviewsbook.com/",
-    published: "2026-03-21",
-    modified: `${new Date().toISOString()}`,
-    articleSection: "Casino Strategy",
-    keywords: [
-      "Casino Strategy",
-      "RTP",
-      "House Edge",
-      "Blackjack",
-      "Roulette",
-      "Bankroll",
-    ],
-  }),
+ 
   faq: faqSchema({
     pageUrl: PAGE_URL,
     faqs: [

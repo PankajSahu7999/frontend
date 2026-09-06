@@ -499,7 +499,7 @@ export default function NewBonusSectionPage() {
                           htmlFor={`exclusive-${index}`}
                           className="text-xs font-semibold text-slate-700 cursor-pointer select-none"
                         >
-                          Mark as CasinoLab Exclusive Deal
+                          Mark as Casino Exclusive Deal
                         </label>
                       </div>
                     </div>

@@ -2,9 +2,16 @@ export interface ArticleSchemaProps {
   title: string;
   description: string;
   url: string;
+  image: string | string[];
+  mainEntityOfPage: { "@type": "WebPage"; "@id": string };
+  publisher: {
+    "@type": "Organization";
+    name: string;
+    logo?: { "@type": "ImageObject"; url: string };
+  };
+  author: { "@type": "Person" | "Organization"; name: string; url?: string };
   published: string;
   modified: string;
-  authorUrl: string;
   articleSection?: string;
   keywords?: string[];
   wordCount?: number;
@@ -12,18 +19,21 @@ export interface ArticleSchemaProps {
 }
 
 export function articleSchema({
+  url,
   title,
   description,
-  url,
-  authorUrl,
+  image,
+  author,
   published,
   modified,
   articleSection,
+  mainEntityOfPage,
+  publisher,
   keywords,
+  wordCount,
   type = "Article",
 }: ArticleSchemaProps) {
   return {
-
     "@type": type,
 
     "@id": `${url}#article`,
@@ -34,21 +44,13 @@ export function articleSchema({
 
     description,
 
-    mainEntityOfPage: {
-      "@id": `${url}#webpage`,
-    },
+    mainEntityOfPage,
 
-    image: {
-      "@id": `${url}#primaryimage`,
-    },
+    image,
 
-    author: {
-      "@id": `${authorUrl}#person`,
-    },
+    author,
 
-    publisher: {
-      "@id": "https://casinoreviewsbook.com/#organization",
-    },
+    publisher,
 
     isPartOf: {
       "@id": "https://casinoreviewsbook.com/#website",
@@ -56,14 +58,13 @@ export function articleSchema({
 
     datePublished: published,
 
-    dateModified: modified,
+    dateModified: modified || published,
 
     inLanguage: "en",
 
-    ...(articleSection && { articleSection }),
+    ...(articleSection ? { articleSection } : {}),
 
-    ...(keywords?.length && {
-      keywords: keywords.join(", "),
-    }),
+    ...(keywords?.length ? { keywords: keywords.join(", ") } : {}),
+    ...(wordCount && wordCount > 0 ? { wordCount } : {}),
   };
 }

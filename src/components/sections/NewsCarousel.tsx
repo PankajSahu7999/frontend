@@ -30,7 +30,7 @@ export function NewsCarousel() {
   const newsItems: NewsItem[] = news.map((item: any) => ({
     id: item.id,
     featured_image: item.featured_image || 'https://images.unsplash.com/photo-1497366216548-37526070297c?w=800&q=80',
-    author: item.author?.name || 'CasinoLab',
+    author: item.author?.name || 'Casino Review Book',
     published_at: item.published_at ? new Date(item.published_at).toLocaleDateString('en-US', { day: 'numeric', month: 'short', year: 'numeric' }) : 'Recent',
     title: item.title,
     excerpt: item.excerpt || item.content?.substring(0, 150) + '...',

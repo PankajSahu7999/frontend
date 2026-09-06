@@ -455,7 +455,24 @@ const graph = buildSchemaGraph({
     description:
       "Comprehensive guide covering responsible gambling practices, self-exclusion, gambling support organizations, bankroll management, and recognizing the signs of gambling-related harm.",
     url: PAGE_URL,
-    authorUrl: "https://casinoreviewsbook.com/about",
+    image: "",
+    author: {
+      "@type": "Person",
+      name: "Casino Review Book",
+      url: "https://casinoreviewsbook.com",
+    },
+    publisher: {
+      "@type": "Organization",
+      name: "Casino Review Book",
+      logo: {
+        "@type": "ImageObject",
+        url: "https://casinoreviewsbook.com/logo.png",
+      },
+    },
+    mainEntityOfPage: {
+      "@type": "WebPage",
+      "@id": PAGE_URL,
+    },
     published: "2026-02-23",
     modified: `${new Date().toISOString()}`,
     articleSection: "Responsible Gambling",
