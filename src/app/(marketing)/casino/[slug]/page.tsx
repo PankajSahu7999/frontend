@@ -70,7 +70,11 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   return generateSEO({
     title: `${casino.name} Review ${new Date().getFullYear()}: Bonus, Games, RTP & Rating`,
 
-    description: casino.overview ?? casino.short_description,
+    description:
+      casino.meta_description?.trim() ||
+      casino.overview?.trim() ||
+      casino.short_description?.trim() ||
+      `${casino.name} casino review covering bonuses, games, payments and player experience.`,
 
     path: `/casino/${casino.slug}`,
 
@@ -107,8 +111,14 @@ export default async function Page({ params }: Props) {
   const graph = buildSchemaGraph({
     webpage: webpageSchema({
       url: PAGE_URL,
-      title: casino.meta_title ?? `${casino.name} Review`,
-      description: casino.meta_description ?? casino.short_description,
+      title:
+        casino.meta_title?.trim() ||
+        `${casino.name} Review ${new Date().getFullYear()}`,
+      description:
+        casino.meta_description?.trim() ||
+        casino.overview?.trim() ||
+        casino.short_description?.trim() ||
+        `${casino.name} casino review covering bonuses, games, payments and player experience.`,
     }),
 
     breadcrumb: breadcrumbSchema({
@@ -132,15 +142,25 @@ export default async function Page({ params }: Props) {
     review: reviewSchema({
       pageUrl: PAGE_URL,
       casinoName: casino.name,
+      casinoId: casino.id,
       reviews: allReviews || [],
     }),
     aggregateRating:
       aggregateRatingSchema({
         pageUrl: PAGE_URL,
         casinoName: casino.name,
-        reviews: allReviews || [],
+        reviews: allReviews,
       }) ?? undefined,
     offer:
+      //  casino?.bonuses?.length
+      //     ? offerSchema({
+      //         pageUrl: PAGE_URL,
+      //         casinoName: casino.name,
+      //         offerUrl:
+      //           casino.affiliate_url ?? casino.website_url,
+      //         bonuses: casino.bonuses,
+      //       })
+      //     : undefined,
       offerSchema({
         pageUrl: PAGE_URL,
         casinoName: casino.name,
@@ -152,7 +172,7 @@ export default async function Page({ params }: Props) {
       ? imageSchema({
           imageUrl: casino.featured_image,
           pageUrl: PAGE_URL,
-          caption: casino.name,
+          caption: `${casino.name} Casino Review`,
         })
       : undefined,
 
@@ -191,11 +211,6 @@ export default async function Page({ params }: Props) {
                 "Visa, Mastercard, Skrill, Neteller, PayPal, bank transfers, and crypto.",
             },
           ],
-    }),
-
-    searchAction: searchActionSchema({
-      siteUrl: SITE_URL,
-      searchPath: "/search",
     }),
   });
 

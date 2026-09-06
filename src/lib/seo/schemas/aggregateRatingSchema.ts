@@ -13,24 +13,26 @@ export function aggregateRatingSchema({
   casinoName,
   reviews,
 }: AggregateRatingProps) {
-  const reviewCount = reviews.length;
-  if (reviewCount === 0) return null; // ❌ no fake rating
+  const validRatings = reviews
+    .map((review) => Number(review.rating))
+    .filter((rating) => Number.isFinite(rating) && rating >= 1 && rating <= 5);
+  if (!validRatings.length) return null;
 
   const ratingValue = Number(
-    (reviews.reduce((sum, item) => sum + Number(item.rating), 0) / reviewCount).toFixed(1)
+    (
+      reviews.reduce((sum, item) => sum + Number(item.rating), 0) / validRatings.length
+    ).toFixed(1),
   );
 
   return {
     "@type": "AggregateRating",
     "@id": `${pageUrl}#aggregaterating`,
     itemReviewed: {
-      "@type": "Organization",
-      "@id": pageUrl,
-      name: casinoName,
+      "@id": `${pageUrl}#casino`,
     },
 
     ratingValue,
-    reviewCount,
+    reviewCount: validRatings.length,
     bestRating: 5,
     worstRating: 1,
   };

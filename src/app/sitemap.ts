@@ -33,10 +33,11 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   |--------------------------------------------------------------------------
   */
 
-  const [news, casinos, categories] = await Promise.all([
+  const [news, casinos, categories, guides] = await Promise.all([
     getAllNews().catch(() => []),
     getAllCasinos().catch(() => []),
     getAllCategories().catch(() => []),
+    getAllGuides().catch(() => []),
   ]);
 
   const newsUrls: MetadataRoute.Sitemap = (Array.isArray(news) ? news : []).map(

@@ -18,7 +18,6 @@ const geistMono = Geist_Mono({
 
 import { DEFAULT_SEO } from "@/constants";
 
-
 // export const metadata: Metadata = DEFAULT_SEO;
 
 export default function RootLayout({
@@ -32,9 +31,15 @@ export default function RootLayout({
       className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
     >
       <head>
-        <link rel="preconnect" href={process.env.NEXT_PUBLIC_API_URL || "https://api.casinoreviewsbook.com"} />
         <link rel="preconnect" href="https://casinoreviewsbook.com" />
-        <link rel="preload" href="/videos/hero/main-banner1.webp" as="image" fetchPriority="high" />
+        <link
+          rel="preload"
+          href="/videos/hero/main-banner1.webp"
+          as="image"
+          fetchPriority="high"
+        />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <meta name="msvalidate.01" content="556963428BB38B747A02A4E5AE20FCD2" />
       </head>
       <body className="min-h-full flex flex-col">
         {/* <JsonLd data={organizationSchema()} />

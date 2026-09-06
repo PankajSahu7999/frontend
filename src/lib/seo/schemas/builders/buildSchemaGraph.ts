@@ -5,7 +5,6 @@ export function buildSchemaGraph(schemas: SchemaBuilderOptions) {
 
   return {
     "@context": "https://schema.org",
-
     "@graph": graph,
   };
 }

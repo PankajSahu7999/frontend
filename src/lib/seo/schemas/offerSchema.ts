@@ -16,22 +16,6 @@ export interface OfferSchemaProps {
   bonuses: CasinoBonusInput[];
 }
 
-/**
- * Builds Offer nodes for a casino's bonuses.
- *
- * IMPORTANT — read before editing:
- * We deliberately do NOT set `price` / `priceCurrency` here. A casino bonus
- * "amount" like "100% up to $500" or "50 Free Spins" is a promotional term,
- * not a literal purchase price. Inventing a numeric price to satisfy
- * Google's Product/Offer price expectations would be fabricated structured
- * data — exactly what Google's structured-data policies prohibit, and on a
- * YMYL (gambling) site that risks a manual action against the whole domain.
- *
- * If you later have a genuinely clean numeric bonus value + currency
- * straight from your database (not guessed/regex-parsed from the text),
- * use `withExactPrice()` below on a per-offer basis. Never auto-parse
- * `amount` to fake a price.
- */
 export function offerSchema({
   pageUrl,
   casinoName,
@@ -80,11 +64,6 @@ export function offerSchema({
   }));
 }
 
-/**
- * Opt-in helper — only call this where you have a REAL numeric bonus amount
- * and ISO currency code from your own database (not parsed from free text).
- * Adds a priceSpecification to one already-built offer node.
- */
 export function withExactPrice<T extends Record<string, unknown>>(
   offer: T,
   price: number,
