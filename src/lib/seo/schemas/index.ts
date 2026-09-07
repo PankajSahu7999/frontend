@@ -1,7 +1,7 @@
 export * from "./organizationSchema";
 export * from "./websiteSchema";
 export * from "./webpageSchema";
-export * from "./searchActionSchema";
+export * from "./";
 export * from "./breadcrumbSchema";
 export * from "./imageSchema";
 

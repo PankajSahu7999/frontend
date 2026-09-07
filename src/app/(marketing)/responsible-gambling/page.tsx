@@ -400,7 +400,6 @@ import {
   breadcrumbSchema,
   buildSchemaGraph,
   faqSchema,
-  searchActionSchema,
   webpageSchema,
 } from "@/lib/seo/schemas";
 import ResponsibleGamblingClient from "./ResponsibleGamblingClient";
@@ -536,10 +535,6 @@ const graph = buildSchemaGraph({
     ],
   }),
 
-  searchAction: searchActionSchema({
-    siteUrl: "https://casinoreviewsbook.com",
-    searchPath: "/search",
-  }),
 });
 
 export default function Page() {

@@ -227,7 +227,6 @@ import {
   buildSchemaGraph,
   collectionPageSchema,
   itemListSchema,
-  searchActionSchema,
   webpageSchema,
 } from "@/lib/seo/schemas";
 import NewsPageClient from "./NewsPageClient";
@@ -291,10 +290,6 @@ export default async function Page() {
         name: item.title,
         url: `https://casinoreviewsbook.com/news/${item.slug}`,
       })),
-    }),
-    searchAction: searchActionSchema({
-      siteUrl: "https://casinoreviewsbook.com",
-      searchPath: "/search",
     }),
   });
 

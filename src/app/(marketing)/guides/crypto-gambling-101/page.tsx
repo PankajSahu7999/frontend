@@ -703,7 +703,6 @@ import {
   breadcrumbSchema,
   buildSchemaGraph,
   faqSchema,
-  searchActionSchema,
   webpageSchema,
 } from "@/lib/seo/schemas";
 import JsonLd from "@/components/seo/JsonLd";
@@ -812,10 +811,7 @@ const graph = buildSchemaGraph({
       },
     ],
   }),
-  searchAction: searchActionSchema({
-    siteUrl: "https://casinoreviewbook.com",
-    searchPath: "/search",
-  }),
+
 });
 
 export default function Page() {

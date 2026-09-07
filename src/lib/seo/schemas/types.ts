@@ -26,8 +26,6 @@ export interface SchemaBuilderOptions {
 
   contactPage?: object;
 
-  searchAction?: object;
-
   newsArticle?: object;
 
   offer?: object;

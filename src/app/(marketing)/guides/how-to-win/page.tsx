@@ -5,7 +5,6 @@ import {
   buildSchemaGraph,
   faqSchema,
   howToSchema,
-  searchActionSchema,
   webpageSchema,
 } from "@/lib/seo/schemas";
 import JsonLd from "@/components/seo/JsonLd";
@@ -113,10 +112,6 @@ const graph = buildSchemaGraph({
       },
     ],
   }),
-  searchAction: searchActionSchema({
-    siteUrl: "https://casinoreviewsbook.com",
-    searchPath: "/search",
-  }),
   howTo: howToSchema({
     pageUrl: PAGE_URL,
     name: "How to Win at Online Casinos",
@@ -150,7 +145,7 @@ const graph = buildSchemaGraph({
       },
     ],
     totalTime: "PT10M", // optional, only if genuinely accurate
-  })
+  }) ?? undefined
 });
 
 // export default function HowToWinGuidesHubPage() {

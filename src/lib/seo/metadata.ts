@@ -55,9 +55,6 @@ export function generateSEO({
 
     alternates: {
       canonical: url,
-      languages: {
-        en: url,
-      },
     },
 
     robots: {

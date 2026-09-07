@@ -10,7 +10,6 @@ import {
   faqSchema,
   imageSchema,
   reviewSchema,
-  searchActionSchema,
   webpageSchema,
   offerSchema,
 } from "@/lib/seo/schemas";

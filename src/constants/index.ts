@@ -49,8 +49,7 @@ export const SITE = {
     "casino review book",
   ],
 
-  searchURL: "https://casinoreviewsbook.com/search?q=",
-  ids: {
+    ids: {
     organizationId: "https://casinoreviewsbook.com/#organization",
 
     websiteId: "https://casinoreviewsbook.com/#website",

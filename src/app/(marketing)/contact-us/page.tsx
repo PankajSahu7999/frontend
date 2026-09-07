@@ -609,7 +609,6 @@
 import {
   breadcrumbSchema,
   buildSchemaGraph,
-  searchActionSchema,
   webpageSchema,
 } from "@/lib/seo/schemas";
 import ContactPage from "./ContactPage";
@@ -663,10 +662,7 @@ const graph = buildSchemaGraph({
     url: "https://casinoreviewbook.com/contact-us",
     email: "contact@casinoreviewsbook.com",
   }),
-  searchAction: searchActionSchema({
-    siteUrl: "https://casinoreviewbook.com",
-    searchPath: "/search",
-  }),
+
 });
 
 export default function Page() {

@@ -6,7 +6,7 @@ import {
   buildSchemaGraph,
   collectionPageSchema,
   itemListSchema,
-  searchActionSchema,
+
   webpageSchema,
 } from "@/lib/seo/schemas";
 
@@ -83,11 +83,6 @@ const graph = buildSchemaGraph({
       })) ?? [],
   }),
 
-  searchAction: searchActionSchema({
-    siteUrl: "https://casinoreviewsbook.com",
-
-    searchPath: "/search",
-  }),
 });
 
 export default function CompareCasinosPage() {
