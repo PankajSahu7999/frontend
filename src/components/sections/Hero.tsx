@@ -116,20 +116,25 @@ export function Hero({
             {/* Dynamic Title */}
             <h1
               className="
-                max-w-[448px]
+                max-w-[480px]
                 font-['Poppins']
                 font-bold
-                text-[28px] sm:text-[40px]
+                text-[26px] sm:text-[38px]
                 text-center
                 text-[#16171D]
-                leading-[1.35]
-                mb-6 sm:mb-10
+                leading-[1.25]
+                mb-3
               "
             >
               Find The Best
               <br />
               {title}
             </h1>
+
+            {/* Lead SEO Paragraph */}
+            <p className="text-xs sm:text-sm text-slate-700 max-w-[440px] text-center mb-6 leading-relaxed font-medium">
+              {subtitle || 'Explore honest online casino reviews, exclusive deposit bonuses, and verified crypto gambling sites tested for safety.'}
+            </p>
 
             {/* Play Now */}
             <button

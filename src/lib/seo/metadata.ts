@@ -44,6 +44,9 @@ export function generateSEO({
     title,
     description,
     keywords: [...SITE.keywords, ...keywords],
+    alternates: {
+      canonical: url,
+    },
     applicationName: SITE.applicationName,
     category: "Casino",
     referrer: "origin-when-cross-origin",

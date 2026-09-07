@@ -5,7 +5,6 @@ import Navbar from '@/components/layout/Navbar';
 import Sidebar from '@/components/layout/Sidebar';
 import { Footer } from '@/components/layout/Footer';
 import BannedPage from '@/components/BannedPage';
-import GlobalLoader from "@/components/GlobalLoader";
 import TelegramJoinPopup from "@/components/modals/TelegramJoinPopup";
 
 export default function MarketingLayout({
@@ -15,49 +14,38 @@ export default function MarketingLayout({
 }) {
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [isBanned, setIsBanned] = useState(false);
-  const [checking, setChecking] = useState(true);
   const API_URL = process.env.NEXT_PUBLIC_API_URL;
- useEffect(() => {
-  const checkCountry = async () => {
-    try {
-      await Promise.all([
-        new Promise((resolve) => setTimeout(resolve, 1000)), // Show loader for at least 3 seconds
 
-        (async () => {
-          const [bannedRes, ipRes] = await Promise.all([
-            fetch(`${API_URL}/api/banned-countries`),
-            fetch('https://ipapi.co/json/'),
-          ]);
+  useEffect(() => {
+    const checkCountry = async () => {
+      try {
+        const [bannedRes, ipRes] = await Promise.all([
+          fetch(`${API_URL}/api/banned-countries`),
+          fetch('https://ipapi.co/json/'),
+        ]);
 
-          if (!bannedRes.ok || !ipRes.ok) return;
+        if (!bannedRes.ok || !ipRes.ok) return;
 
-          const bannedCodes: string[] = await bannedRes.json();
-          const ipData = await ipRes.json();
+        const bannedCodes: string[] = await bannedRes.json();
+        const ipData = await ipRes.json();
 
-          const userCountryCode = (
-            ipData.country_code ||
-            ipData.countryCode ||
-            ''
-          ).toUpperCase();
+        const userCountryCode = (
+          ipData.country_code ||
+          ipData.countryCode ||
+          ''
+        ).toUpperCase();
 
-          if (bannedCodes.includes(userCountryCode)) {
-            setIsBanned(true);
-          }
-        })(),
-      ]);
-    } catch {
-      // Silently fail - if detection fails, allow access
-    } finally {
-      setChecking(false);
-    }
-  };
+        if (bannedCodes.includes(userCountryCode)) {
+          setIsBanned(true);
+        }
+      } catch {
+        // Silently fail - if detection fails, allow access
+      }
+    };
 
-  checkCountry();
-}, [API_URL]);
+    checkCountry();
+  }, [API_URL]);
 
- if (checking) {
-  return <GlobalLoader />;
-}
   if (isBanned) {
     return <BannedPage />;
   }

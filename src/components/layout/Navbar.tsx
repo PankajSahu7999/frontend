@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Menu, Search, ChevronDown, LogOut } from 'lucide-react';
 import Image from 'next/image';
 import { useSelector, useDispatch } from 'react-redux';
@@ -23,6 +23,11 @@ export default function Navbar({ onMenuClick }: NavbarProps) {
   const currentUser = useSelector((state: RootState) => state.user.currentUser);
   const [modalOpen, setModalOpen] = useState(false);
   const [userMenuOpen, setUserMenuOpen] = useState(false);
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
 
   const firstName = currentUser?.name?.split(' ')[0] || 'User';
   const avatarSeed = currentUser?.email || currentUser?.name || 'default';
@@ -121,7 +126,7 @@ export default function Navbar({ onMenuClick }: NavbarProps) {
             </button>
 
             {/* Register Button OR User Pill */}
-            {currentUser ? (
+            {mounted && currentUser ? (
               /* ── Registered User Pill ── */
               <div className="relative">
                 <button

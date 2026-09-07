@@ -58,11 +58,11 @@ export default function AdminClientLayout({
         <div className="p-6 sticky top-0 bg-slate-900 z-10 border-b border-slate-800/50 backdrop-blur-md">
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-2.5">
-              <div className="w-8 h-8 rounded-lg bg-indigo-600 flex items-center justify-center font-bold text-white shadow-md shadow-indigo-600/30">
-                CL
+              <div className="w-8 h-8 rounded-lg bg-indigo-600 flex items-center justify-center font-bold text-white shadow-md shadow-indigo-600/30 text-xs">
+                CRB
               </div>
-              <h2 className="text-xl font-bold tracking-tight text-white">
-                Casino<span className="text-indigo-400">Lab</span>
+              <h2 className="text-base font-bold tracking-tight text-white leading-tight">
+                Casino Reviews <span className="text-indigo-400">Book</span>
               </h2>
             </div>
             <button

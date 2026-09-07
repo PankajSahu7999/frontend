@@ -1,6 +1,7 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
+  poweredByHeader: false,
   images: {
     formats: ['image/avif', 'image/webp'],
     minimumCacheTTL: 86400,
@@ -41,6 +42,16 @@ const nextConfig: NextConfig = {
   // Optimize for modern browsers to reduce polyfills
   compiler: {
     removeConsole: process.env.NODE_ENV === 'production',
+  },
+  async redirects() {
+    return [
+      {
+        source: '/:path*',
+        has: [{ type: 'host', value: 'www.casinoreviewsbook.com' }],
+        destination: 'https://casinoreviewsbook.com/:path*',
+        permanent: true,
+      },
+    ];
   },
 };
 

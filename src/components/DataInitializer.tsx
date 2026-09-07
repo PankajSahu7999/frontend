@@ -12,12 +12,14 @@ import { fetchNews } from '@/store/slices/newsSlice';
 import { fetchSiteSettings } from '@/store/slices/siteSettingsSlice';
 import { fetchBlogs } from '@/store/slices/blogSlice';
 import { fetchFaqs } from '@/store/slices/faqSlice';
+import { initUserFromStorage } from '@/store/slices/userSlice';
 import { apiService } from '@/services/apiService';
 
 export function DataInitializer() {
   const dispatch = useAppDispatch();
 
   useEffect(() => {
+    dispatch(initUserFromStorage());
     const initializeData = async () => {
       try {
         // Fetch all initial data in parallel for fast loading

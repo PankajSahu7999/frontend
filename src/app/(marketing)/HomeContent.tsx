@@ -26,6 +26,8 @@ const TelegramSection = dynamic(() => import("@/components/sections/TelegramSect
   ssr: true,
 });
 
+import { HomeSEOSection } from "@/components/sections/HomeSEOSection";
+
 export default function HomeContent() {
   const dispatch = useAppDispatch();
 
@@ -56,6 +58,7 @@ export default function HomeContent() {
       
       {/* Below-the-fold sections */}
       <NewsCarousel />
+      <HomeSEOSection />
       <FAQSection />
       <TelegramSection />
     </div>

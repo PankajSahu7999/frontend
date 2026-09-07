@@ -222,12 +222,10 @@ export function Footer() {
             </h3>
 
             <ul className="space-y-2 text-[16px] text-[#333333]">
-              <li><Link href="/casinos/accredited-casinos">Accredited Casinos</Link></li>
-              <li><Link href="/casinos/online-casino">Online Casino</Link></li>
-              <li><Link href="/casinos/reviews">Reviews</Link></li>
-              <li><Link href="/casinos/exclusive-casinos">Exclusive Casinos</Link></li>
-
-              <li><Link href="/casinos/best-crypto-casinos">Best Crypto Casinos</Link></li>
+              <li><Link href="/casinos/online-casino">Online Casinos</Link></li>
+              <li><Link href="/casinos/real-money-casinos">Real Money Casinos</Link></li>
+              <li><Link href="/casinos/crypto-casinos">Best Crypto Casinos</Link></li>
+              <li><Link href="/casinos/fast-withdrawal-casinos">Fast Withdrawal</Link></li>
               <li><Link href="/casinos/casinos-by-country">Casinos by Country</Link></li>
               <li><Link href="/casinos/mobile-casinos">Mobile Casinos</Link></li>
             </ul>
@@ -241,10 +239,11 @@ export function Footer() {
 
             <ul className="space-y-2 text-[16px] text-[#333333]">
               <li><Link href="/bonuses/casino-bonuses">Casino Bonuses</Link></li>
-              <li><Link href="/bonuses/no-deposit-bonuses">No Deposit Bonuses</Link></li>
-              <li><Link href="/bonuses/free-spins">Free Spins</Link></li>
-              <li><Link href="/bonuses/high-roller-bonuses">High Roller Bonuses</Link></li>
               <li><Link href="/bonuses/welcome-bonuses">Welcome Bonuses</Link></li>
+              <li><Link href="/bonuses/no-deposit-bonuses">No Deposit Bonuses</Link></li>
+              <li><Link href="/bonuses/free-spins-bonuses">Free Spins</Link></li>
+              <li><Link href="/bonuses/cashback-bonuses">Cashback Bonuses</Link></li>
+              <li><Link href="/bonuses/exclusive-bonuses">Exclusive Bonuses</Link></li>
             </ul>
           </div>
           {/* Column 4 */}
@@ -255,12 +254,11 @@ export function Footer() {
 
             <ul className="space-y-2 text-[16px] text-[#333333]">
               <li><Link href="/about-us">About Us</Link></li>
-              <li><Link href="/forum">Forum</Link></li>
-              <li><Link href="/blog">Blog</Link></li>
+              <li><Link href="/compare-casinos">Compare Casinos</Link></li>
+              <li><Link href="/news">Casino News</Link></li>
               <li><Link href="/awards">Awards</Link></li>
-              <li><Link href="/resources">Resources</Link></li>
-              <li><Link href="/submit-a-complaint">Submit a Complaint</Link></li>
-              <li><Link href="/responsible-gambling">Responsible Gambling</Link></li>
+              <li><Link href="/guides">Guides & Strategy</Link></li>
+              <li><Link href="/contact-us">Submit a Complaint</Link></li>
             </ul>
           </div>
 
@@ -272,10 +270,10 @@ export function Footer() {
               </h3>
 
               <ul className="space-y-2 text-[16px] text-[#333333]">
-                <li><Link href="#">Terms & Services</Link></li>
-                <li><Link href="#">Privacy Policy</Link></li>
-                <li><Link href="#">Cookie Policy</Link></li>
-                <li><Link href="#">Provably fair</Link></li>
+                <li><Link href="/terms-and-services">Terms & Services</Link></li>
+                <li><Link href="/privacy-policy">Privacy Policy</Link></li>
+                <li><Link href="/cookie-policy">Cookie Policy</Link></li>
+                <li><Link href="/provably-fair">Provably fair</Link></li>
               </ul>
               <div className="flex gap-5 mt-8">
                 <Link href="#">

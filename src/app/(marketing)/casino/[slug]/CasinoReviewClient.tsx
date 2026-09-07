@@ -932,6 +932,7 @@ import { CircleFlag } from "react-circle-flags";
 import SimilarCasinosSection from "@/components/sections/SimilarCasinosSection";
 import UserReviewsSection from "@/components/sections/UserReviewsSection";
 import CasinoAffiliateButton from "@/components/CasinoAffiliateButton";
+import { getImageUrl } from "@/lib/utils/getImageUrl";
 import {
   ShieldCheck,
   Lock,
@@ -1162,8 +1163,8 @@ export default function CasinoReviewClient({ casino }: Props) {
           <div className="flex flex-col sm:flex-row gap-6 items-center w-full md:w-auto">
             <div className="w-[290px] h-[194px] rounded-xl flex items-center justify-center p-4 shrink-0">
               <img
-                src={casino.logo}
-                alt={casino.name}
+                src={getImageUrl(casino.logo)}
+                alt={casino.name || "Casino"}
                 className="max-h-full max-w-full rounded-2xl object-contain"
               />
             </div>
@@ -1338,13 +1339,15 @@ export default function CasinoReviewClient({ casino }: Props) {
       </div>
 
       {/* FEATURED IMAGE */}
-      <div className="w-full h-auto mb-10 rounded-2xl overflow-hidden">
-        <img
-          src={casino.featured_image}
-          alt={casino.name}
-          className="w-full h-full object-cover"
-        />
-      </div>
+      {casino.featured_image ? (
+        <div className="w-full h-auto mb-10 rounded-2xl overflow-hidden">
+          <img
+            src={getImageUrl(casino.featured_image)}
+            alt={casino.name || "Casino"}
+            className="w-full h-full object-cover"
+          />
+        </div>
+      ) : null}
 
       {/* WELCOME BONUS */}
       <div>

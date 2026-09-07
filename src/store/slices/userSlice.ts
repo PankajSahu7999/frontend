@@ -26,13 +26,25 @@ const loadUserFromStorage = (): RegisteredUser | null => {
 };
 
 const initialState: UserState = {
-  currentUser: loadUserFromStorage(),
+  currentUser: null,
 };
 
 const userSlice = createSlice({
   name: 'user',
   initialState,
   reducers: {
+    initUserFromStorage: (state) => {
+      if (typeof window !== 'undefined') {
+        try {
+          const stored = localStorage.getItem('casino_user');
+          if (stored) {
+            state.currentUser = JSON.parse(stored);
+          }
+        } catch {
+          // ignore storage parse errors
+        }
+      }
+    },
     setCurrentUser: (state, action: PayloadAction<RegisteredUser>) => {
       state.currentUser = action.payload;
       if (typeof window !== 'undefined') {
@@ -48,5 +60,5 @@ const userSlice = createSlice({
   },
 });
 
-export const { setCurrentUser, clearCurrentUser } = userSlice.actions;
+export const { initUserFromStorage, setCurrentUser, clearCurrentUser } = userSlice.actions;
 export default userSlice.reducer;

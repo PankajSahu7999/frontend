@@ -74,10 +74,10 @@ export default function AdminLayout({
 //           <div className="flex items-center justify-between">
 //             <div className="flex items-center gap-2.5">
 //               <div className="w-8 h-8 rounded-lg bg-indigo-600 flex items-center justify-center font-bold text-white shadow-md shadow-indigo-600/30">
-//                 CL
+//                 CRB
 //               </div>
 //               <h2 className="text-xl font-bold tracking-tight text-white">
-//                 Casino<span className="text-indigo-400">Lab</span>
+//                 Casino Reviews<span className="text-indigo-400"> Book</span>
 //               </h2>
 //             </div>
 //             <button
