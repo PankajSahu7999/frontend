@@ -53,10 +53,6 @@ export function generateSEO({
     creator: SITE.author || SITE.name,
     publisher: SITE.publisher || SITE.name,
 
-    alternates: {
-      canonical: url,
-    },
-
     robots: {
       index: !noIndex,
       follow: !noIndex,

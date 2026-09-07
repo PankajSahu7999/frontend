@@ -160,7 +160,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 
   if (!data?.category) {
     return generateSEO({
-      title: "Casino Brand Review Not Found - Casino Review Book",
+      title: "Casino Brand Review Not Found - Casino Reviews Book",
       description:
         "Explore our up-to-date catalog of secure, licensed, and reviewed online casinos.",
       path: `/casinos/${slug}`,
@@ -169,7 +169,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   }
   
   return generateSEO({
-    title: `Best ${data?.category?.name} Casinos - Casino Review Book`,
+    title: `Best ${data?.category?.name} Casinos - Casino Reviews Book`,
     description: `Discover the best ${data?.category?.name} casinos with expert reviews, featuring top bonuses, free spins,  welcome bonuses, supported games, payment methods, licensing information and fast withdrawals.`,
     path: `/casinos/${data.category.slug || slug}`,
     keywords: [

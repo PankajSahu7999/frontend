@@ -16,10 +16,10 @@ export function contactPageSchema({
 
     url,
 
-    name: "Contact Casino Review Book",
+    name: "Contact Casino Reviews Book",
 
     description:
-      "Contact Casino Review Book for editorial questions, support, partnerships and responsible gambling inquiries.",
+      "Contact Casino Reviews Book for editorial questions, support, partnerships and responsible gambling inquiries.",
 
     isPartOf: {
       "@id": `${SITE.url}/#website`,

@@ -56,6 +56,8 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 
   const casino = await getCasino(slug);
 
+  const casinoName = casino?.name?.trim() || "Online Casino";
+
   if (!casino) {
     return generateSEO({
       title: "Casino Not Found",
@@ -67,26 +69,26 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   }
 
   return generateSEO({
-    title: `${casino.name} Review ${new Date().getFullYear()}: Bonus, Games, RTP & Rating`,
+    title: `${casinoName} Review ${new Date().getFullYear()}: Bonus, Games, RTP & Rating`,
 
     description:
       casino.meta_description?.trim() ||
       casino.overview?.trim() ||
       casino.short_description?.trim() ||
-      `${casino.name} casino review covering bonuses, games, payments and player experience.`,
+      `${casinoName} casino review covering bonuses, games, payments and player experience.`,
 
     path: `/casino/${casino.slug}`,
 
     image: casino.featured_image,
 
     keywords: [
-      casino.name,
-      `${casino.name} review`,
-      `${casino.name} bonus`,
-      `${casino.name} casino`,
-      `${casino.name} promo`,
-      `${casino.name} withdrawal`,
-      `${casino.name} deposit`,
+      casinoName,
+      `${casinoName} review`,
+      `${casinoName} bonus`,
+      `${casinoName} casino`,
+      `${casinoName} promo`,
+      `${casinoName} withdrawal`,
+      `${casinoName} deposit`,
       "online casino review",
       "casino bonuses",
       "licensed casino",

@@ -157,7 +157,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 
   if (!data.category) {
     return generateSEO({
-      title: "Casino Game Category Not Found - Casino Review Book",
+      title: "Casino Game Category Not Found - Casino Reviews Book",
       description:
         "Browse our premium indices of real-money online slots, crash games, and table classics.",
       path: `/games/${slug}`,

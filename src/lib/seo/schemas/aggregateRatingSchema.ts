@@ -16,11 +16,14 @@ export function aggregateRatingSchema({
   const validRatings = reviews
     .map((review) => Number(review.rating))
     .filter((rating) => Number.isFinite(rating) && rating >= 1 && rating <= 5);
-  if (!validRatings.length) return null;
 
+  if (validRatings.length === 0) {
+    return null;
+  }
   const ratingValue = Number(
     (
-      reviews.reduce((sum, item) => sum + Number(item.rating), 0) / validRatings.length
+      validRatings.reduce((sum, rating) => sum + rating, 0) /
+      validRatings.length
     ).toFixed(1),
   );
 
@@ -28,7 +31,9 @@ export function aggregateRatingSchema({
     "@type": "AggregateRating",
     "@id": `${pageUrl}#aggregaterating`,
     itemReviewed: {
+      "@type": "Organization",
       "@id": `${pageUrl}#casino`,
+      name: casinoName,
     },
 
     ratingValue,

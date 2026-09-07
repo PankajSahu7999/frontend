@@ -119,7 +119,7 @@ export default function SettingsPage() {
             label="Footer Text" 
             value={formData.footer_text} 
             onChange={(e) => setFormData({...formData, footer_text: e.target.value})} 
-            placeholder="© 2024 Casino Review Book. All rights reserved."
+            placeholder="© 2024 Casino Reviews Book. All rights reserved."
           />
 
           <div className="pt-6 border-t border-slate-100">

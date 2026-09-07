@@ -157,7 +157,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 
   if (!data?.category) {
     return generateSEO({
-      title: "Betting Category Not Found | Casino Review Book",
+      title: "Betting Category Not Found | Casino Reviews Book",
       description:
         "The requested betting category could not be found. Browse our latest betting guides, casino reviews, sportsbook comparisons and bonus offers.",
       path: `betting/${slug}`,
@@ -168,7 +168,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const category = data.category;
 
   return generateSEO({
-    title: `Best ${category.name} Betting Sites & Bonuses - Casino Review Book (${new Date().getFullYear()})`,
+    title: `Best ${category.name} Betting Sites & Bonuses - Casino Reviews Book (${new Date().getFullYear()})`,
     description: `Compare top-rated online ${category.name} gambling options. Real player reviews, sign-up bonuses, and secure platforms.`,
     path: `/betting/${category.slug || slug}`,
     keywords: [
@@ -192,7 +192,7 @@ export default async function Page({ params }: Props) {
   const graph = buildSchemaGraph({
     webpage: webpageSchema({
       url: `https://casinoreviewsbook.com/betting/${slug}/`,
-      title: `Best ${data?.category?.name} Betting Sites - Casino Review Book (${new Date().getFullYear()})`,
+      title: `Best ${data?.category?.name} Betting Sites - Casino Reviews Book (${new Date().getFullYear()})`,
       description: `Compare top-rated online ${data?.category?.name} gambling options. Real player reviews, sign-up bonuses, and secure platforms.`,
       image: "/images/logo.png",
       breadcrumbId: `https://casinoreviewsbook.com/betting/${slug}/#breadcrumb`,
@@ -256,7 +256,7 @@ export default async function Page({ params }: Props) {
         {
           question: "How we review betting sites",
           answer:
-            "Casino Review Book independently researches betting operators by examining    licensing, security, payment methods, betting markets, promotional terms, user experience, mobile compatibility, and responsible gambling tools. Our goal is to help players compare betting platforms using transparent, research-based information.",
+            "Casino Reviews Book independently researches betting operators by examining    licensing, security, payment methods, betting markets, promotional terms, user experience, mobile compatibility, and responsible gambling tools. Our goal is to help players compare betting platforms using transparent, research-based information.",
         },
       ],
     }),

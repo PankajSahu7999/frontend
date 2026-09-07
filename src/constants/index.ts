@@ -1,6 +1,6 @@
 export const SITE = {
-  name: "Casino Review Book",
-  siteName: "Casino Review Book",
+  name: "Casino Reviews Book",
+  siteName: "Casino Reviews Book",
   shortName: "CRB",
   tagline: "Trusted Casino Reviews, Bonuses & Gambling Guides",
 
@@ -9,22 +9,22 @@ export const SITE = {
   baseUrl: new URL("https://casinoreviewsbook.com"),
 
   title:
-    "Casino Review Book, Trusted Online Casino Reviews, Bonuses & Gambling Guides",
+    "Casino Reviews Book-Trusted Online Casino Reviews, Bonuses & Gambling Guides",
 
   description:
-    "Casino Review Book is a trusted online casino review platform providing honest casino reviews, exclusive casino bonuses, sportsbook reviews, crypto casino guides, slot reviews, payment method guides, gambling strategies, and responsible gambling resources for players worldwide.",
+    "Independent, hands-on casino reviews, exclusive bonuses, crypto casino guides, and responsible gambling resources — trusted by players worldwide.",
 
   locale: "en_US",
   language: "en-US",
 
   type: "website",
   category: "Gambling",
-  applicationName: "Casino Review Book",
+  applicationName: "Casino Reviews Book",
 
-  author: "Casino Review Book Editorial Team",
-  publisher: "Casino Review Book",
+  author: "Casino Reviews Book Editorial Team",
+  publisher: "Casino Reviews Book",
 
-  copyright: `© ${new Date().getFullYear()} Casino Review Book`,
+  copyright: `© ${new Date().getFullYear()} Casino Reviews Book`,
 
   email: "contact@casinoreviewsbook.com",
   logo: "https://casinoreviewsbook.com/icons/logo.png",
@@ -46,10 +46,10 @@ export const SITE = {
     "gambling guides",
     "casino comparison",
     "casino promotions",
-    "casino review book",
+    "Casino Reviews Book",
   ],
 
-    ids: {
+  ids: {
     organizationId: "https://casinoreviewsbook.com/#organization",
 
     websiteId: "https://casinoreviewsbook.com/#website",
@@ -62,7 +62,7 @@ export const SITE = {
   },
   searchAction: "https://casinoreviewsbook.com/search?q=",
 
-  legalName: "Casino Review Book",
+  legalName: "Casino Reviews Book",
   foundingDate: "2024",
   foundingLocation: "India",
 
@@ -90,7 +90,7 @@ export const SITE = {
 
     height: 630,
 
-    alt: "Casino Review Book",
+    alt: "Casino Reviews Book",
   },
   geo: {
     audience: "Global",
@@ -127,10 +127,7 @@ import type { Metadata } from "next";
 export const DEFAULT_SEO: Metadata = {
   metadataBase: new URL(SITE.url),
 
-  title: {
-    default: SITE.title,
-    template: "%s | Casino Review Book",
-  },
+  title: SITE.title,
 
   description: SITE.description,
 

@@ -457,12 +457,12 @@ const graph = buildSchemaGraph({
     image: "",
     author: {
       "@type": "Person",
-      name: "Casino Review Book",
+      name: "Casino Reviews Book",
       url: "https://casinoreviewsbook.com",
     },
     publisher: {
       "@type": "Organization",
-      name: "Casino Review Book",
+      name: "Casino Reviews Book",
       logo: {
         "@type": "ImageObject",
         url: "https://casinoreviewsbook.com/logo.png",

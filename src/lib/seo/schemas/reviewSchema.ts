@@ -31,7 +31,8 @@ export function reviewSchema({
       (review) =>
         review.content?.trim() &&
         review.reviewer_name?.trim() &&
-        Number(review.rating) > 0,
+        Number(review.rating) >= 1 &&
+        Number(review.rating) <= 5,
     )
     .slice(0, 10)
     .map((review) => ({
@@ -56,7 +57,9 @@ export function reviewSchema({
       },
 
       itemReviewed: {
+        "@type": "Organization",
         "@id": `${pageUrl}#casino`,
+        name: casinoName,
       },
 
       reviewRating: {

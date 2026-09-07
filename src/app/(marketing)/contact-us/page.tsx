@@ -617,9 +617,9 @@ import JsonLd from "@/components/seo/JsonLd";
 import { contactPageSchema } from "@/lib/seo/schemas/contactPageSchema";
 
 export const metadata = generateSEO({
-  title: "Contact Casino Review Book | Editorial, Support & Partnerships",
+  title: "Contact Casino Reviews Book | Editorial, Support & Partnerships",
   description:
-    "Contact Casino Review Book for editorial feedback, casino review corrections, partnership opportunities, responsible gambling questions, or general support. Our team responds as quickly as possible.",
+    "Contact Casino Reviews Book for editorial feedback, casino review corrections, partnership opportunities, responsible gambling questions, or general support. Our team responds as quickly as possible.",
   path: "/contact-us",
   keywords: [
     "contact",
@@ -641,9 +641,9 @@ export const metadata = generateSEO({
 const graph = buildSchemaGraph({
   webpage: webpageSchema({
     url: "https://casinoreviewbook.com/contact-us",
-    title: "Contact Casino Review Book | Editorial, Support & Partnerships",
+    title: "Contact Casino Reviews Book | Editorial, Support & Partnerships",
     description:
-      "Contact Casino Review Book for editorial feedback, support requests, partnership opportunities and responsible gambling inquiries.",
+      "Contact Casino Reviews Book for editorial feedback, support requests, partnership opportunities and responsible gambling inquiries.",
   }),
   breadcrumb: breadcrumbSchema({
     pageUrl: "https://casinoreviewbook.com/contact-us",

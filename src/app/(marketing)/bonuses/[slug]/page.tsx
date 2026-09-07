@@ -157,7 +157,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 
   if (!data?.category) {
     return generateSEO({
-      title: "Exclusive Casino Bonuses Not Found | Casino Review Book",
+      title: "Exclusive Casino Bonuses Not Found | Casino Reviews Book",
       description:
         "Discover top verified match bonuses, free spins, and promo deals.",
       path: `bonuses/${slug}`,
@@ -167,7 +167,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 
   return generateSEO({
     title: `Best ${data?.category?.name} Casino Bonuses & Promotions (${new Date().getFullYear()})`,
-    description: `Unlock the best ${data?.category?.name} casino bonuses including welcome bonuses, including match bonuses, free spins, no deposit bonuses, cashback offers and free spins from trusted online casinos.`,
+    description: `Compare the best ${data?.category?.name} casino bonuses — welcome offers, match bonuses, free spins, no-deposit deals, and cashback — all with transparent wagering terms.`,
     path: `/bonuses/${data.category.slug || slug}`,
     keywords: [
       data?.category?.name,
@@ -188,9 +188,9 @@ export default async function BonusCategoryPage({ params }: Props) {
   const graph = buildSchemaGraph({
     webpage: webpageSchema({
       url: `https://casinoreviewsbook.com/bonuses/${slug}/`,
-      title: `Best ${data?.category?.name} Casino Bonuses - Casino Review Book (${new Date().getFullYear()})`,
+      title: `Best ${data?.category?.name} Casino Bonuses - Casino Reviews Book (${new Date().getFullYear()})`,
       description:
-        "Unlock the best casino bonuses including welcome bonuses, including match bonuses, free spins, no deposit bonuses, cashback offers and free spins from trusted online casinos.",
+        "Compare the best casino bonuses — welcome offers, match bonuses, free spins, no-deposit deals, and cashback — all with transparent wagering terms.",
     }),
     collectionPage: collectionPageSchema({
       pageUrl: `https://casinoreviewsbook.com/bonuses/${slug}/`,

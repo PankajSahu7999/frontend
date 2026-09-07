@@ -1,10 +1,10 @@
-# Casino Review Book
+# Casino Reviews Book
 
 > Independent online casino review platform. We test casinos hands-on and publish
 > licensing checks, bonus terms analysis, withdrawal speed audits, and game/software
 > verification so players can compare options before depositing.
 
-Casino Review Book is not a casino operator. Reviews are editorially independent;
+Casino Reviews Book is not a casino operator. Reviews are editorially independent;
 some outbound links are affiliate links, disclosed on every review page.
 
 ## Key sections

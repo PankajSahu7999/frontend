@@ -40,6 +40,7 @@ export default function RootLayout({
         />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <meta name="msvalidate.01" content="556963428BB38B747A02A4E5AE20FCD2" />
+        <link rel="canonical" href="https://www.casinoreviewsbook.com/" />
       </head>
       <body className="min-h-full flex flex-col">
         {/* <JsonLd data={organizationSchema()} />

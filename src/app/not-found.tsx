@@ -3,7 +3,7 @@ import { Home, Dices, Gift, ArrowRight } from "lucide-react";
 import { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "404 - Page Not Found | Casino Review Book",
+  title: "404 - Page Not Found | Casino Reviews Book",
   description: "The requested casino page, bonus, or review could not be found. Explore our top rated casino reviews and latest bonuses.",
   robots: {
     index: false,

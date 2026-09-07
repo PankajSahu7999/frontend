@@ -22,7 +22,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 
   if (!article) {
     return generateSEO({
-      title: "News Not Found - Casino Review Book",
+      title: "News Not Found - Casino Reviews Book",
       description: "News not found",
       path: `/news/${slug}`,
       noIndex: true,
@@ -58,7 +58,7 @@ export default async function Page({ params }: Props) {
 
       modified: article.updated_at || article.created_at,
 
-      authorName: article.author_name || "Casino Review Book Editorial Team",
+      authorName: article.author_name || "Casino Reviews Book Editorial Team",
 
       authorUrl: article.author || "https://casinoreviewbook.com",
 
