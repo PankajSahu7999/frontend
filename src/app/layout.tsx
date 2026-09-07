@@ -18,7 +18,7 @@ const geistMono = Geist_Mono({
 
 import { DEFAULT_SEO } from "@/constants";
 
-// export const metadata: Metadata = DEFAULT_SEO;
+export const metadata: Metadata = DEFAULT_SEO;
 
 export default function RootLayout({
   children,
@@ -32,12 +32,6 @@ export default function RootLayout({
     >
       <head>
         <link rel="preconnect" href="https://casinoreviewsbook.com" />
-        <link
-          rel="preload"
-          href="/videos/hero/main-banner1.webp"
-          as="image"
-          fetchPriority="high"
-        />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <meta name="msvalidate.01" content="556963428BB38B747A02A4E5AE20FCD2" />
       </head>

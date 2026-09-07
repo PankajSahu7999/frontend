@@ -18,6 +18,11 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     "/about-us",
     "/contact-us",
     "/responsible-gambling",
+    "/awards",
+    "/terms-and-services",
+    "/privacy-policy",
+    "/cookie-policy",
+    "/provably-fair",
   ];
 
   const staticPagesSitemap: MetadataRoute.Sitemap = staticPages.map((path) => ({

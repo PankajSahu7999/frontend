@@ -624,9 +624,9 @@ export default function CasinoComparison() {
                           </div>
 
                           <div className="min-w-0">
-                            <h2 className="truncate pr-4 text-sm font-bold text-gray-900">
+                            <h3 className="truncate pr-4 text-sm font-bold text-gray-900">
                               {casino.name}
-                            </h2>
+                            </h3>
 
                             <div className="mt-1.5 flex items-center gap-2">
                               {renderStars(rating)}

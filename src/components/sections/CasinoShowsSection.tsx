@@ -185,9 +185,8 @@ function CasinoCard({ casino }: { casino: any }) {
             >
                 <Image
                     src={imageUrl}
-                    alt=""
+                    alt={`${casino.name || 'Casino'} left banner visual`}
                     fill
-                    aria-hidden
                     className="object-contain"
                     unoptimized
                 />
@@ -211,9 +210,8 @@ function CasinoCard({ casino }: { casino: any }) {
             >
                 <Image
                     src={imageUrl}
-                    alt=""
+                    alt={`${casino.name || 'Casino'} right banner visual`}
                     fill
-                    aria-hidden
                     className="object-contain"
                     unoptimized
                 />
@@ -234,7 +232,7 @@ function CasinoCard({ casino }: { casino: any }) {
             >
                 <Image
                     src={imageUrl}
-                    alt={casino.name}
+                    alt={casino.name || 'Casino Showcase'}
                     fill
                     className="object-contain"
                     unoptimized

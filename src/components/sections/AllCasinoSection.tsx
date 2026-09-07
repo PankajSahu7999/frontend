@@ -81,9 +81,9 @@ export default function AllCasinoSection({
         <section className="w-full flex flex-col items-center py-12 px-4 max-w-7xl mx-auto">
             {/* Heading Section */}
             <div className="mb-10 text-center">
-                <h1 className="font-poppins font-bold text-3xl md:text-4xl tracking-tight text-slate-900">
+                <h2 className="font-poppins font-bold text-3xl md:text-4xl tracking-tight text-slate-900">
                     Best Online Casinos Reviewed
-                </h1>
+                </h2>
                 <p className="text-slate-500 mt-2 text-sm md:text-base max-w-2xl mx-auto">
                     Compare verified platforms, check welcome offers, and discover licensed sites offering top payouts.
                 </p>
@@ -174,7 +174,7 @@ function CasinoCard({ casino, index }: { casino: any; index: number }) {
                     <div className="w-24 h-24 sm:w-28 sm:h-28 lg:w-[150px] lg:h-[150px] rounded-2xl overflow-hidden shadow-md border border-slate-100 flex items-center justify-center bg-slate-50 p-2 relative shrink-0">
                         <Image
                             src={imageUrl}
-                            alt={casino.name}
+                            alt={casino.name || 'Casino Logo'}
                             width={150}
                             height={150}
                             className="w-full h-full object-contain mix-blend-multiply"
@@ -183,9 +183,9 @@ function CasinoCard({ casino, index }: { casino: any; index: number }) {
                     </div>
                     {/* Mobile Header Info */}
                     <div className="flex flex-col lg:hidden flex-1">
-                        <h2 className="font-bold text-xl sm:text-2xl text-slate-900 tracking-tight leading-tight">
+                        <h3 className="font-bold text-xl sm:text-2xl text-slate-900 tracking-tight leading-tight">
                             {casino.name}
-                        </h2>
+                        </h3>
                         <p className="text-[11px] text-slate-500 mt-0.5">License: Curacao</p>
                         <div className="flex items-center gap-1.5 mt-1.5 bg-slate-50/80 border border-slate-100 px-2 py-0.5 rounded-lg w-fit">
                             <Star size={13} className="fill-amber-400 text-amber-400" />
@@ -201,9 +201,9 @@ function CasinoCard({ casino, index }: { casino: any; index: number }) {
                     {/* Desktop Header Row */}
                     <div className="hidden lg:flex items-center justify-between gap-3 border-b border-slate-200/60 pb-3">
                         <div>
-                            <h2 className="font-bold text-2xl lg:text-3xl text-slate-900 tracking-tight">
+                            <h3 className="font-bold text-2xl lg:text-3xl text-slate-900 tracking-tight">
                                 {casino.name}
-                            </h2>
+                            </h3>
                             <p className="text-xs text-slate-400 mt-0.5">Established: {casino.established_year || '2022'} • License: Curacao</p>
                         </div>
 

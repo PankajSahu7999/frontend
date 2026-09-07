@@ -27,11 +27,11 @@ export function TelegramSection() {
         <div className="flex flex-col lg:flex-row items-center justify-between h-full px-4 lg:px-[30px] gap-6 lg:gap-0 py-6 lg:py-0">
           {/* Left Column */}
           <div className="w-full lg:w-[306px] flex flex-col gap-[1px]">
-            <h2 className="text-[18px] font-bold text-[#111827]  text-center">
+            <h3 className="text-[18px] font-bold text-[#111827]  text-center">
               Get Exclusive Casino
               <br />
               Bonuses & Alerts
-            </h2>
+            </h3>
 
             <p className="text-[12px] text-[#4B5563]  text-center">
               Join our Telegram community and receive exclusive
@@ -119,7 +119,7 @@ export function TelegramSection() {
             {/* Replace this image later */}
             <Image
               src="/images/telegramsection.png"
-              alt="Telegram"
+              alt="Casino Reviews Book Telegram VIP Community"
               width={248}
               height={227}
               className="object-contain"

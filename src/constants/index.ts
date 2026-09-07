@@ -9,10 +9,10 @@ export const SITE = {
   baseUrl: new URL("https://casinoreviewsbook.com"),
 
   title:
-    "Casino Reviews Book-Trusted Online Casino Reviews, Bonuses & Gambling Guides",
+    "Casino Reviews Book: Trusted Casino Reviews & Bonuses",
 
   description:
-    "Independent, hands-on casino reviews, exclusive bonuses, crypto casino guides, and responsible gambling resources — trusted by players worldwide.",
+    "Discover honest online casino reviews, exclusive deposit bonuses, and verified crypto gambling sites at Casino Reviews Book. Tested by experts for safe play.",
 
   locale: "en_US",
   language: "en-US",

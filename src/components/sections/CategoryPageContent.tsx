@@ -102,7 +102,7 @@ function CasinoCard({ casino, index }: { casino: Casino; index: number }) {
             />
           </div>
           <div className="flex flex-col lg:hidden flex-1">
-            <h2 className="font-bold text-lg text-slate-900 leading-tight">{casino.name}</h2>
+            <h3 className="font-bold text-lg text-slate-900 leading-tight">{casino.name}</h3>
             <div className="flex items-center gap-1 mt-1">
               <Star size={12} className="fill-amber-400 text-amber-400" />
               <span className="text-xs font-bold text-slate-800">
@@ -116,7 +116,7 @@ function CasinoCard({ casino, index }: { casino: Casino; index: number }) {
         <div className="flex flex-col justify-center lg:px-2">
           <div className="hidden lg:flex items-center justify-between gap-3 border-b border-slate-200/60 pb-3 mb-3">
             <div>
-              <h2 className="font-bold text-2xl text-slate-900 tracking-tight">{casino.name}</h2>
+              <h3 className="font-bold text-2xl text-slate-900 tracking-tight">{casino.name}</h3>
               <p className="text-xs text-slate-400 mt-0.5">Est. {casino.established_year || 'N/A'}</p>
             </div>
             <div className="flex items-center gap-1.5 bg-white/80 px-3 py-1.5 rounded-xl border border-slate-200/50 shrink-0">

@@ -31,11 +31,11 @@ export function BonuesSection2() {
             
             {/* Bottom Content on Mobile / Left Content on Desktop */}
             <div className="flex flex-col items-center sm:items-start justify-center text-center sm:text-left gap-[20px] w-full sm:w-[375px] z-20 max-w-[375px] mx-auto sm:mx-0">
-              <h2 className="text-[22px] sm:text-[28px] font-extrabold text-[#111827] leading-tight tracking-tight">
+              <h3 className="text-[22px] sm:text-[28px] font-extrabold text-[#111827] leading-tight tracking-tight">
                 Take on Challenges
                 <br />
                 and earn <span className="text-[#B45B1B] sm:text-inherit">15,000 Coins!</span>
-              </h2>
+              </h3>
 
               <button
                 className="
