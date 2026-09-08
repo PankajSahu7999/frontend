@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import { Calendar, Star, UserCheck } from "lucide-react";
 import UserReviewForm from "@/components/UserReviewForm";
+import StarRating from "@/components/ui/StarRating";
 
 interface Review {
   id: string;
@@ -138,22 +139,7 @@ export default function UserReviewsSection({
 
               {/* Rating and Date */}
               <div className="mt-4 flex items-center justify-between">
-                <div className="flex items-center gap-1">
-                  <div className="flex gap-0.5">
-                    {[...Array(5)].map((_, i) => (
-                      <Star
-                        key={i}
-                        size={13}
-                        fill="#FFB000"
-                        color="#FFB000"
-                      />
-                    ))}
-                  </div>
-
-                  <span className="ml-1 text-[12px] font-bold text-[#363636]">
-                    {Number(review.rating).toFixed(1)}
-                  </span>
-                </div>
+                <StarRating rating={review.rating} size={13} />
 
                 <div className="flex items-center gap-1 text-[10px] text-gray-400">
                   <Calendar className="h-3 w-3" />

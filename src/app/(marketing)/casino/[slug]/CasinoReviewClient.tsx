@@ -943,6 +943,7 @@ import {
   Star,
   ChevronRight,
 } from "lucide-react";
+import StarRating, { formatRating } from "@/components/ui/StarRating";
 
 interface Props {
   casino: any;
@@ -1178,12 +1179,13 @@ export default function CasinoReviewClient({ casino }: Props) {
                 <h1 className="text-[24px] font-bold text-gray-900">
                   {casino.name}
                 </h1>
-                <div className="flex items-center ml-28 gap-1 text-amber-400">
-                  <span className="text-[24px]">★★★★★</span>
-                  <span className="text-gray-900 font-bold text-[18px] ml-1">
-                    {casino.rating}
-                  </span>
-                  <span className="text-gray-400 text-[16]">(11,847)</span>
+                <div className="flex items-center ml-auto sm:ml-6 gap-2">
+                  <StarRating
+                    rating={casino.rating || 5}
+                    size={20}
+                    textClassName="text-gray-900 font-bold text-[18px] ml-1.5"
+                  />
+                  <span className="text-gray-400 text-sm">(11,847)</span>
                 </div>
               </div>
               <div className="grid grid-cols-2 gap-x-0 gap-y-1 mt-3 text-xs text-gray-600">
@@ -1637,14 +1639,11 @@ export default function CasinoReviewClient({ casino }: Props) {
                 <span className="font-poppins text-[22px] font-bold text-[#16171D]">
                   {review.verdict}
                 </span>
-                <div className="flex gap-1">
-                  {Array.from({ length: 5 }).map((_, i) => (
-                    <Star
-                      key={i}
-                      className="h-3 w-3 fill-[#F59E0B] text-[#F59E0B]"
-                    />
-                  ))}
-                </div>
+                <StarRating
+                  rating={casino.rating || 5}
+                  size={14}
+                  showText={false}
+                />
               </div>
             </div>
             <CasinoAffiliateButton

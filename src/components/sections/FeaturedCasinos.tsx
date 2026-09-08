@@ -12,6 +12,7 @@ import type { Casino } from "@/types";
 import { API_CONFIG } from "@/config/api.config";
 import { getImageUrl } from "@/lib/utils/getImageUrl";
 import CasinoCardDisclaimer from "@/components/CasinoCardDisclaimer";
+import { formatRating } from "@/components/ui/StarRating";
 
 async function getFeaturedCasinos(): Promise<Casino[]> {
   try {
@@ -79,9 +80,9 @@ export async function FeaturedCasinos() {
                     {casino.name}
                   </CardTitle>
 
-                  <div className="flex items-center gap-1 text-sm font-medium text-[var(--color-gold)]">
+                  <div className="flex items-center gap-1 text-sm font-semibold text-[var(--color-gold)]">
                     <span>★</span>
-                    {casino.rating ?? "N/A"}
+                    {formatRating(casino.rating)}
                   </div>
                 </div>
 

@@ -11,6 +11,13 @@ import { clearCurrentUser } from '@/store/slices/userSlice';
 import RegisterModal from '@/components/RegisterModal';
 import { getImageUrl } from '@/lib/utils/getImageUrl';
 import { API_CONFIG } from '@/config/api.config';
+import {
+  getUserCountryCode,
+  getCountryFlagUrl,
+  POPULAR_COUNTRIES,
+  storeCountryCode,
+} from '@/lib/countryDetection';
+import { formatRating } from '@/components/ui/StarRating';
 
 interface NavbarProps {
   onMenuClick: () => void;
@@ -30,6 +37,9 @@ export default function Navbar({ onMenuClick }: NavbarProps) {
   const [modalOpen, setModalOpen] = useState(false);
   const [userMenuOpen, setUserMenuOpen] = useState(false);
   const [mounted, setMounted] = useState(false);
+  const [userCountry, setUserCountry] = useState<string>('US');
+  const [countryDropdownOpen, setCountryDropdownOpen] = useState(false);
+  const countryRef = useRef<HTMLDivElement>(null);
 
   // Search state
   const [searchQuery, setSearchQuery] = useState('');
@@ -40,6 +50,13 @@ export default function Navbar({ onMenuClick }: NavbarProps) {
 
   useEffect(() => {
     setMounted(true);
+    getUserCountryCode()
+      .then((code) => {
+        if (code) setUserCountry(code);
+      })
+      .catch((err) => {
+        console.warn('Failed to detect user country:', err);
+      });
   }, []);
 
   // Close dropdown on outside click
@@ -47,6 +64,9 @@ export default function Navbar({ onMenuClick }: NavbarProps) {
     const handleClickOutside = (event: MouseEvent) => {
       if (searchRef.current && !searchRef.current.contains(event.target as Node)) {
         setIsOpen(false);
+      }
+      if (countryRef.current && !countryRef.current.contains(event.target as Node)) {
+        setCountryDropdownOpen(false);
       }
     };
     document.addEventListener('mousedown', handleClickOutside);
@@ -261,7 +281,7 @@ export default function Navbar({ onMenuClick }: NavbarProps) {
                               {casino.rating && (
                                 <span className="flex items-center gap-0.5 text-[11px] font-semibold text-amber-500 bg-amber-50 px-1.5 py-0.5 rounded shrink-0">
                                   <Star size={11} fill="#F59E0B" className="text-amber-500" />
-                                  {casino.rating}
+                                  {formatRating(casino.rating)}
                                 </span>
                               )}
                             </div>
@@ -294,27 +314,47 @@ export default function Navbar({ onMenuClick }: NavbarProps) {
           {/* Right Section */}
           <div className="flex items-center gap-1 sm:gap-4">
 
-            {/* Language Selector */}
-            <button
-              className="
-                hidden md:flex
-                items-center
-                justify-center
-                gap-2
-                w-[125px]
-                h-[48px]
-                rounded-[20px]
-                px-6
-                text-sm
-                font-medium
-                text-[#1E293B]
-                whitespace-nowrap
-              "
-            >
-              🇬🇧
-              <span>EN</span>
-              <ChevronDown className="w-4 h-4" />
-            </button>
+            {/* User Country Badge */}
+           <div ref={countryRef} className="relative">
+  <div
+    className="
+      hidden md:flex
+      items-center
+      justify-center
+      gap-2.5
+      h-[48px]
+      rounded-[20px]
+      px-3.5
+      text-sm
+      font-bold
+      text-[#1E293B]
+      whitespace-nowrap
+    "
+    title={mounted ? `Current Location: ${userCountry}` : 'Detecting location...'}
+  >
+    {/* Flag Image */}
+    <div className="h-[20px] rounded-[3px] overflow-hidden shadow-xs border border-slate-200/80 shrink-0 flex items-center justify-center bg-slate-100">
+      {mounted ? (
+        <img
+          src={getCountryFlagUrl(userCountry)}
+          alt={`${userCountry} flag`}
+          className="w-full h-full object-cover"
+          loading="eager"
+          onError={(e) => {
+            e.currentTarget.src = `https://react-circle-flags.pages.dev/${userCountry.toLowerCase()}.svg`;
+          }}
+        />
+      ) : (
+        <span className="text-sm">🌐</span>
+      )}
+    </div>
+
+    {/* Country Code */}
+    <span className="text-sm uppercase tracking-wider text-slate-800 font-extrabold">
+      {mounted ? userCountry : '--'}
+    </span>
+  </div>
+</div>
 
             {/* Register Button OR User Pill */}
             {mounted && currentUser ? (

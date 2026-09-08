@@ -7,6 +7,7 @@ import { getImageUrl } from '@/lib/utils/getImageUrl';
 import Link from 'next/link';
 import CasinoCardDisclaimer from '@/components/CasinoCardDisclaimer';
 import { formatPayoutTime } from '@/lib/utils';
+import StarRating from '@/components/ui/StarRating';
 
 interface SimilarCasinosSectionProps {
   slug: string;
@@ -144,16 +145,7 @@ function SimilarCasinoCard({ casino }: { casino: any }) {
             </div>
 
             <div className="flex items-center justify-between mt-3">
-              <div className="flex items-center gap-1">
-                <div className="flex gap-0.5">
-                  {[...Array(5)].map((_, i) => (
-                    <Star key={i} size={13} fill="#FFB000" color="#FFB000" />
-                  ))}
-                </div>
-                <span className="text-[12px] font-bold text-[#363636] ml-1">
-                  {casino.rating || '4.9'}
-                </span>
-              </div>
+              <StarRating rating={casino.rating || 5} size={13} />
 
               <div className="flex gap-1">
                 <span className="text-[9px] font-bold text-white px-2 py-0.5 rounded-md bg-gradient-to-r from-[#FFB000] to-[#FF8A00]">

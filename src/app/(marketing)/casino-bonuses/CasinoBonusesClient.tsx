@@ -19,6 +19,7 @@ import Breadcrumbs from '@/components/seo/Breadcrumbs';
 import CasinoCardDisclaimer from '@/components/CasinoCardDisclaimer';
 import { getImageUrl } from '@/lib/utils/getImageUrl';
 import { formatPayoutTime } from '@/lib/utils';
+import StarRating from '@/components/ui/StarRating';
 
 const ICON_MAP: Record<string, any> = {
   Gift,
@@ -329,16 +330,7 @@ export default function CasinoBonusesClient({
 
                           {/* 2. Rating & Badges Row */}
                           <div className="flex items-center justify-between mt-3">
-                            <div className="flex items-center gap-1">
-                              <div className="flex gap-0.5">
-                                {[...Array(5)].map((_, i) => (
-                                  <Star key={i} size={13} fill="#FFB000" color="#FFB000" />
-                                ))}
-                              </div>
-                              <span className="text-[12px] font-bold text-[#363636] ml-1">
-                                {casino.rating || '4.9'}
-                              </span>
-                            </div>
+                            <StarRating rating={casino.rating || 5} size={13} />
 
                             <div className="flex gap-1">
                               {item.highlight_badge && (

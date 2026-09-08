@@ -20,6 +20,7 @@ import { useCasinos } from '@/hooks/useRedux';
 import { getImageUrl } from '@/lib/utils/getImageUrl';
 import { formatPayoutTime } from '@/lib/utils';
 import CasinoCardDisclaimer from '@/components/CasinoCardDisclaimer';
+import StarRating, { formatRating } from '@/components/ui/StarRating';
 
 export default function AllCasinoSection({
   casinos,
@@ -37,7 +38,7 @@ export default function AllCasinoSection({
 
   const [currentPage, setCurrentPage] = useState(1);
 
-  const itemsPerPage = 5;
+  const itemsPerPage = 20;
 
   /**
    * Category page:
@@ -192,7 +193,7 @@ function CasinoCard({ casino, index }: { casino: any; index: number }) {
                         <div className="flex items-center gap-1.5 mt-1.5 bg-slate-50/80 border border-slate-100 px-2 py-0.5 rounded-lg w-fit">
                             <Star size={13} className="fill-amber-400 text-amber-400" />
                             <span className="text-xs font-bold text-slate-800">
-                                {casino.rating ? Number(casino.rating).toFixed(1) : '9.4'}
+                                {formatRating(casino.rating)}
                             </span>
                         </div>
                     </div>
@@ -210,18 +211,11 @@ function CasinoCard({ casino, index }: { casino: any; index: number }) {
                         </div>
 
                         <div className="flex items-center gap-2 bg-white/80 px-3 py-1.5 rounded-xl border border-slate-200/50 shrink-0">
-                            <div className="flex items-center gap-0.5">
-                                {[1, 2, 3, 4, 5].map((star) => (
-                                    <Star
-                                        key={star}
-                                        size={15}
-                                        className={star <= Math.round(casino.rating || 0) ? "fill-amber-400 text-amber-400" : "text-slate-200"}
-                                    />
-                                ))}
-                            </div>
-                            <span className="text-base font-bold text-slate-800">
-                                {casino.rating ? Number(casino.rating).toFixed(1) : '9.4'}
-                            </span>
+                            <StarRating
+                                rating={casino.rating || 5}
+                                size={15}
+                                textClassName="text-base font-bold text-slate-800 ml-1.5"
+                            />
                         </div>
                     </div>
 

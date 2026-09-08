@@ -16,6 +16,7 @@ import Link from 'next/link';
 import { useCasinos } from '@/hooks/useRedux';
 import { getImageUrl } from '@/lib/utils/getImageUrl';
 import { formatPayoutTime } from '@/lib/utils';
+import StarRating, { formatRating } from '@/components/ui/StarRating';
 
 type CasinoFromStore = ReturnType<typeof useCasinos>['casinos'][number];
 
@@ -229,25 +230,7 @@ export default function CasinoComparison() {
   }, [selectedCasinos]);
 
   const renderStars = (rating: number) => {
-    const roundedRating = Math.round(rating);
-
-    return (
-      <div className="flex items-center gap-0.5">
-        {[1, 2, 3, 4, 5].map((star) => (
-          <Star
-            key={star}
-            size={12}
-            strokeWidth={1.7}
-            className={
-              star <= roundedRating
-                ? 'text-[#FFB000]'
-                : 'text-gray-300'
-            }
-            fill={star <= roundedRating ? 'currentColor' : 'none'}
-          />
-        ))}
-      </div>
-    );
+    return <StarRating rating={rating} size={12} showText={false} />;
   };
 
   const WinnerBadge = () => (
@@ -512,10 +495,8 @@ export default function CasinoComparison() {
 
                       <div className="mt-1 flex items-center gap-2">
                         {renderStars(getRating(casino))}
-                        <span className="text-[11px] text-gray-500">
-                          {getRating(casino)
-                            ? `${getRating(casino).toFixed(1)}/5`
-                            : 'Not rated'}
+                        <span className="text-[11px] font-semibold text-gray-500">
+                          {formatRating(getRating(casino))}
                         </span>
                       </div>
                     </div>
@@ -636,7 +617,7 @@ export default function CasinoComparison() {
                               {renderStars(rating)}
 
                               <span className="text-xs font-bold text-gray-800">
-                                {rating ? rating.toFixed(1) : 'N/A'}
+                                {formatRating(rating)}
                               </span>
                             </div>
 

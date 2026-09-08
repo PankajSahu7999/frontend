@@ -20,6 +20,7 @@ import {
 } from 'lucide-react';
 import { getImageUrl } from '@/lib/utils/getImageUrl';
 import { formatPayoutTime } from '@/lib/utils';
+import StarRating, { formatRating } from '@/components/ui/StarRating';
 
 interface CasinoBonus {
   id: string;
@@ -107,7 +108,7 @@ function CasinoCard({ casino, index }: { casino: Casino; index: number }) {
             <div className="flex items-center gap-1 mt-1">
               <Star size={12} className="fill-amber-400 text-amber-400" />
               <span className="text-xs font-bold text-slate-800">
-                {casino.rating ? Number(casino.rating).toFixed(1) : 'N/A'}
+                {formatRating(casino.rating)}
               </span>
             </div>
           </div>
@@ -121,20 +122,11 @@ function CasinoCard({ casino, index }: { casino: Casino; index: number }) {
               <p className="text-xs text-slate-400 mt-0.5">Est. {casino.established_year || 'N/A'}</p>
             </div>
             <div className="flex items-center gap-1.5 bg-white/80 px-3 py-1.5 rounded-xl border border-slate-200/50 shrink-0">
-              {[1, 2, 3, 4, 5].map((star) => (
-                <Star
-                  key={star}
-                  size={14}
-                  className={
-                    star <= Math.round(Number(casino.rating) || 0)
-                      ? 'fill-amber-400 text-amber-400'
-                      : 'text-slate-200'
-                  }
-                />
-              ))}
-              <span className="text-sm font-bold text-slate-800 ml-1">
-                {casino.rating ? Number(casino.rating).toFixed(1) : 'N/A'}
-              </span>
+              <StarRating
+                rating={casino.rating || 5}
+                size={14}
+                textClassName="text-sm font-bold text-slate-800 ml-1.5"
+              />
             </div>
           </div>
 
