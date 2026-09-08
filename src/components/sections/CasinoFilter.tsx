@@ -1,7 +1,7 @@
 'use client';
 
-import { useState, useEffect } from 'react';
-import { SlidersHorizontal, X, Check, Star, RotateCcw } from 'lucide-react';
+import { useState, useEffect, useRef } from 'react';
+import { SlidersHorizontal, X, Check, Star, RotateCcw, ChevronLeft, ChevronRight } from 'lucide-react';
 import { API_CONFIG } from '@/config/api.config';
 
 interface Tag {
@@ -69,6 +69,20 @@ export default function CasinoFilter({
   const [modalFeatures, setModalFeatures] = useState<string[]>([]);
   const [modalMinRating, setModalMinRating] = useState<number>(0);
   const [modalSortBy, setModalSortBy] = useState<string>('recommended');
+
+  const scrollContainerRef = useRef<HTMLDivElement>(null);
+
+  const scrollLeft = () => {
+    if (scrollContainerRef.current) {
+      scrollContainerRef.current.scrollBy({ left: -300, behavior: 'smooth' });
+    }
+  };
+
+  const scrollRight = () => {
+    if (scrollContainerRef.current) {
+      scrollContainerRef.current.scrollBy({ left: 300, behavior: 'smooth' });
+    }
+  };
 
   const baseUrl = API_CONFIG.baseURL || process.env.NEXT_PUBLIC_API_URL || 'http://localhost:4000/api';
 
@@ -211,13 +225,13 @@ export default function CasinoFilter({
   return (
     <div className="w-full">
       {/* Filter Buttons Row */}
-      <div className="flex flex-wrap items-center gap-3 mt-6">
+      <div className="relative flex items-center gap-2 mt-6 w-full">
         {/* Filter Popup Button on LEFT of ALL button */}
         <button
           type="button"
           onClick={() => setIsModalOpen(true)}
-          className={`flex items-center gap-2 rounded-full px-5 py-2 transition-all duration-200
-font-poppins font-semibold text-[14px] leading-[100%] tracking-[0.02em] uppercase border-2
+          className={`shrink-0 flex items-center gap-2 rounded-full px-5 py-2 transition-all duration-200
+font-poppins font-semibold text-[14px] leading-[100%] tracking-[0.02em] uppercase border-2 whitespace-nowrap
 ${
   activeFiltersCount > 0
     ? 'bg-gradient-to-b from-[#F4F8FF] to-[#E8F0FF] border-[#2E68FB] text-[#2E68FB] shadow-[0px_4px_10px_rgba(46,104,251,0.15)]'
@@ -233,12 +247,24 @@ ${
           )}
         </button>
 
-        {/* All button */}
-        <button
-          key="all"
-          type="button"
-          onClick={() => toggleTag('all')}
-          className={`rounded-full px-5 py-2 transition-all duration-200
+        {/* Scroll Left Button */}
+       
+
+        {/* Horizontally Scrollable Pills Container */}
+        <div
+          ref={scrollContainerRef}
+          className="flex items-center gap-2 overflow-x-auto py-1 scroll-smooth flex-1 scrollbar-hide [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden"
+          style={{
+            scrollbarWidth: 'none',
+            msOverflowStyle: 'none',
+          }}
+        >
+          {/* All button */}
+          <button
+            key="all"
+            type="button"
+            onClick={() => toggleTag('all')}
+            className={`shrink-0 whitespace-nowrap rounded-full px-5 py-2 transition-all duration-200
 font-poppins font-semibold text-[14px] leading-[100%] tracking-[0.02em] uppercase
 border-2
 ${
@@ -246,20 +272,20 @@ ${
     ? 'bg-gradient-to-b from-[#F4F8FF] to-[#E8F0FF] border-[#BFD4FF] text-[#2E68FB] shadow-[0px_4px_10px_rgba(46,104,251,0.12)]'
     : 'bg-[#FFFFFF6C] border-[#FFFFFF80] text-[#6F758F] shadow-[0px_3px_6px_rgba(255,255,255,0.5)] hover:bg-[#FFFFFF80]'
 }`}
-        >
-          All
-        </button>
+          >
+            All
+          </button>
 
-        {/* Quick Tag Pills */}
-        {tags.map((tag) => {
-          const selected = selectedTags.includes(tag.id);
+          {/* Quick Tag Pills */}
+          {tags.map((tag) => {
+            const selected = selectedTags.includes(tag.id);
 
-          return (
-            <button
-              key={tag.id}
-              type="button"
-              onClick={() => toggleTag(tag.id)}
-              className={`rounded-full px-5 py-2 transition-all duration-200
+            return (
+              <button
+                key={tag.id}
+                type="button"
+                onClick={() => toggleTag(tag.id)}
+                className={`shrink-0 whitespace-nowrap rounded-full px-5 py-2 transition-all duration-200
 font-poppins font-semibold text-[14px] leading-[100%] tracking-[0.02em] uppercase
 border-2
 ${
@@ -267,11 +293,15 @@ ${
     ? 'bg-gradient-to-b from-[#F4F8FF] to-[#E8F0FF] border-[#BFD4FF] text-[#2E68FB] shadow-[0px_4px_10px_rgba(46,104,251,0.12)]'
     : 'bg-[#FFFFFF6C] border-[#FFFFFF80] text-[#6F758F] shadow-[0px_3px_6px_rgba(255,255,255,0.5)] hover:bg-[#FFFFFF80]'
 }`}
-            >
-              {tag.name}
-            </button>
-          );
-        })}
+              >
+                {tag.name}
+              </button>
+            );
+          })}
+        </div>
+
+        {/* Scroll Right Button */}
+      
       </div>
 
       {/* FILTER POPUP MODAL */}

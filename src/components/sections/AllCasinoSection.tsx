@@ -18,6 +18,7 @@ import {
 
 import { useCasinos } from '@/hooks/useRedux';
 import { getImageUrl } from '@/lib/utils/getImageUrl';
+import { formatPayoutTime } from '@/lib/utils';
 import CasinoCardDisclaimer from '@/components/CasinoCardDisclaimer';
 
 export default function AllCasinoSection({
@@ -152,7 +153,8 @@ function CasinoCard({ casino, index }: { casino: any; index: number }) {
     ].filter(Boolean) as { text: string; icon: any }[];
 
     const softwareProviders = casino.software_providers || ['NetEnt', 'Microgaming', 'Pragmatic Play', 'Evolution'];
-    const payoutSpeed = casino.payout_speed || 'Instant - 24 Hours';
+    const rawPayout = casino.withdrawal_time || casino.payout_speed || 'Instant - 24 Hours';
+    const payoutSpeed = formatPayoutTime(rawPayout);
     const winRate = casino.win_rate || '98.2%';
 
     return (
@@ -241,9 +243,9 @@ function CasinoCard({ casino, index }: { casino: any; index: number }) {
 
                         {/* Meta Spec Highlights */}
                         <div className="grid grid-cols-3 gap-2 bg-white/60 rounded-xl p-3 border border-slate-200/40 text-center mb-4">
-                            <div>
+                            <div title={casino.withdrawal_time || rawPayout}>
                                 <p className="text-[10px] uppercase font-bold text-slate-400 tracking-wider">Payout Speed</p>
-                                <p className="text-xs font-semibold text-slate-800 mt-0.5">{payoutSpeed}</p>
+                                <p className="text-xs font-semibold text-slate-800 mt-0.5 line-clamp-2 leading-tight">{payoutSpeed}</p>
                             </div>
                             <div className="border-x border-slate-200">
                                 <p className="text-[10px] uppercase font-bold text-slate-400 tracking-wider">Win Rate</p>

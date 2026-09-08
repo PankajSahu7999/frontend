@@ -7,6 +7,7 @@ import { useCasinos } from '@/hooks/useRedux';
 import { getImageUrl } from '@/lib/utils/getImageUrl';
 import Link from "next/link";
 import CasinoCardDisclaimer from '@/components/CasinoCardDisclaimer';
+import { formatPayoutTime } from '@/lib/utils';
 export default function NewCasinoSection({
   casinos,
 }: {
@@ -134,7 +135,7 @@ export default function NewCasinoSection({
       {/* Cards */}
       <div
         ref={scrollContainerRef}
-        className="flex gap-4 overflow-x-auto pb-2 scroll-smooth"
+        className="flex gap-4 overflow-x-auto pb-2 scroll-smooth items-stretch"
         style={{
           scrollbarWidth: 'none',
           msOverflowStyle: 'none',
@@ -154,12 +155,11 @@ function CasinoCard({ casino }: { casino: any }) {
   const imageUrl = getImageUrl(casino.logo || casino.featured_image || '/images/888.png');
 
   return (
-    <div className="card-animated-border rounded-[24px] p-[2px] shrink-0 cursor-pointer">
+    <div className="card-animated-border rounded-[24px] p-[2px] shrink-0 cursor-pointer flex flex-col h-full">
       <div
-        className="flex flex-col p-4 rounded-[22px] justify-between"
+        className="flex flex-col p-4 rounded-[22px] justify-between flex-1 w-full h-full"
         style={{
           width: "340px",
-          minHeight: "400px",
           background:
             "linear-gradient(231.79deg, #D5EDFF 32.55%, #EEECFF 43.54%, #F9F3FF 53.23%, #F5FCFF 66.16%, #E9F5FF 79.08%)",
         }}
@@ -175,18 +175,13 @@ function CasinoCard({ casino }: { casino: any }) {
               unoptimized
             />
           </div>
-          <div>
-            <h3 className="text-[22px] font-bold text-[#151515] leading-tight">
+          <div className="min-w-0 flex-1">
+            <h3 className="text-[20px] font-bold text-[#151515] leading-tight truncate" title={casino.name || 'Casino'}>
               {casino.name || 'BC Game Casino'}
             </h3>
             <p
-              className="text-[11px] text-[#666] mt-0.5"
-              style={{
-                display: '-webkit-box',
-                WebkitLineClamp: 2,
-                WebkitBoxOrient: 'vertical',
-                overflow: 'hidden',
-              }}
+              className="text-[11px] text-[#666] mt-0.5 line-clamp-2 h-[34px] leading-[17px] overflow-hidden"
+              title={casino.short_description}
             >
               {casino.short_description || 'Premium Casino Experience'}
             </p>
@@ -217,11 +212,11 @@ function CasinoCard({ casino }: { casino: any }) {
         </div>
 
         {/* 3. Main Welcome Bonus Box */}
-        <div className="mt-3 p-3 rounded-xl bg-[#2E68FB] text-white flex flex-col justify-center">
-          <span className="text-[9px] font-semibold tracking-wider uppercase text-blue-100">
+        <div className="mt-3 px-3 py-2 rounded-xl bg-[#2E68FB] text-white flex flex-col justify-center h-[54px]">
+          <span className="text-[9px] font-semibold tracking-wider uppercase text-blue-100 block">
             Exclusive Welcome
           </span>
-          <span className="text-[14px] font-bold mt-0.5 leading-snug">
+          <span className="text-[13px] font-bold mt-0.5 leading-snug line-clamp-1 truncate" title={welcomeBonus}>
             {welcomeBonus}
           </span>
         </div>
@@ -229,41 +224,44 @@ function CasinoCard({ casino }: { casino: any }) {
         {/* 4. Details 2x2 Info Grid */}
         <div className="grid grid-cols-2 gap-2 mt-3">
           {/* Min Deposit */}
-          <div className="p-2 bg-white/40 border border-[#2E68FB20] rounded-lg">
+          <div className="p-2 bg-white/40 border border-[#2E68FB20] rounded-lg h-[50px] flex flex-col justify-center">
             <span className="block text-[9px] font-semibold text-[#2E68FB] uppercase">
               Min Deposit
             </span>
-            <span className="text-[12px] font-bold text-[#363636]">
+            <span className="text-[12px] font-bold text-[#363636] truncate">
               {casino.minimum_deposit ? `$${casino.minimum_deposit}` : '€20'}
             </span>
           </div>
 
           {/* Payout */}
-          <div className="p-2 bg-white/40 border border-[#2E68FB20] rounded-lg">
+          <div
+            className="p-2 bg-white/40 border border-[#2E68FB20] rounded-lg h-[50px] flex flex-col justify-center"
+            title={casino.withdrawal_time || '2-4 Hours'}
+          >
             <span className="block text-[9px] font-semibold text-[#2E68FB] uppercase">
               Payout
             </span>
-            <span className="text-[12px] font-bold text-[#363636]">
-              {casino.withdrawal_time || '2-4 Hours'}
+            <span className="text-[12px] font-bold text-[#363636] line-clamp-1 truncate">
+              {formatPayoutTime(casino.withdrawal_time)}
             </span>
           </div>
 
           {/* Games */}
-          <div className="p-2 bg-white/40 border border-[#2E68FB20] rounded-lg">
+          <div className="p-2 bg-white/40 border border-[#2E68FB20] rounded-lg h-[50px] flex flex-col justify-center">
             <span className="block text-[9px] font-semibold text-[#00B67A] uppercase">
               Games
             </span>
-            <span className="text-[12px] font-bold text-[#00B67A]">
+            <span className="text-[12px] font-bold text-[#00B67A] truncate">
               {casino.games_count || '2400+ Games'}
             </span>
           </div>
 
           {/* Established Year */}
-          <div className="p-2 bg-white/40 border border-[#2E68FB20] rounded-lg">
+          <div className="p-2 bg-white/40 border border-[#2E68FB20] rounded-lg h-[50px] flex flex-col justify-center">
             <span className="block text-[9px] font-semibold text-[#2E68FB] uppercase">
               Established Year
             </span>
-            <span className="text-[12px] font-bold text-[#363636]">
+            <span className="text-[12px] font-bold text-[#363636] truncate">
               {casino.established_year || '2020'}
             </span>
           </div>

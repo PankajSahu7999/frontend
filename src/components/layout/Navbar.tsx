@@ -1,12 +1,16 @@
 'use client';
 
-import { useState, useEffect } from 'react';
-import { Menu, Search, ChevronDown, LogOut } from 'lucide-react';
+import { useState, useEffect, useRef } from 'react';
+import { useRouter } from 'next/navigation';
+import Link from 'next/link';
+import { Menu, Search, ChevronDown, LogOut, Star, X, Loader2 } from 'lucide-react';
 import Image from 'next/image';
 import { useSelector, useDispatch } from 'react-redux';
 import { RootState } from '@/store';
 import { clearCurrentUser } from '@/store/slices/userSlice';
 import RegisterModal from '@/components/RegisterModal';
+import { getImageUrl } from '@/lib/utils/getImageUrl';
+import { API_CONFIG } from '@/config/api.config';
 
 interface NavbarProps {
   onMenuClick: () => void;
@@ -19,15 +23,86 @@ function getAvatarUrl(seed: string): string {
 }
 
 export default function Navbar({ onMenuClick }: NavbarProps) {
+  const router = useRouter();
   const dispatch = useDispatch();
   const currentUser = useSelector((state: RootState) => state.user.currentUser);
+  const reduxCasinos = useSelector((state: RootState) => state.casinos?.casinos || []);
   const [modalOpen, setModalOpen] = useState(false);
   const [userMenuOpen, setUserMenuOpen] = useState(false);
   const [mounted, setMounted] = useState(false);
 
+  // Search state
+  const [searchQuery, setSearchQuery] = useState('');
+  const [isOpen, setIsOpen] = useState(false);
+  const [results, setResults] = useState<any[]>([]);
+  const [isLoading, setIsLoading] = useState(false);
+  const searchRef = useRef<HTMLDivElement>(null);
+
   useEffect(() => {
     setMounted(true);
   }, []);
+
+  // Close dropdown on outside click
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (searchRef.current && !searchRef.current.contains(event.target as Node)) {
+        setIsOpen(false);
+      }
+    };
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => document.removeEventListener('mousedown', handleClickOutside);
+  }, []);
+
+  // Debounced live search
+  useEffect(() => {
+    const trimmed = searchQuery.trim().toLowerCase();
+    if (!trimmed) {
+      setResults([]);
+      setIsOpen(false);
+      setIsLoading(false);
+      return;
+    }
+
+    setIsOpen(true);
+
+    if (reduxCasinos && reduxCasinos.length > 0) {
+      const matched = reduxCasinos.filter((c: any) =>
+        (c.name && c.name.toLowerCase().includes(trimmed)) ||
+        (c.slug && c.slug.toLowerCase().includes(trimmed)) ||
+        (c.short_description && c.short_description.toLowerCase().includes(trimmed))
+      );
+      setResults(matched.slice(0, 10));
+      setIsLoading(false);
+    } else {
+      setIsLoading(true);
+      const timer = setTimeout(async () => {
+        try {
+          const baseUrl = API_CONFIG.baseURL || process.env.NEXT_PUBLIC_API_URL || 'http://localhost:4000/api';
+          const res = await fetch(`${baseUrl}/casinos?search=${encodeURIComponent(trimmed)}&limit=10`);
+          if (res.ok) {
+            const data = await res.json();
+            setResults(Array.isArray(data) ? data : []);
+          }
+        } catch (err) {
+          console.error('Failed to search casinos:', err);
+        } finally {
+          setIsLoading(false);
+        }
+      }, 200);
+
+      return () => clearTimeout(timer);
+    }
+  }, [searchQuery, reduxCasinos]);
+
+  const handleSearchSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (results.length > 0) {
+      router.push(`/casino/${results[0].slug}`);
+      setIsOpen(false);
+    } else if (searchQuery.trim()) {
+      setIsOpen(true);
+    }
+  };
 
   const firstName = currentUser?.name?.split(' ')[0] || 'User';
   const avatarSeed = currentUser?.email || currentUser?.name || 'default';
@@ -54,50 +129,166 @@ export default function Navbar({ onMenuClick }: NavbarProps) {
           </button>
 
           {/* Search Bar */}
-          <div className="relative flex-1 max-w-[671px] flex items-center min-w-0">
-            <input
-              type="text"
-              placeholder="Games, Categories"
-              className="
-                  w-full
-                  h-[40px] sm:h-[45px]
-                  rounded-[32px]
-                  border
-                  border-[#2E68FB40]
-                  bg-[#46108E0D]
-                  pl-4 sm:pl-6
-                  pr-12 sm:pr-14
-                  text-xs sm:text-sm
-                  text-slate-700
-                  placeholder:text-slate-500
-                  outline-none
-                  focus:border-[#2E68FB]
-                  transition-colors
-              "
-            />
-            
-            {/* Search Button */}
-            <button
-              type="button"
-              className="
-                  absolute
-                  right-[1px]
-                  top-[1px]
-                  w-[38px] sm:w-[43px]
-                  h-[38px] sm:h-[43px]
-                  rounded-full
-                  bg-[linear-gradient(180deg,#CDDCFB_0%,#588CF3_100%)]
-                  flex
-                  items-center
-                  justify-center
-                  text-white
-                  hover:opacity-90
-                  transition-opacity
-                  active:scale-95
-              "
-            >
-              <Search size={16} className="sm:w-[18px] sm:h-[18px]" />
-            </button>
+          <div ref={searchRef} className="relative flex-1 max-w-[671px] min-w-0">
+            <form onSubmit={handleSearchSubmit} className="relative flex items-center w-full">
+              <input
+                type="text"
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+                onFocus={() => {
+                  if (searchQuery.trim()) setIsOpen(true);
+                }}
+                onKeyDown={(e) => {
+                  if (e.key === 'Escape') setIsOpen(false);
+                }}
+                placeholder="Games, Categories"
+                className="
+                    w-full
+                    h-[40px] sm:h-[45px]
+                    rounded-[32px]
+                    border
+                    border-[#2E68FB40]
+                    bg-[#46108E0D]
+                    pl-4 sm:pl-6
+                    pr-20 sm:pr-24
+                    text-xs sm:text-sm
+                    text-slate-700
+                    placeholder:text-slate-500
+                    outline-none
+                    focus:border-[#2E68FB]
+                    focus:bg-white
+                    shadow-sm
+                    transition-all
+                "
+              />
+
+              {/* Clear button */}
+              {searchQuery && (
+                <button
+                  type="button"
+                  onClick={() => {
+                    setSearchQuery('');
+                    setIsOpen(false);
+                  }}
+                  className="absolute right-11 sm:right-14 text-slate-400 hover:text-slate-600 transition-colors p-1 cursor-pointer"
+                  aria-label="Clear search"
+                >
+                  <X size={15} />
+                </button>
+              )}
+
+              {/* Search Button */}
+              <button
+                type="submit"
+                aria-label="Search"
+                className="
+                    absolute
+                    right-[1px]
+                    top-[1px]
+                    w-[38px] sm:w-[43px]
+                    h-[38px] sm:h-[43px]
+                    rounded-full
+                    bg-[linear-gradient(180deg,#CDDCFB_0%,#588CF3_100%)]
+                    flex
+                    items-center
+                    justify-center
+                    text-white
+                    hover:opacity-90
+                    transition-opacity
+                    active:scale-95
+                    cursor-pointer
+                "
+              >
+                {isLoading ? (
+                  <Loader2 size={16} className="sm:w-[18px] sm:h-[18px] animate-spin" />
+                ) : (
+                  <Search size={16} className="sm:w-[18px] sm:h-[18px]" />
+                )}
+              </button>
+            </form>
+
+            {/* Live Search Results Dropdown */}
+            {isOpen && searchQuery.trim() !== '' && (
+              <div className="absolute top-full left-0 right-0 mt-2 bg-white rounded-2xl shadow-2xl border border-slate-100 overflow-hidden z-50 animate-fadeIn">
+                {/* Dropdown Header */}
+                <div className="flex items-center justify-between px-4 py-2 bg-slate-50 border-b border-slate-100 text-xs text-slate-500">
+                  <span className="font-semibold text-slate-600">
+                    {isLoading
+                      ? 'Searching...'
+                      : `${results.length} Casino${results.length === 1 ? '' : 's'} Found`}
+                  </span>
+                  {results.length > 0 && (
+                    <span className="text-[11px] text-[#2E68FB]">Click to view review</span>
+                  )}
+                </div>
+
+                {/* Results List */}
+                <div className="max-h-[360px] overflow-y-auto p-2 divide-y divide-slate-100">
+                  {isLoading ? (
+                    <div className="flex items-center justify-center py-8 text-slate-400 gap-2">
+                      <Loader2 className="w-5 h-5 animate-spin text-[#2E68FB]" />
+                      <span className="text-sm">Searching casinos...</span>
+                    </div>
+                  ) : results.length > 0 ? (
+                    results.map((casino) => {
+                      const logoSrc = getImageUrl(casino.logo || casino.featured_image || '/images/888.png');
+                      return (
+                        <Link
+                          key={casino.id || casino.slug}
+                          href={`/casino/${casino.slug}`}
+                          onClick={() => {
+                            setIsOpen(false);
+                          }}
+                          className="flex items-center gap-3 p-2.5 rounded-xl hover:bg-[#F4F8FF] transition-all group cursor-pointer"
+                        >
+                          {/* Casino Logo */}
+                          <div className="relative w-11 h-11 rounded-lg bg-white border border-slate-200/80 p-1 flex items-center justify-center shrink-0 shadow-sm overflow-hidden group-hover:border-[#2E68FB]/40 transition-colors">
+                            <Image
+                              src={logoSrc}
+                              alt={casino.name || 'Casino Logo'}
+                              fill
+                              className="object-contain p-0.5"
+                              unoptimized
+                            />
+                          </div>
+
+                          {/* Casino Title & Info */}
+                          <div className="flex-1 min-w-0">
+                            <div className="flex items-center gap-2">
+                              <h4 className="text-sm font-bold text-slate-800 group-hover:text-[#2E68FB] transition-colors truncate">
+                                {casino.name}
+                              </h4>
+                              {casino.rating && (
+                                <span className="flex items-center gap-0.5 text-[11px] font-semibold text-amber-500 bg-amber-50 px-1.5 py-0.5 rounded shrink-0">
+                                  <Star size={11} fill="#F59E0B" className="text-amber-500" />
+                                  {casino.rating}
+                                </span>
+                              )}
+                            </div>
+                            <p className="text-xs text-slate-400 truncate mt-0.5">
+                              {casino.short_description || 'Online Casino Review & Bonuses'}
+                            </p>
+                          </div>
+
+                          {/* View Review Link */}
+                          <div className="shrink-0 text-xs font-semibold text-[#2E68FB] opacity-0 group-hover:opacity-100 transition-opacity flex items-center gap-1">
+                            <span>Review</span>
+                            <span>→</span>
+                          </div>
+                        </Link>
+                      );
+                    })
+                  ) : (
+                    <div className="text-center py-8 px-4 text-slate-500">
+                      <p className="text-sm font-semibold text-slate-700">No casinos found</p>
+                      <p className="text-xs text-slate-400 mt-1">
+                        No results matching &ldquo;{searchQuery}&rdquo;
+                      </p>
+                    </div>
+                  )}
+                </div>
+              </div>
+            )}
           </div>
 
           {/* Right Section */}

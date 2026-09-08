@@ -19,6 +19,7 @@ import {
   ChevronUp,
 } from 'lucide-react';
 import { getImageUrl } from '@/lib/utils/getImageUrl';
+import { formatPayoutTime } from '@/lib/utils';
 
 interface CasinoBonus {
   id: string;
@@ -161,16 +162,16 @@ function CasinoCard({ casino, index }: { casino: Casino; index: number }) {
                 <p className="text-[10px] font-bold text-slate-400 uppercase tracking-wider">
                   Min Deposit
                 </p>
-                <p className="text-xs font-semibold text-slate-800 mt-0.5">
+                <p className="text-xs font-semibold text-slate-800 mt-0.5 truncate">
                   {casino.minimum_deposit ? `$${casino.minimum_deposit}` : 'N/A'}
                 </p>
               </div>
-              <div className="border-l border-slate-200">
+              <div className="border-l border-slate-200" title={casino.withdrawal_time || 'N/A'}>
                 <p className="text-[10px] font-bold text-slate-400 uppercase tracking-wider">
                   Withdrawal
                 </p>
-                <p className="text-xs font-semibold text-slate-800 mt-0.5">
-                  {casino.withdrawal_time || 'N/A'}
+                <p className="text-xs font-semibold text-slate-800 mt-0.5 line-clamp-2 leading-tight">
+                  {formatPayoutTime(casino.withdrawal_time)}
                 </p>
               </div>
             </div>

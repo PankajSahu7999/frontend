@@ -7,6 +7,7 @@ import { useCasinos } from '@/hooks/useRedux';
 import { getImageUrl } from '@/lib/utils/getImageUrl';
 import Link from "next/link";
 import CasinoCardDisclaimer from '@/components/CasinoCardDisclaimer';
+import { formatPayoutTime } from '@/lib/utils';
 export default function PopularCasinoSection( {
   casinos,
 }: {
@@ -109,7 +110,7 @@ export default function PopularCasinoSection( {
       {/* Cards */}
       <div
         ref={scrollContainerRef}
-        className="flex gap-4 overflow-x-auto pb-2 scroll-smooth"
+        className="flex gap-4 overflow-x-auto pb-2 scroll-smooth items-stretch"
         style={{
           scrollbarWidth: 'none',
           msOverflowStyle: 'none',
@@ -128,120 +129,117 @@ function CasinoCard({ casino }: { casino: any }) {
   const imageUrl = getImageUrl(casino.logo || casino.featured_image || '/images/888.png');
 
   return (
-    <div className="card-animated-border rounded-[24px] p-[2px] shrink-0 cursor-pointer">
+    <div className="card-animated-border rounded-[24px] p-[2px] shrink-0 cursor-pointer flex flex-col h-full">
       <div
-        className="flex flex-col p-4 rounded-[22px] justify-between transition-colors duration-200"
+        className="flex flex-col p-4 rounded-[22px] justify-between flex-1 w-full h-full transition-colors duration-200"
         style={{
           width: "340px",
-          minHeight: "400px",
           background:
             "linear-gradient(231.79deg, #D5EDFF 32.55%, #EEECFF 43.54%, #F9F3FF 53.23%, #F5FCFF 66.16%, #E9F5FF 79.08%)",
         }}
       >
-      {/* 1. Header (Logo + Title) */}
-      <div className="flex gap-3 items-center">
-        <div className="relative w-20 h-20 bg-white rounded-xl overflow-hidden shadow-sm flex-shrink-0 border border-gray-100 p-1 group-hover:scale-105 transition-transform duration-200">
-          <Image
-            src={imageUrl}
-            alt={casino.name || 'Casino'}
-            fill
-            className="object-contain p-1"
-            unoptimized
-          />
-        </div>
-        <div>
-          <h3 className="text-[22px] font-bold text-[#151515] leading-tight hover:text-[#2E68FB] transition-colors">
-            {casino.name || 'BC Game Casino'}
-          </h3>
-          <p
-            className="text-[11px] text-[#666] mt-0.5"
-            style={{
-              display: '-webkit-box',
-              WebkitLineClamp: 2,
-              WebkitBoxOrient: 'vertical',
-              overflow: 'hidden',
-            }}
-          >
-            {casino.short_description || 'Premium Casino Experience'}
-          </p>
-        </div>
-      </div>
-
-      {/* 2. Rating & Badges Row */}
-      <div className="flex items-center justify-between mt-3">
-        <div className="flex items-center gap-1">
-          <div className="flex gap-0.5">
-            {[...Array(5)].map((_, i) => (
-              <Star key={i} size={13} fill="#FFB000" color="#FFB000" />
-            ))}
+        {/* 1. Header (Logo + Title) */}
+        <div className="flex gap-3 items-center">
+          <div className="relative w-20 h-20 bg-white rounded-xl overflow-hidden shadow-sm flex-shrink-0 border border-gray-100 p-1 group-hover:scale-105 transition-transform duration-200">
+            <Image
+              src={imageUrl}
+              alt={casino.name || 'Casino'}
+              fill
+              className="object-contain p-1"
+              unoptimized
+            />
           </div>
-          <span className="text-[12px] font-bold text-[#363636] ml-1">
-            {casino.rating || '4.9'}
+          <div className="min-w-0 flex-1">
+            <h3 className="text-[20px] font-bold text-[#151515] leading-tight hover:text-[#2E68FB] transition-colors truncate" title={casino.name || 'Casino'}>
+              {casino.name || 'BC Game Casino'}
+            </h3>
+            <p
+              className="text-[11px] text-[#666] mt-0.5 line-clamp-2 h-[34px] leading-[17px] overflow-hidden"
+              title={casino.short_description}
+            >
+              {casino.short_description || 'Premium Casino Experience'}
+            </p>
+          </div>
+        </div>
+
+        {/* 2. Rating & Badges Row */}
+        <div className="flex items-center justify-between mt-3">
+          <div className="flex items-center gap-1">
+            <div className="flex gap-0.5">
+              {[...Array(5)].map((_, i) => (
+                <Star key={i} size={13} fill="#FFB000" color="#FFB000" />
+              ))}
+            </div>
+            <span className="text-[12px] font-bold text-[#363636] ml-1">
+              {casino.rating || '4.9'}
+            </span>
+          </div>
+
+          <div className="flex gap-1">
+            <span className="text-[9px] font-bold text-white px-2 py-0.5 rounded-md bg-gradient-to-r from-[#FFB000] to-[#FF8A00] shadow-2xs">
+              Top Pick
+            </span>
+            <span className="text-[9px] font-bold text-white px-2 py-0.5 rounded-md bg-[#00B67A] shadow-2xs">
+              Fast Pay
+            </span>
+          </div>
+        </div>
+
+        {/* 3. Main Welcome Bonus Box */}
+        <div className="mt-3 px-3 py-2 rounded-xl bg-[#2E68FB] text-white flex flex-col justify-center h-[54px] shadow-sm">
+          <span className="text-[9px] font-semibold tracking-wider uppercase text-blue-100 block">
+            Exclusive Welcome
+          </span>
+          <span className="text-[13px] font-bold mt-0.5 leading-snug line-clamp-1 truncate" title={welcomeBonus}>
+            {welcomeBonus}
           </span>
         </div>
 
-        <div className="flex gap-1">
-          <span className="text-[9px] font-bold text-white px-2 py-0.5 rounded-md bg-gradient-to-r from-[#FFB000] to-[#FF8A00] shadow-2xs">
-            Top Pick
-          </span>
-          <span className="text-[9px] font-bold text-white px-2 py-0.5 rounded-md bg-[#00B67A] shadow-2xs">
-            Fast Pay
-          </span>
-        </div>
-      </div>
+        {/* 4. Details 2x2 Info Grid */}
+        <div className="grid grid-cols-2 gap-2 mt-3">
+          {/* Min Deposit */}
+          <div className="p-2 bg-white/50 border border-[#2E68FB20] rounded-lg h-[50px] flex flex-col justify-center">
+            <span className="block text-[9px] font-semibold text-[#2E68FB] uppercase">
+              Min Deposit
+            </span>
+            <span className="text-[12px] font-bold text-[#363636] truncate">
+              {casino.minimum_deposit ? `$${casino.minimum_deposit}` : '€20'}
+            </span>
+          </div>
 
-      {/* 3. Main Welcome Bonus Box */}
-      <div className="mt-3 p-3 rounded-xl bg-[#2E68FB] text-white flex flex-col justify-center shadow-sm">
-        <span className="text-[9px] font-semibold tracking-wider uppercase text-blue-100">
-          Exclusive Welcome
-        </span>
-        <span className="text-[14px] font-bold mt-0.5 leading-snug">
-          {welcomeBonus}
-        </span>
-      </div>
+          {/* Payout */}
+          <div
+            className="p-2 bg-white/50 border border-[#2E68FB20] rounded-lg h-[50px] flex flex-col justify-center"
+            title={casino.withdrawal_time || '2-4 Hours'}
+          >
+            <span className="block text-[9px] font-semibold text-[#2E68FB] uppercase">
+              Payout
+            </span>
+            <span className="text-[12px] font-bold text-[#363636] line-clamp-1 truncate">
+              {formatPayoutTime(casino.withdrawal_time)}
+            </span>
+          </div>
 
-      {/* 4. Details 2x2 Info Grid */}
-      <div className="grid grid-cols-2 gap-2 mt-3">
-        {/* Min Deposit */}
-        <div className="p-2 bg-white/50 border border-[#2E68FB20] rounded-lg">
-          <span className="block text-[9px] font-semibold text-[#2E68FB] uppercase">
-            Min Deposit
-          </span>
-          <span className="text-[12px] font-bold text-[#363636]">
-            {casino.minimum_deposit ? `$${casino.minimum_deposit}` : '€20'}
-          </span>
-        </div>
+          {/* Games */}
+          <div className="p-2 bg-white/50 border border-[#2E68FB20] rounded-lg h-[50px] flex flex-col justify-center">
+            <span className="block text-[9px] font-semibold text-[#00B67A] uppercase">
+              Games
+            </span>
+            <span className="text-[12px] font-bold text-[#00B67A] truncate">
+              {casino.games_count || '2400+ Games'}
+            </span>
+          </div>
 
-        {/* Payout */}
-        <div className="p-2 bg-white/50 border border-[#2E68FB20] rounded-lg">
-          <span className="block text-[9px] font-semibold text-[#2E68FB] uppercase">
-            Payout
-          </span>
-          <span className="text-[12px] font-bold text-[#363636]">
-            {casino.withdrawal_time || '2-4 Hours'}
-          </span>
+          {/* Established Year */}
+          <div className="p-2 bg-white/50 border border-[#2E68FB20] rounded-lg h-[50px] flex flex-col justify-center">
+            <span className="block text-[9px] font-semibold text-[#2E68FB] uppercase">
+              Established Year
+            </span>
+            <span className="text-[12px] font-bold text-[#363636] truncate">
+              {casino.established_year || '2020'}
+            </span>
+          </div>
         </div>
-
-        {/* Games */}
-        <div className="p-2 bg-white/50 border border-[#2E68FB20] rounded-lg">
-          <span className="block text-[9px] font-semibold text-[#00B67A] uppercase">
-            Games
-          </span>
-          <span className="text-[12px] font-bold text-[#00B67A]">
-            {casino.games_count || '2400+ Games'}
-          </span>
-        </div>
-
-        {/* Established Year */}
-        <div className="p-2 bg-white/50 border border-[#2E68FB20] rounded-lg">
-          <span className="block text-[9px] font-semibold text-[#2E68FB] uppercase">
-            Established Year
-          </span>
-          <span className="text-[12px] font-bold text-[#363636]">
-            {casino.established_year || '2020'}
-          </span>
-        </div>
-      </div>
 
       {/* 5. Bottom Buttons Row */}
       <div className="flex gap-2 mt-4">

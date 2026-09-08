@@ -18,6 +18,7 @@ import {
 import Breadcrumbs from '@/components/seo/Breadcrumbs';
 import CasinoCardDisclaimer from '@/components/CasinoCardDisclaimer';
 import { getImageUrl } from '@/lib/utils/getImageUrl';
+import { formatPayoutTime } from '@/lib/utils';
 
 const ICON_MAP: Record<string, any> = {
   Gift,
@@ -389,22 +390,25 @@ export default function CasinoBonusesClient({
                             </div>
 
                             {/* Games */}
-                            <div className="p-2 bg-white/60 border border-[#2E68FB20] rounded-lg">
+                            <div className="p-2 bg-white/60 border border-[#2E68FB20] rounded-lg min-h-[52px] flex flex-col justify-center">
                               <span className="block text-[9px] font-semibold text-[#00B67A] uppercase">
                                 Games
                               </span>
-                              <span className="text-[12px] font-bold text-[#00B67A]">
+                              <span className="text-[12px] font-bold text-[#00B67A] truncate">
                                 {casino.games_count ? `${casino.games_count}+ Games` : '2500+ Games'}
                               </span>
                             </div>
 
                             {/* Payout */}
-                            <div className="p-2 bg-white/60 border border-[#2E68FB20] rounded-lg">
+                            <div
+                              className="p-2 bg-white/60 border border-[#2E68FB20] rounded-lg min-h-[52px] flex flex-col justify-center"
+                              title={casino.withdrawal_time || 'Instant / 24h'}
+                            >
                               <span className="block text-[9px] font-semibold text-[#2E68FB] uppercase">
                                 Payout
                               </span>
-                              <span className="text-[12px] font-bold text-[#363636]">
-                                {casino.withdrawal_time || 'Instant / 24h'}
+                              <span className="text-[12px] font-bold text-[#363636] line-clamp-2 leading-tight">
+                                {formatPayoutTime(casino.withdrawal_time)}
                               </span>
                             </div>
                           </div>

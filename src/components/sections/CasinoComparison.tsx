@@ -15,6 +15,7 @@ import Link from 'next/link';
 
 import { useCasinos } from '@/hooks/useRedux';
 import { getImageUrl } from '@/lib/utils/getImageUrl';
+import { formatPayoutTime } from '@/lib/utils';
 
 type CasinoFromStore = ReturnType<typeof useCasinos>['casinos'][number];
 
@@ -259,12 +260,15 @@ export default function CasinoComparison() {
     children,
     winner = false,
     muted = false,
+    title,
   }: {
     children: React.ReactNode;
     winner?: boolean;
     muted?: boolean;
+    title?: string;
   }) => (
     <div
+      title={title}
       className={[
         'flex min-h-[48px] items-center border-l border-gray-100 px-4 py-3 text-[13px] leading-5',
         winner ? 'bg-[#FFFBEA]' : 'bg-white',
@@ -780,8 +784,10 @@ export default function CasinoComparison() {
 
                     <ComparisonRow label="Withdrawal Time">
                       {selectedCasinos.map((casino) => (
-                        <ValueCell key={casino.id}>
-                          {casino.withdrawal_time || 'Not listed'}
+                        <ValueCell key={casino.id} title={casino.withdrawal_time || 'Not listed'}>
+                          <span className="line-clamp-2 leading-tight">
+                            {formatPayoutTime(casino.withdrawal_time)}
+                          </span>
                         </ValueCell>
                       ))}
 
@@ -982,8 +988,10 @@ export default function CasinoComparison() {
 
                     <ComparisonRow label="Withdrawal Time">
                       {selectedCasinos.map((casino) => (
-                        <ValueCell key={casino.id}>
-                          {casino.withdrawal_time || 'Not listed'}
+                        <ValueCell key={casino.id} title={casino.withdrawal_time || 'Not listed'}>
+                          <span className="line-clamp-2 leading-tight">
+                            {formatPayoutTime(casino.withdrawal_time)}
+                          </span>
                         </ValueCell>
                       ))}
 
