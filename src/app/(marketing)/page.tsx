@@ -1,5 +1,5 @@
 import { SITE } from "@/constants";
-import { generateSEO } from "@/lib/seo";
+import { generateSEO, getAllCasinos, getAllNews } from "@/lib/seo";
 import {
   buildSchemaGraph,
   organizationSchema,
@@ -23,7 +23,12 @@ export const metadata = generateSEO({
   ],
 });
 
-export default function Home() {
+export default async function Home() {
+  const [initialCasinos, initialNews] = await Promise.all([
+    getAllCasinos().catch(() => []),
+    getAllNews().catch(() => []),
+  ]);
+
   const homeSchema = buildSchemaGraph({
     organization: organizationSchema(),
     website: websiteSchema(),
@@ -37,7 +42,10 @@ export default function Home() {
   return (
     <>
       <JsonLd data={homeSchema} />
-      <HomeContent />
+      <HomeContent
+        initialCasinos={initialCasinos || []}
+        initialNews={initialNews || []}
+      />
     </>
   );
 }

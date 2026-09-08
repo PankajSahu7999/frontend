@@ -22,16 +22,35 @@ function Tag({ label, color }: { label: string; color: string }) {
   );
 }
 
-export function NewsCarousel() {
-  const { news, loading } = useNews();
+function formatPublishedDate(dateStr?: string) {
+  if (!dateStr) return 'Recent';
+  try {
+    const d = new Date(dateStr);
+    if (isNaN(d.getTime())) return 'Recent';
+    const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+    return `${months[d.getUTCMonth()]} ${d.getUTCDate()}, ${d.getUTCFullYear()}`;
+  } catch {
+    return 'Recent';
+  }
+}
+
+interface NewsCarouselProps {
+  news?: any[];
+}
+
+export function NewsCarousel({ news: propNews }: NewsCarouselProps = {}) {
+  const { news: reduxNews, loading: reduxLoading } = useNews();
   const [startIndex, setStartIndex] = useState(0);
 
+  const rawNews = (propNews && propNews.length > 0) ? propNews : reduxNews;
+  const loading = propNews !== undefined ? false : reduxLoading;
+
   // Transform news data to match the component's expected format
-  const newsItems: NewsItem[] = news.map((item: any) => ({
+  const newsItems: NewsItem[] = rawNews.map((item: any) => ({
     id: item.id,
     featured_image: item.featured_image || 'https://images.unsplash.com/photo-1497366216548-37526070297c?w=800&q=80',
     author: item.author?.name || 'Casino Reviews Book',
-    published_at: item.published_at ? new Date(item.published_at).toLocaleDateString('en-US', { day: 'numeric', month: 'short', year: 'numeric' }) : 'Recent',
+    published_at: formatPublishedDate(item.published_at),
     title: item.title,
     excerpt: item.excerpt || item.content?.substring(0, 150) + '...',
     tags: [

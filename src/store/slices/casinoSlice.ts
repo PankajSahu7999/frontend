@@ -115,6 +115,12 @@ const casinoSlice = createSlice({
     clearError: (state) => {
       state.error = null;
     },
+    setInitialCasinos: (state, action: PayloadAction<Casino[]>) => {
+      if (state.casinos.length === 0) {
+        state.casinos = action.payload;
+        state.filteredCasinos = action.payload;
+      }
+    },
     setCurrentCasino: (state, action: PayloadAction<Casino | null>) => {
       state.currentCasino = action.payload;
     },
@@ -237,5 +243,5 @@ const casinoSlice = createSlice({
   },
 });
 
-export const { clearError, setCurrentCasino, filterCasinosByTags, filterCasinosAdvanced } = casinoSlice.actions;
+export const { clearError, setInitialCasinos, setCurrentCasino, filterCasinosByTags, filterCasinosAdvanced } = casinoSlice.actions;
 export default casinoSlice.reducer;

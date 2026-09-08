@@ -81,7 +81,7 @@ export default function PopularCasinoSection( {
           <div className="flex items-center gap-3">
             <button className="hidden md:flex items-center bg-white px-4 py-2 rounded-full text-sm font-medium shadow-sm text-[#16171D]">
               See all
-              <span className="ml-2 text-[#98A2B3]">{filteredCasinos.length}</span>
+              <span className="ml-2 text-[#98A2B3]">{displayCasinos.length}</span>
             </button>
             <button
               className="w-10 h-10 rounded-full bg-white flex items-center justify-center shadow-sm border border-gray-100"

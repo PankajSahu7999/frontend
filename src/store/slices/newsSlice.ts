@@ -65,6 +65,11 @@ const newsSlice = createSlice({
     clearError: (state) => {
       state.error = null;
     },
+    setInitialNews: (state, action: PayloadAction<News[]>) => {
+      if (state.news.length === 0) {
+        state.news = action.payload;
+      }
+    },
     setCurrentNews: (state, action: PayloadAction<News | null>) => {
       state.currentNews = action.payload;
     },
@@ -99,5 +104,5 @@ const newsSlice = createSlice({
   },
 });
 
-export const { clearError, setCurrentNews } = newsSlice.actions;
+export const { clearError, setInitialNews, setCurrentNews } = newsSlice.actions;
 export default newsSlice.reducer;

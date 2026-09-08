@@ -39,10 +39,11 @@ export function FAQSection({
   title = 'Frequently Asked Questions',
   description = 'Everything you need to know about online casinos, bonuses, payments, and safety. Can\'t find your answer? Reach out to our team.',
   includeSchema = true,
-  pageUrl = typeof window !== 'undefined' ? window.location.href : 'https://casinoreviewsbook.com',
+  pageUrl = 'https://casinoreviewsbook.com',
 }: FAQSectionProps) {
-  const [faqs, setFaqs] = useState<FAQItem[]>(propFaqs || []);
-  const [loading, setLoading] = useState(!propFaqs || propFaqs.length === 0);
+  const initialFaqs = propFaqs && propFaqs.length > 0 ? propFaqs : DEFAULT_FAQS;
+  const [faqs, setFaqs] = useState<FAQItem[]>(initialFaqs);
+  const [loading, setLoading] = useState(false);
   const [openIndex, setOpenIndex] = useState(0);
 
   const baseUrl = API_CONFIG.baseURL || process.env.NEXT_PUBLIC_API_URL || 'http://localhost:4000/api';
