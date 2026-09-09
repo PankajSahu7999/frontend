@@ -568,7 +568,7 @@ export default function CryptoGambling101Client() {
                 </button>
               ) : (
                 <Link
-                  href="/casinos/best-crypto-casinos"
+                  href="/casinos/crypto-casinos"
                   className="px-5 py-2 rounded-xl bg-[#00B67A] text-white text-xs font-bold hover:bg-emerald-600 transition flex items-center gap-1.5"
                 >
                   View Top Verified Casinos{" "}
