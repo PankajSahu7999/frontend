@@ -17,7 +17,11 @@ export default function CasinoWebsitePreview({
   featuredImage,
   casinoName = 'Casino',
 }: CasinoWebsitePreviewProps) {
-  const cleanAffiliateUrl = (affiliateUrl || '').trim();
+  const rawAffiliate = (affiliateUrl || '').trim();
+  const cleanAffiliateUrl =
+    rawAffiliate && !/^https?:\/\//i.test(rawAffiliate)
+      ? `https://${rawAffiliate}`
+      : rawAffiliate;
 
   // Initialize from client cache if already inspected during this session
   const cachedStatus = cleanAffiliateUrl ? embedStatusCache.get(cleanAffiliateUrl) : undefined;
