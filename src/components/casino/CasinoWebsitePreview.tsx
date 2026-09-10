@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { getImageUrl } from '@/lib/utils/getImageUrl';
 
 interface CasinoWebsitePreviewProps {
@@ -14,56 +14,19 @@ export default function CasinoWebsitePreview({
   featuredImage,
   casinoName = 'Casino',
 }: CasinoWebsitePreviewProps) {
-  const [canEmbed, setCanEmbed] = useState<boolean | null>(null);
-
   const cleanAffiliateUrl = (affiliateUrl || '').trim();
 
-  useEffect(() => {
-    // If no affiliate URL is provided, immediately switch to admin banner
-    if (!cleanAffiliateUrl) {
-      setCanEmbed(false);
-      return;
-    }
+  // If no affiliate URL at all, show banner
+  const [hasError, setHasError] = useState(!cleanAffiliateUrl);
+  const [isLoading, setIsLoading] = useState(Boolean(cleanAffiliateUrl));
 
-    let isMounted = true;
-
-    const checkEmbeddable = async () => {
-      try {
-        const rawApiUrl = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:4000/api';
-        const baseApiUrl = rawApiUrl.replace(/\/api\/?$/, '');
-
-        const res = await fetch(
-          `${baseApiUrl}/api/check-frame?url=${encodeURIComponent(cleanAffiliateUrl)}`
-        );
-
-        if (res.ok) {
-          const data = await res.json();
-          if (isMounted) {
-            setCanEmbed(data.canEmbed === true);
-          }
-        } else {
-          // If the endpoint is unavailable or returns an error, fallback to banner image
-          if (isMounted) setCanEmbed(false);
-        }
-      } catch {
-        if (isMounted) setCanEmbed(false);
-      }
-    };
-
-    checkEmbeddable();
-
-    return () => {
-      isMounted = false;
-    };
-  }, [cleanAffiliateUrl]);
-
-  // If neither affiliate URL nor featured image exists, render nothing
+  // If neither affiliate URL nor featured image exists
   if (!cleanAffiliateUrl && !featuredImage) {
     return null;
   }
 
-  // If live interactive preview is not available or blocked, automatically display admin banner
-  if (canEmbed === false || !cleanAffiliateUrl) {
+  // If no affiliate URL or if iframe explicitly errored out, show admin banner image
+  if (hasError || !cleanAffiliateUrl) {
     if (!featuredImage) return null;
     return (
       <div className="w-full h-auto mb-10 rounded-2xl overflow-hidden shadow-sm">
@@ -77,34 +40,33 @@ export default function CasinoWebsitePreview({
     );
   }
 
-  // Live interactive frame (fills simple banner container with zero extra text/sections)
+  // Live interactive frame (pure banner type, zero text, no premature fallback)
   return (
-    <div className="w-full h-[400px] sm:h-[480px] lg:h-[550px] mb-10 rounded-2xl overflow-hidden shadow-md bg-slate-950 relative">
-      {canEmbed === true && (
-        <iframe
-          src={cleanAffiliateUrl}
-          title={casinoName || 'Casino Live Preview'}
-          className="w-full h-full border-0"
-          sandbox="allow-scripts allow-same-origin allow-forms allow-popups allow-modals"
-          loading="lazy"
-          onError={() => setCanEmbed(false)}
-        />
+    <div className="w-full h-[450px] sm:h-[520px] lg:h-[600px] mb-10 rounded-2xl overflow-hidden shadow-md bg-slate-950 relative">
+      {/* Loading overlay while iframe is fetching the site */}
+      {isLoading && (
+        <div className="absolute inset-0 z-10 flex flex-col items-center justify-center bg-slate-900/80 backdrop-blur-sm text-white gap-3 pointer-events-none">
+          <div className="w-10 h-10 border-3 border-white/20 border-t-blue-500 rounded-full animate-spin" />
+          <span className="text-xs font-medium text-slate-300">
+            Loading live preview...
+          </span>
+        </div>
       )}
 
-      {canEmbed === null && (
-        featuredImage ? (
-          // eslint-disable-next-line @next/next/no-img-element
-          <img
-            src={getImageUrl(featuredImage)}
-            alt={casinoName || 'Casino Banner'}
-            className="w-full h-full object-cover"
-          />
-        ) : (
-          <div className="w-full h-full flex items-center justify-center bg-slate-900">
-            <div className="w-8 h-8 border-3 border-white/20 border-t-blue-500 rounded-full animate-spin"></div>
-          </div>
-        )
-      )}
+      <iframe
+        src={cleanAffiliateUrl}
+        title={casinoName || 'Casino Live Preview'}
+        className="w-full h-full border-0"
+        sandbox="allow-scripts allow-same-origin allow-forms allow-popups allow-modals"
+        loading="eager"
+        onLoad={() => {
+          setIsLoading(false);
+        }}
+        onError={() => {
+          setIsLoading(false);
+          setHasError(true);
+        }}
+      />
     </div>
   );
 }
