@@ -20,11 +20,16 @@ export default function CasinoWebsitePreview({
   const [isChecking, setIsChecking] = useState<boolean>(Boolean(cleanAffiliateUrl));
 
   useEffect(() => {
+    // If no affiliate URL, immediately fallback to admin banner
     if (!cleanAffiliateUrl) {
       setCanEmbed(false);
       setIsChecking(false);
       return;
     }
+
+    // Reset state whenever the URL changes
+    setCanEmbed(null);
+    setIsChecking(true);
 
     let isMounted = true;
 
@@ -44,7 +49,7 @@ export default function CasinoWebsitePreview({
             setIsChecking(false);
           }
         } else {
-          // If check endpoint is unreachable or 404, fallback to admin banner
+          // If check endpoint is unreachable, fallback to admin banner
           if (isMounted) {
             setCanEmbed(false);
             setIsChecking(false);
@@ -70,7 +75,7 @@ export default function CasinoWebsitePreview({
     return null;
   }
 
-  // While checking: render the admin banner image immediately so there is zero layout shift or delay
+  // While checking: render admin banner image so there is zero layout flicker
   if (isChecking) {
     if (featuredImage) {
       return (
@@ -91,7 +96,7 @@ export default function CasinoWebsitePreview({
     );
   }
 
-  // If the website refuses to connect (X-Frame-Options: SAMEORIGIN / CSP frame-ancestors / blocked) -> SHOW BANNER IMAGE
+  // If the website refuses to connect or blocks embedding -> show admin banner image
   if (!canEmbed || !cleanAffiliateUrl) {
     if (!featuredImage) return null;
     return (
@@ -110,12 +115,12 @@ export default function CasinoWebsitePreview({
   return (
     <div className="w-full h-[450px] sm:h-[520px] lg:h-[600px] mb-10 rounded-2xl overflow-hidden shadow-md bg-slate-950 relative">
       <iframe
+        key={cleanAffiliateUrl}
         src={cleanAffiliateUrl}
         title={casinoName || 'Casino Live Preview'}
         className="w-full h-full border-0"
         sandbox="allow-scripts allow-same-origin allow-forms allow-popups allow-modals"
         loading="eager"
-        onError={() => setCanEmbed(false)}
       />
     </div>
   );

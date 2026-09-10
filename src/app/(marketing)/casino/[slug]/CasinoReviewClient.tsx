@@ -416,6 +416,7 @@ export default function CasinoReviewClient({ casino }: Props) {
 
       {/* CASINO LIVE INTERACTIVE FRAME / ADMIN BANNER */}
       <CasinoWebsitePreview
+        key={casino.id || casino.slug}
         affiliateUrl={casino.affiliate_url}
         casinoName={casino.name}
         featuredImage={casino.featured_image}
