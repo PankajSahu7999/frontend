@@ -22,31 +22,26 @@ export default function CasinoWebsitePreview({
   // Initialize from client cache if already inspected during this session
   const cachedStatus = cleanAffiliateUrl ? embedStatusCache.get(cleanAffiliateUrl) : undefined;
 
-  const [canEmbed, setCanEmbed] = useState<boolean | null>(
-    cachedStatus !== undefined ? cachedStatus : null
-  );
-  const [isChecking, setIsChecking] = useState<boolean>(
-    Boolean(cleanAffiliateUrl) && cachedStatus === undefined
-  );
+  // Priority is to show web preview first!
+  // If known to be blocked (cachedStatus === false), show banner immediately.
+  // Otherwise default to true so live web preview mounts and loads first.
+  const [canEmbed, setCanEmbed] = useState<boolean>(cachedStatus !== false);
 
   useEffect(() => {
-    // If no affiliate URL, immediately fallback to admin banner
+    // If no affiliate URL, fallback to admin banner
     if (!cleanAffiliateUrl) {
       setCanEmbed(false);
-      setIsChecking(false);
       return;
     }
 
     // If already in client-side memory cache, use cached decision instantly
     if (embedStatusCache.has(cleanAffiliateUrl)) {
-      const cached = embedStatusCache.get(cleanAffiliateUrl)!;
-      setCanEmbed(cached);
-      setIsChecking(false);
+      setCanEmbed(embedStatusCache.get(cleanAffiliateUrl)!);
       return;
     }
 
-    setCanEmbed(null);
-    setIsChecking(true);
+    // Default to true (priority to show web preview first) while checking in background
+    setCanEmbed(true);
 
     let isMounted = true;
 
@@ -90,19 +85,15 @@ export default function CasinoWebsitePreview({
           }
         }
 
-        const finalCanEmbed = canEmbedResult ?? false;
+        // Only switch to false if explicitly confirmed blocked
+        const finalCanEmbed = canEmbedResult ?? true;
         embedStatusCache.set(cleanAffiliateUrl, finalCanEmbed);
 
         if (isMounted) {
           setCanEmbed(finalCanEmbed);
-          setIsChecking(false);
         }
       } catch {
-        if (isMounted) {
-          embedStatusCache.set(cleanAffiliateUrl, false);
-          setCanEmbed(false);
-          setIsChecking(false);
-        }
+        // In case of unexpected check error, retain web preview
       }
     };
 
@@ -118,28 +109,7 @@ export default function CasinoWebsitePreview({
     return null;
   }
 
-  // While checking: render admin banner image so there is zero layout flicker
-  if (isChecking) {
-    if (featuredImage) {
-      return (
-        <div className="w-full h-auto mb-10 rounded-2xl overflow-hidden shadow-sm">
-          {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img
-            src={getImageUrl(featuredImage)}
-            alt={casinoName || 'Casino Banner'}
-            className="w-full h-full object-cover"
-          />
-        </div>
-      );
-    }
-    return (
-      <div className="w-full h-[360px] sm:h-[450px] mb-10 rounded-2xl overflow-hidden shadow-sm bg-slate-900 flex items-center justify-center">
-        <div className="w-8 h-8 border-3 border-white/20 border-t-blue-500 rounded-full animate-spin" />
-      </div>
-    );
-  }
-
-  // If the website refuses to connect or blocks embedding -> show admin banner image
+  // If the website refuses to connect, blocks embedding, or has no affiliate URL -> show admin banner image
   if (!canEmbed || !cleanAffiliateUrl) {
     if (!featuredImage) return null;
     return (
@@ -154,14 +124,18 @@ export default function CasinoWebsitePreview({
     );
   }
 
-  // Live interactive frame (pure banner type, zero text, zero sections)
+  // Live interactive frame (pure banner type container, web preview loads first)
   return (
     <div className="w-full h-[450px] sm:h-[520px] lg:h-[600px] mb-10 rounded-2xl overflow-hidden shadow-md bg-slate-950 relative">
+      <div className="absolute inset-0 flex flex-col items-center justify-center gap-3 z-0 pointer-events-none">
+        <div className="w-8 h-8 border-3 border-white/20 border-t-amber-500 rounded-full animate-spin" />
+        <span className="text-xs text-white/50 font-medium">Loading live preview...</span>
+      </div>
       <iframe
         key={cleanAffiliateUrl}
         src={cleanAffiliateUrl}
         title={casinoName || 'Casino Live Preview'}
-        className="w-full h-full border-0"
+        className="w-full h-full border-0 relative z-10 bg-transparent"
         sandbox="allow-scripts allow-same-origin allow-forms allow-popups allow-modals"
         loading="eager"
       />
