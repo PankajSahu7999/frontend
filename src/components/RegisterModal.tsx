@@ -30,10 +30,10 @@ export default function RegisterModal({ isOpen, onClose }: RegisterModalProps) {
   useEffect(() => {
     if (isOpen && !formData.country) {
       setIsFetchingCountry(true);
-      fetch('https://ipapi.co/json/')
+      fetch('https://ipwho.is/')
         .then((r) => r.json())
         .then((data) => {
-          const countryName = data.country_name || '';
+          const countryName = data.country || data.country_name || '';
           if (countryName) {
             setFormData((prev) => ({ ...prev, country: countryName }));
           }

@@ -89,7 +89,7 @@ export function getCountryFromTimezone(): string | null {
 
 /**
  * Detect user's country using fast edge IP geolocation
- * Multi-tiered fallback: api.country.is -> freeipapi.com -> ipapi.co -> timezone -> locale
+ * Multi-tiered fallback: api.country.is -> freeipapi.com -> ipwho.is -> timezone -> locale
  */
 export async function detectUserCountry(): Promise<string> {
   // 1. Try api.country.is (Cloudflare Edge, ultra-fast, open CORS)
@@ -118,16 +118,13 @@ export async function detectUserCountry(): Promise<string> {
     // try next
   }
 
-  // 3. Try ipapi.co
+  // 3. Try ipwho.is (open CORS, free, fast)
   try {
-    const res = await fetch('https://ipapi.co/json/');
+    const res = await fetch('https://ipwho.is/');
     if (res.ok) {
       const data = await res.json();
-      if (!data.error) {
-        const code = data.country_code || data.country;
-        if (code && typeof code === 'string' && code.length === 2) {
-          return code.toUpperCase();
-        }
+      if (data.success !== false && data.country_code && typeof data.country_code === 'string' && data.country_code.length === 2) {
+        return data.country_code.toUpperCase();
       }
     }
   } catch {

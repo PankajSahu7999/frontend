@@ -6,6 +6,15 @@ import Sidebar from '@/components/layout/Sidebar';
 import { Footer } from '@/components/layout/Footer';
 import BannedPage from '@/components/BannedPage';
 import TelegramJoinPopup from "@/components/modals/TelegramJoinPopup";
+import { getUserCountryCode } from '@/lib/countryDetection';
+
+function isCrawlerOrBot(): boolean {
+  if (typeof window === 'undefined' || typeof navigator === 'undefined') return true;
+  const ua = (navigator.userAgent || '').toLowerCase();
+  return /googlebot|google-inspectiontool|bingbot|baiduspider|duckduckbot|yandexbot|sogou|exabot|facebot|facebookexternalhit|ia_archiver|chrome-lighthouse|lighthouse/i.test(
+    ua
+  );
+}
 
 export default function MarketingLayout({
   children,
@@ -14,28 +23,27 @@ export default function MarketingLayout({
 }) {
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [isBanned, setIsBanned] = useState(false);
-  const API_URL = process.env.NEXT_PUBLIC_API_URL;
 
   useEffect(() => {
+    // Skip country check for search crawlers / bots so SEO crawling and indexing are never blocked
+    if (isCrawlerOrBot()) return;
+
     const checkCountry = async () => {
       try {
-        const [bannedRes, ipRes] = await Promise.all([
-          fetch(`${API_URL}/api/banned-countries`),
-          fetch('https://ipapi.co/json/'),
+        const rawApiUrl = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:4000/api';
+        const baseApiUrl = rawApiUrl.replace(/\/api\/?$/, '');
+
+        const [bannedRes, userCountryCode] = await Promise.all([
+          fetch(`${baseApiUrl}/api/banned-countries`),
+          getUserCountryCode(),
         ]);
 
-        if (!bannedRes.ok || !ipRes.ok) return;
+        if (!bannedRes.ok) return;
 
         const bannedCodes: string[] = await bannedRes.json();
-        const ipData = await ipRes.json();
+        const upperCode = (userCountryCode || '').toUpperCase();
 
-        const userCountryCode = (
-          ipData.country_code ||
-          ipData.countryCode ||
-          ''
-        ).toUpperCase();
-
-        if (bannedCodes.includes(userCountryCode)) {
+        if (upperCode && Array.isArray(bannedCodes) && bannedCodes.includes(upperCode)) {
           setIsBanned(true);
         }
       } catch {
@@ -44,7 +52,7 @@ export default function MarketingLayout({
     };
 
     checkCountry();
-  }, [API_URL]);
+  }, []);
 
   if (isBanned) {
     return <BannedPage />;
