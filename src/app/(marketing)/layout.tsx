@@ -7,14 +7,7 @@ import { Footer } from '@/components/layout/Footer';
 import BannedPage from '@/components/BannedPage';
 import TelegramJoinPopup from "@/components/modals/TelegramJoinPopup";
 import { getUserCountryCode } from '@/lib/countryDetection';
-
-function isCrawlerOrBot(): boolean {
-  if (typeof window === 'undefined' || typeof navigator === 'undefined') return true;
-  const ua = (navigator.userAgent || '').toLowerCase();
-  return /googlebot|google-inspectiontool|bingbot|baiduspider|duckduckbot|yandexbot|sogou|exabot|facebot|facebookexternalhit|ia_archiver|chrome-lighthouse|lighthouse/i.test(
-    ua
-  );
-}
+import { isCrawlerOrBot } from '@/lib/crawlerDetection';
 
 export default function MarketingLayout({
   children,

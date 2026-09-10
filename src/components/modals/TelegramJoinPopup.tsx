@@ -1,12 +1,16 @@
-﻿'use client';
+'use client';
 
 import React, { useState, useEffect } from 'react';
 import { Send, X, Gift, Sparkles, ShieldCheck, ArrowRight } from 'lucide-react';
+import { isCrawlerOrBot } from '@/lib/crawlerDetection';
 
 export default function TelegramJoinPopup() {
   const [isOpen, setIsOpen] = useState(false);
 
   useEffect(() => {
+    // Skip modal popup for search crawlers so content is never obscured
+    if (isCrawlerOrBot()) return;
+
     // Show popup shortly after landing if not dismissed in the current session
     const isDismissed = sessionStorage.getItem('crb_telegram_dismissed');
     if (!isDismissed) {

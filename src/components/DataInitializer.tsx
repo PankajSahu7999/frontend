@@ -14,11 +14,15 @@ import { fetchBlogs } from '@/store/slices/blogSlice';
 import { fetchFaqs } from '@/store/slices/faqSlice';
 import { initUserFromStorage } from '@/store/slices/userSlice';
 import { apiService } from '@/services/apiService';
+import { isCrawlerOrBot } from '@/lib/crawlerDetection';
 
 export function DataInitializer() {
   const dispatch = useAppDispatch();
 
   useEffect(() => {
+    // Search engine crawlers already have server-rendered HTML; skip background Redux fetches
+    if (isCrawlerOrBot()) return;
+
     dispatch(initUserFromStorage());
     const initializeData = async () => {
       try {
