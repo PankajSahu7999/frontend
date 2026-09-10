@@ -9,6 +9,9 @@ interface CasinoWebsitePreviewProps {
   casinoName?: string;
 }
 
+// In-memory cache across client navigations to prevent re-fetching and state bleed
+const embedStatusCache = new Map<string, boolean>();
+
 export default function CasinoWebsitePreview({
   affiliateUrl,
   featuredImage,
@@ -16,8 +19,15 @@ export default function CasinoWebsitePreview({
 }: CasinoWebsitePreviewProps) {
   const cleanAffiliateUrl = (affiliateUrl || '').trim();
 
-  const [canEmbed, setCanEmbed] = useState<boolean | null>(null);
-  const [isChecking, setIsChecking] = useState<boolean>(Boolean(cleanAffiliateUrl));
+  // Initialize from client cache if already inspected during this session
+  const cachedStatus = cleanAffiliateUrl ? embedStatusCache.get(cleanAffiliateUrl) : undefined;
+
+  const [canEmbed, setCanEmbed] = useState<boolean | null>(
+    cachedStatus !== undefined ? cachedStatus : null
+  );
+  const [isChecking, setIsChecking] = useState<boolean>(
+    Boolean(cleanAffiliateUrl) && cachedStatus === undefined
+  );
 
   useEffect(() => {
     // If no affiliate URL, immediately fallback to admin banner
@@ -27,7 +37,14 @@ export default function CasinoWebsitePreview({
       return;
     }
 
-    // Reset state whenever the URL changes
+    // If already in client-side memory cache, use cached decision instantly
+    if (embedStatusCache.has(cleanAffiliateUrl)) {
+      const cached = embedStatusCache.get(cleanAffiliateUrl)!;
+      setCanEmbed(cached);
+      setIsChecking(false);
+      return;
+    }
+
     setCanEmbed(null);
     setIsChecking(true);
 
@@ -35,28 +52,54 @@ export default function CasinoWebsitePreview({
 
     const checkEmbeddable = async () => {
       try {
-        const rawApiUrl = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:4000/api';
-        const baseApiUrl = rawApiUrl.replace(/\/api\/?$/, '');
+        let canEmbedResult: boolean | null = null;
 
-        const res = await fetch(
-          `${baseApiUrl}/api/check-frame?url=${encodeURIComponent(cleanAffiliateUrl)}`
-        );
+        // Priority 1: Check internal Next.js frontend route /api/check-frame
+        try {
+          const localRes = await fetch(
+            `/api/check-frame?url=${encodeURIComponent(cleanAffiliateUrl)}`,
+            { cache: 'no-store' }
+          );
+          if (localRes.ok) {
+            const data = await localRes.json();
+            if (typeof data.canEmbed === 'boolean') {
+              canEmbedResult = data.canEmbed;
+            }
+          }
+        } catch {
+          // Local endpoint not reachable, proceed to backend fallback
+        }
 
-        if (res.ok) {
-          const data = await res.json();
-          if (isMounted) {
-            setCanEmbed(data.canEmbed === true);
-            setIsChecking(false);
+        // Priority 2: Fallback to backend API check-frame if local route was unreachable
+        if (canEmbedResult === null) {
+          try {
+            const rawApiUrl = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:4000/api';
+            const baseApiUrl = rawApiUrl.replace(/\/api\/?$/, '');
+            const backendRes = await fetch(
+              `${baseApiUrl}/api/check-frame?url=${encodeURIComponent(cleanAffiliateUrl)}`,
+              { cache: 'no-store' }
+            );
+            if (backendRes.ok) {
+              const data = await backendRes.json();
+              if (typeof data.canEmbed === 'boolean') {
+                canEmbedResult = data.canEmbed;
+              }
+            }
+          } catch {
+            // Backend endpoint also not reachable
           }
-        } else {
-          // If check endpoint is unreachable, fallback to admin banner
-          if (isMounted) {
-            setCanEmbed(false);
-            setIsChecking(false);
-          }
+        }
+
+        const finalCanEmbed = canEmbedResult ?? false;
+        embedStatusCache.set(cleanAffiliateUrl, finalCanEmbed);
+
+        if (isMounted) {
+          setCanEmbed(finalCanEmbed);
+          setIsChecking(false);
         }
       } catch {
         if (isMounted) {
+          embedStatusCache.set(cleanAffiliateUrl, false);
           setCanEmbed(false);
           setIsChecking(false);
         }
