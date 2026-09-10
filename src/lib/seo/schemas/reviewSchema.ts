@@ -60,6 +60,7 @@ export function reviewSchema({
         "@type": "Organization",
         "@id": `${pageUrl}#casino`,
         name: casinoName,
+        
       },
 
       reviewRating: {
@@ -70,7 +71,9 @@ export function reviewSchema({
       },
 
       publisher: {
+        "@type": "Organization",
         "@id": "https://casinoreviewsbook.com/#organization",
+        name: "Casino Reviews Book",
       },
     }));
 }

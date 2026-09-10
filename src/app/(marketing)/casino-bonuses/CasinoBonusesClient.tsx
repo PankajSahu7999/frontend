@@ -1,8 +1,8 @@
-'use client';
+"use client";
 
-import React, { useState, useMemo } from 'react';
-import Link from 'next/link';
-import Image from 'next/image';
+import React, { useState, useMemo } from "react";
+import Link from "next/link";
+import Image from "next/image";
 import {
   Gift,
   Sparkles,
@@ -14,12 +14,12 @@ import {
   Star,
   ShieldCheck,
   Zap,
-} from 'lucide-react';
-import Breadcrumbs from '@/components/seo/Breadcrumbs';
-import CasinoCardDisclaimer from '@/components/CasinoCardDisclaimer';
-import { getImageUrl } from '@/lib/utils/getImageUrl';
-import { formatPayoutTime } from '@/lib/utils';
-import StarRating from '@/components/ui/StarRating';
+} from "lucide-react";
+import Breadcrumbs from "@/components/seo/Breadcrumbs";
+import CasinoCardDisclaimer from "@/components/CasinoCardDisclaimer";
+import { getImageUrl } from "@/lib/utils/getImageUrl";
+import { formatPayoutTime } from "@/lib/utils";
+import StarRating from "@/components/ui/StarRating";
 
 const ICON_MAP: Record<string, any> = {
   Gift,
@@ -84,8 +84,8 @@ export default function CasinoBonusesClient({
   initialSections = [],
 }: CasinoBonusesClientProps) {
   const [sections] = useState<BonusSectionData[]>(initialSections);
-  const [searchQuery, setSearchQuery] = useState('');
-  const [selectedSectionSlug, setSelectedSectionSlug] = useState<string>('all');
+  const [searchQuery, setSearchQuery] = useState("");
+  const [selectedSectionSlug, setSelectedSectionSlug] = useState<string>("all");
 
   // Filter sections and offers based on search and selected section pill
   const filteredSections = useMemo(() => {
@@ -93,7 +93,7 @@ export default function CasinoBonusesClient({
 
     return sections
       .filter((sec) => {
-        if (selectedSectionSlug !== 'all' && sec.slug !== selectedSectionSlug) {
+        if (selectedSectionSlug !== "all" && sec.slug !== selectedSectionSlug) {
           return false;
         }
         return true;
@@ -102,10 +102,10 @@ export default function CasinoBonusesClient({
         if (!q) return sec;
 
         const filteredItems = sec.items.filter((item) => {
-          const cName = (item.casino?.name || '').toLowerCase();
-          const title = (item.custom_title || '').toLowerCase();
-          const code = (item.bonus_code || '').toLowerCase();
-          const badge = (item.highlight_badge || '').toLowerCase();
+          const cName = (item.casino?.name || "").toLowerCase();
+          const title = (item.custom_title || "").toLowerCase();
+          const code = (item.bonus_code || "").toLowerCase();
+          const badge = (item.highlight_badge || "").toLowerCase();
           return (
             cName.includes(q) ||
             title.includes(q) ||
@@ -130,10 +130,7 @@ export default function CasinoBonusesClient({
     <div className="w-full pb-16 overflow-x-hidden">
       {/* Breadcrumbs */}
       <Breadcrumbs
-        items={[
-          { name: 'Home', url: '/' },
-          { name: 'Casino Bonuses' },
-        ]}
+        items={[{ name: "Home", url: "/" }, { name: "Casino Bonuses" }]}
         className="mb-3"
       />
 
@@ -156,7 +153,9 @@ export default function CasinoBonusesClient({
             Best Online Casino Bonuses
           </h1>
           <p className="text-xs sm:text-sm text-blue-100 max-w-xl font-medium leading-relaxed">
-            Discover verified welcome packages, zero-deposit free spins, crypto deposit boosts, and weekly cashback deals with honest wagering terms.
+            Discover verified welcome packages, zero-deposit free spins, crypto
+            deposit boosts, and weekly cashback deals with honest wagering
+            terms.
           </p>
         </div>
       </div>
@@ -166,18 +165,18 @@ export default function CasinoBonusesClient({
         {/* Section Jump Pills */}
         <div className="flex items-center gap-2 flex-wrap">
           <button
-            onClick={() => setSelectedSectionSlug('all')}
+            onClick={() => setSelectedSectionSlug("all")}
             className={`px-4 py-2 rounded-full text-xs font-bold transition-all duration-150 ${
-              selectedSectionSlug === 'all'
-                ? 'bg-[#2E68FB] text-white shadow-sm'
-                : 'bg-white text-gray-700 border border-gray-200 hover:bg-gray-50'
+              selectedSectionSlug === "all"
+                ? "bg-[#2E68FB] text-white shadow-sm"
+                : "bg-white text-gray-700 border border-gray-200 hover:bg-gray-50"
             }`}
           >
             All Bonuses ({totalOffersCount})
           </button>
 
           {sections.map((sec) => {
-            const IconComp = ICON_MAP[sec.icon_name || 'Gift'] || Gift;
+            const IconComp = ICON_MAP[sec.icon_name || "Gift"] || Gift;
             const count = sec.items?.length || 0;
 
             return (
@@ -186,8 +185,8 @@ export default function CasinoBonusesClient({
                 onClick={() => setSelectedSectionSlug(sec.slug)}
                 className={`px-3.5 py-2 rounded-full text-xs font-bold transition-all duration-150 flex items-center gap-1.5 ${
                   selectedSectionSlug === sec.slug
-                    ? 'bg-[#2E68FB] text-white shadow-sm'
-                    : 'bg-white text-gray-700 border border-gray-200 hover:bg-gray-50'
+                    ? "bg-[#2E68FB] text-white shadow-sm"
+                    : "bg-white text-gray-700 border border-gray-200 hover:bg-gray-50"
                 }`}
               >
                 <IconComp size={13} />
@@ -196,8 +195,8 @@ export default function CasinoBonusesClient({
                   <span
                     className={`text-[10px] px-1.5 py-0.2 rounded-full font-semibold ${
                       selectedSectionSlug === sec.slug
-                        ? 'bg-white/20 text-white'
-                        : 'bg-gray-100 text-gray-500'
+                        ? "bg-white/20 text-white"
+                        : "bg-gray-100 text-gray-500"
                     }`}
                   >
                     {count}
@@ -210,7 +209,10 @@ export default function CasinoBonusesClient({
 
         {/* Real-Time Search Bar */}
         <div className="relative w-full md:w-72 shrink-0">
-          <Search className="absolute left-3.5 top-1/2 -translate-y-1/2 text-gray-400" size={15} />
+          <Search
+            className="absolute left-3.5 top-1/2 -translate-y-1/2 text-gray-400"
+            size={15}
+          />
           <input
             type="text"
             placeholder="Search casino or bonus code..."
@@ -225,14 +227,17 @@ export default function CasinoBonusesClient({
       {filteredSections.length === 0 ? (
         <div className="py-16 text-center bg-white border border-gray-200 rounded-2xl p-8 shadow-xs">
           <Gift className="mx-auto text-gray-300 mb-3" size={40} />
-          <h3 className="text-base font-bold text-gray-900 mb-1">No Bonus Offers Found</h3>
+          <h3 className="text-base font-bold text-gray-900 mb-1">
+            No Bonus Offers Found
+          </h3>
           <p className="text-xs text-gray-500 max-w-sm mx-auto">
-            No promotions matching &quot;{searchQuery}&quot;. Try choosing a different category or resetting search.
+            No promotions matching &quot;{searchQuery}&quot;. Try choosing a
+            different category or resetting search.
           </p>
           <button
             onClick={() => {
-              setSearchQuery('');
-              setSelectedSectionSlug('all');
+              setSearchQuery("");
+              setSelectedSectionSlug("all");
             }}
             className="mt-4 px-4 py-2 bg-[#2E68FB] text-white font-bold rounded-xl text-xs shadow-xs hover:brightness-105 transition-all"
           >
@@ -242,7 +247,7 @@ export default function CasinoBonusesClient({
       ) : (
         <div className="space-y-12">
           {filteredSections.map((section) => {
-            const IconComp = ICON_MAP[section.icon_name || 'Gift'] || Gift;
+            const IconComp = ICON_MAP[section.icon_name || "Gift"] || Gift;
 
             return (
               <section
@@ -267,7 +272,10 @@ export default function CasinoBonusesClient({
                   </div>
 
                   <span className="hidden sm:inline-flex text-xs font-semibold text-gray-500 bg-white px-3 py-1 rounded-full border border-gray-100 shadow-2xs">
-                    {section.items.length} {section.items.length === 1 ? 'Casino Deal' : 'Casino Deals'}
+                    {section.items.length}{" "}
+                    {section.items.length === 1
+                      ? "Casino Deal"
+                      : "Casino Deals"}
                   </span>
                 </div>
 
@@ -282,15 +290,20 @@ export default function CasinoBonusesClient({
                   {section.items.map((item, idx) => {
                     const casino = item.casino || {};
                     const imageUrl = getImageUrl(
-                      casino.logo || casino.logo_url || casino.featured_image || '/images/888.png'
+                      casino.logo ||
+                        casino.logo_url ||
+                        casino.featured_image ||
+                        "/images/888.png",
                     );
                     const welcomeBonus =
-                      item.custom_title || casino.bonuses?.[0]?.amount || '$2,500 + 10% Cashback';
+                      item.custom_title ||
+                      casino.bonuses?.[0]?.amount ||
+                      "$2,500 + 10% Cashback";
                     const claimUrl =
                       item.claim_url ||
                       casino.website_url ||
                       casino.default_affiliate_url ||
-                      `/casino/${casino.slug || ''}`;
+                      `/casino/${casino.slug || ""}`;
 
                     return (
                       <div
@@ -300,9 +313,9 @@ export default function CasinoBonusesClient({
                         <div
                           className="flex flex-col p-4 rounded-[22px] justify-between h-full"
                           style={{
-                            minHeight: '410px',
+                            minHeight: "410px",
                             background:
-                              'linear-gradient(231.79deg, #D5EDFF 32.55%, #EEECFF 43.54%, #F9F3FF 53.23%, #F5FCFF 66.16%, #E9F5FF 79.08%)',
+                              "linear-gradient(231.79deg, #D5EDFF 32.55%, #EEECFF 43.54%, #F9F3FF 53.23%, #F5FCFF 66.16%, #E9F5FF 79.08%)",
                           }}
                         >
                           {/* 1. Header (Logo + Title) */}
@@ -310,7 +323,7 @@ export default function CasinoBonusesClient({
                             <div className="relative w-20 h-20 bg-white rounded-xl overflow-hidden shadow-xs flex-shrink-0 border border-gray-100 p-1">
                               <Image
                                 src={imageUrl}
-                                alt={casino.name || 'Casino'}
+                                alt={casino.name || "Casino"}
                                 fill
                                 className="object-contain p-1"
                                 unoptimized
@@ -318,12 +331,12 @@ export default function CasinoBonusesClient({
                             </div>
                             <div className="min-w-0">
                               <h3 className="text-[20px] font-bold text-[#151515] leading-tight truncate">
-                                {casino.name || 'Premium Casino'}
+                                {casino.name || "Premium Casino"}
                               </h3>
-                              <p
-                                className="text-[11px] text-[#666] mt-0.5 line-clamp-2"
-                              >
-                                {casino.short_description || casino.description || 'Verified Online Casino'}
+                              <p className="text-[11px] text-[#666] mt-0.5 line-clamp-2">
+                                {casino.short_description ||
+                                  casino.description ||
+                                  "Verified Online Casino"}
                               </p>
                             </div>
                           </div>
@@ -347,7 +360,11 @@ export default function CasinoBonusesClient({
                           {/* 3. Main Welcome Bonus Box */}
                           <div className="mt-3 p-3 rounded-xl bg-[#2E68FB] text-white flex flex-col justify-center shadow-xs">
                             <span className="text-[9px] font-semibold tracking-wider uppercase text-blue-100 flex items-center justify-between">
-                              <span>{item.exclusive ? '★ Exclusive Deal' : 'Welcome Bonus'}</span>
+                              <span>
+                                {item.exclusive
+                                  ? "★ Exclusive Deal"
+                                  : "Welcome Bonus"}
+                              </span>
                               {item.bonus_code && (
                                 <span className="font-mono bg-white/20 px-1.5 py-0.2 rounded text-[10px] text-white">
                                   CODE: {item.bonus_code}
@@ -367,7 +384,10 @@ export default function CasinoBonusesClient({
                                 Min Deposit
                               </span>
                               <span className="text-[12px] font-bold text-[#363636]">
-                                {item.min_deposit || (casino.minimum_deposit ? `$${casino.minimum_deposit}` : '$20')}
+                                {item.min_deposit ||
+                                  (casino.minimum_deposit
+                                    ? `$${casino.minimum_deposit}`
+                                    : "$20")}
                               </span>
                             </div>
 
@@ -377,7 +397,7 @@ export default function CasinoBonusesClient({
                                 Wagering
                               </span>
                               <span className="text-[12px] font-bold text-[#363636]">
-                                {item.wagering_requirement || '30x'}
+                                {item.wagering_requirement || "30x"}
                               </span>
                             </div>
 
@@ -387,7 +407,7 @@ export default function CasinoBonusesClient({
                                 Games
                               </span>
                               <span className="text-[12px] font-bold text-[#00B67A] truncate">
-                                {casino.games_count ? `${casino.games_count}+ Games` : '2500+ Games'}
+                                {casino.games_count ? `${casino.games_count}+ Games` : "2500+ Games"}
                               </span>
                             </div>
 
@@ -412,10 +432,11 @@ export default function CasinoBonusesClient({
                               target="_blank"
                               rel="noopener noreferrer"
                               style={{
-                                height: '36px',
-                                borderRadius: '12px',
-                                boxShadow: '0px 2px 0px 0px #2E68FB',
-                                background: 'linear-gradient(180deg, #CDDCFB 0%, #588CF3 100%)',
+                                height: "36px",
+                                borderRadius: "12px",
+                                boxShadow: "0px 2px 0px 0px #2E68FB",
+                                background:
+                                  "linear-gradient(180deg, #CDDCFB 0%, #588CF3 100%)",
                               }}
                               className="btn-play-now flex-1 text-white text-[12px] font-bold flex items-center justify-center gap-1"
                             >
@@ -423,12 +444,13 @@ export default function CasinoBonusesClient({
                             </a>
 
                             <Link
-                              href={`/casino/${casino.slug || ''}`}
+                              href={`/casino/${casino.slug || ""}`}
                               style={{
-                                width: '90px',
-                                height: '36px',
-                                borderRadius: '12px',
-                                background: 'linear-gradient(180deg, #FFE11F 0%, #FF8533 100%)',
+                                width: "90px",
+                                height: "36px",
+                                borderRadius: "12px",
+                                background:
+                                  "linear-gradient(180deg, #FFE11F 0%, #FF8533 100%)",
                               }}
                               className="btn-review inline-flex items-center justify-center text-[#1F1F1F] text-[12px] font-bold shrink-0"
                             >
@@ -438,7 +460,7 @@ export default function CasinoBonusesClient({
 
                           {/* 6. Disclaimer Modal Link */}
                           <CasinoCardDisclaimer
-                            casinoName={casino.name || 'Casino'}
+                            casinoName={casino.name || "Casino"}
                             customText={casino.disclaimer_text}
                           />
                         </div>

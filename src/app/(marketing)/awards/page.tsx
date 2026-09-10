@@ -48,7 +48,11 @@ const awardCategories = [
     title: "Best Online Casino Overall",
     winner: "Top-Rated Global Casino",
     desc: "Awarded to the operator demonstrating unmatched licensing compliance, pristine payout history, 24/7 localized support, and fair wagering policies.",
-    criteria: ["MGA/UKGC licensed", "Payouts under 2 hours", "98%+ RTP transparency"],
+    criteria: [
+      "MGA/UKGC licensed",
+      "Payouts under 2 hours",
+      "98%+ RTP transparency",
+    ],
     icon: Trophy,
     color: "from-amber-400 to-yellow-600",
   },
@@ -57,7 +61,11 @@ const awardCategories = [
     title: "Best Crypto & Web3 Casino",
     winner: "Premier Blockchain Operator",
     desc: "Recognizing industry leadership in anonymous instant payouts, provably fair games, multi-network token support, and Web3 wallet integration.",
-    criteria: ["Instant blockchain payouts", "Provably fair hash verification", "Zero hidden gas fees"],
+    criteria: [
+      "Instant blockchain payouts",
+      "Provably fair hash verification",
+      "Zero hidden gas fees",
+    ],
     icon: Sparkles,
     color: "from-blue-500 to-indigo-600",
   },
@@ -66,7 +74,11 @@ const awardCategories = [
     title: "Fastest Withdrawal Casino",
     winner: "Express Payout Leader",
     desc: "Honoring the operator with the shortest verifiable mystery-shopped withdrawal times across e-wallets, crypto, and direct bank rails.",
-    criteria: ["Average withdrawal < 15 mins", "Zero processing fee", "Automated KYC clearance"],
+    criteria: [
+      "Average withdrawal < 15 mins",
+      "Zero processing fee",
+      "Automated KYC clearance",
+    ],
     icon: Zap,
     color: "from-emerald-400 to-green-600",
   },
@@ -75,7 +87,11 @@ const awardCategories = [
     title: "Most Trusted Operator",
     winner: "Player Advocacy Champion",
     desc: "Selected for flawless record of dispute resolution, proactive responsible gambling tools, and zero predatory terms in promotions.",
-    criteria: ["Zero blacklisted complaints", "Strict deposit limit tooling", "Independent RNG audits"],
+    criteria: [
+      "Zero blacklisted complaints",
+      "Strict deposit limit tooling",
+      "Independent RNG audits",
+    ],
     icon: ShieldCheck,
     color: "from-cyan-500 to-blue-600",
   },
@@ -84,7 +100,11 @@ const awardCategories = [
     title: "Best Mobile Casino Experience",
     winner: "Mobile Gaming Innovator",
     desc: "Awarded to platforms offering lightning-fast iOS & Android native web apps, touch-optimized gameplay, and single-tap banking.",
-    criteria: ["< 1.2s page load speed", "1,500+ mobile-first slots", "Biometric login support"],
+    criteria: [
+      "< 1.2s page load speed",
+      "1,500+ mobile-first slots",
+      "Biometric login support",
+    ],
     icon: Medal,
     color: "from-purple-500 to-pink-600",
   },
@@ -93,7 +113,11 @@ const awardCategories = [
     title: "Player Choice Award",
     winner: "Community Ranked #1",
     desc: "Determined directly by verified player reviews, satisfaction scores, and withdrawal test submissions from our community of over 50,000 members.",
-    criteria: ["4.9/5 player rating", "10,000+ verified votes", "Active VIP program"],
+    criteria: [
+      "4.9/5 player rating",
+      "10,000+ verified votes",
+      "Active VIP program",
+    ],
     icon: Users,
     color: "from-rose-500 to-red-600",
   },
@@ -158,8 +182,14 @@ export default function AwardsPage() {
     breadcrumb: breadcrumbSchema({
       pageUrl: "https://casinoreviewsbook.com/awards",
       items: [
-        { name: "Home", url: "https://casinoreviewsbook.com" },
-        { name: "Awards", url: "https://casinoreviewsbook.com/awards" },
+        {
+          name: "Home",
+          url: "https://casinoreviewsbook.com",
+        },
+        {
+          name: "Awards",
+          url: "https://casinoreviewsbook.com/awards",
+        },
       ],
     }),
     itemList: itemListSchema({
@@ -201,12 +231,15 @@ export default function AwardsPage() {
 
             <h1 className="text-4xl sm:text-5xl lg:text-6xl font-black text-[#0F172A] tracking-tight leading-[1.12] max-w-4xl mx-auto">
               Casino Reviews Book <br />
-              <span className="text-[#2E68FB]">Annual Awards {new Date().getFullYear()}</span>
+              <span className="text-[#2E68FB]">
+                Annual Awards {new Date().getFullYear()}
+              </span>
             </h1>
 
             <p className="mt-5 text-base sm:text-lg text-[#475569] leading-relaxed max-w-2xl mx-auto font-normal">
-              Recognizing the world&apos;s most trustworthy, fastest-paying, and player-friendly online casinos.
-              Every award recipient has passed our rigorous, independent hands-on auditing process.
+              Recognizing the world&apos;s most trustworthy, fastest-paying, and
+              player-friendly online casinos. Every award recipient has passed
+              our rigorous, independent hands-on auditing process.
             </p>
 
             <div className="mt-8 flex flex-wrap justify-center gap-4">
@@ -258,7 +291,8 @@ export default function AwardsPage() {
               Official Award Categories
             </h2>
             <p className="mt-3 text-[#475569] text-sm sm:text-base">
-              Each category highlights an essential pillar of player protection, software fairness, and gaming quality.
+              Each category highlights an essential pillar of player protection,
+              software fairness, and gaming quality.
             </p>
           </div>
 
@@ -339,7 +373,8 @@ export default function AwardsPage() {
                 Our 5-Point Award Selection Methodology
               </h2>
               <p className="mt-3 text-sm text-[#475569]">
-                Unlike sponsored award ceremonies where titles are purchased, our winners are audited against strict technical requirements.
+                Unlike sponsored award ceremonies where titles are purchased,
+                our winners are audited against strict technical requirements.
               </p>
             </div>
 
