@@ -1,4 +1,3 @@
-import { notFound } from "next/navigation";
 import { getNewsBySlug } from "@/lib/seo/seoApi";
 import NewsDetailsClient from "./NewsDetailsClient";
 import { generateSEO } from "@/lib/seo";
@@ -31,7 +30,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   }
   return generateSEO({
     title: article.meta_title || article.title,
-    description: article.meta_description || (article.content ? article.content.substring(0, 160) : ""),
+    description: article.content.substring(0, 160),
     path: `/news/${article.slug}`,
     image: article.featured_image,
     keywords: article.meta_keywords,
@@ -42,44 +41,41 @@ export default async function Page({ params }: Props) {
   const { slug } = await params;
 
   const article = await getNewsBySlug(slug);
-
-  if (!article) {
-    notFound();
-  }
-
-  const PAGE_URL = `${process.env.NEXT_PUBLIC_SITE_URL || "https://casinoreviewsbook.com"}/news/${article.slug}/`;
-  const description = article.meta_description || (article.content ? article.content.substring(0, 160) : "") || "Casino and iGaming industry news.";
-  const authorName = (typeof article.author === 'object' && article.author?.name) || article.author_name || "Casino Reviews Book Editorial Team";
-  const authorUrl = typeof article.author === 'string' ? article.author : "https://casinoreviewsbook.com";
+  const PAGE_URL = `${process.env.NEXT_PUBLIC_SITE_URL}/news/${article.slug}/`;
 
   const graph = buildSchemaGraph({
     webpage: webpageSchema({
       url: PAGE_URL,
       title: article.meta_title || article.title,
-      description,
+      description: article.content.substring(0, 160),
     }),
     newsArticle: newsArticleSchema({
       url: PAGE_URL,
       title: article.meta_title || article.title,
-      description,
-      image: article.featured_image || "",
-      published: article.published_at || article.created_at,
-      modified: article.updated_at || article.published_at || article.created_at,
-      authorName,
-      authorUrl,
+      description: article.content.substring(0, 160),
+      image: article.featured_image,
+      published: article.created_at,
+
+      modified: article.updated_at || article.created_at,
+
+      authorName: article.author_name || "Casino Reviews Book Editorial Team",
+
+      authorUrl: article.author || "https://casinoreviewbook.com",
+
       articleSection: article.category || "Casino News",
-      keywords: Array.isArray(article.tags) ? article.tags : [],
+
+      keywords: article.tags || [],
     }),
     breadcrumb: breadcrumbSchema({
       pageUrl: PAGE_URL,
       items: [
         {
           name: "Home",
-          url: "https://casinoreviewsbook.com",
+          url: "https://casinoreviewbook.com",
         },
         {
           name: "News",
-          url: "https://casinoreviewsbook.com/news",
+          url: "https://casinoreviewbook.com/news",
         },
         {
           name: article.title,

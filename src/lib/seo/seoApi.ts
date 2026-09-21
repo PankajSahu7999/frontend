@@ -3,35 +3,10 @@ import error from "next/dist/api/error";
 
 export async function getNewsBySlug(slug: string) {
   try {
-    // 1. Try direct public endpoint /news/:slug
-    try {
-      const directRes = await fetch(`${API_CONFIG.baseURL}/news/${slug}`, {
-        next: { revalidate: 60 },
-      });
-      if (directRes.ok) {
-        const article = await directRes.json();
-        if (article && article.slug) return article;
-      }
-    } catch {
-      // Fall through to next attempt
-    }
-
-    // 2. Try direct /admin/news/:slug (supported by backend controller for slugs & UUIDs)
-    try {
-      const adminRes = await fetch(`${API_CONFIG.baseURL}/admin/news/${slug}`, {
-        next: { revalidate: 60 },
-      });
-      if (adminRes.ok) {
-        const article = await adminRes.json();
-        if (article && article.slug) return article;
-      }
-    } catch {
-      // Fall through to next attempt
-    }
-
-    // 3. Fallback to /news list
     const res = await fetch(`${API_CONFIG.baseURL}/news`, {
-      next: { revalidate: 60 },
+      next: {
+        revalidate: 3600,
+      },
     });
 
     if (!res.ok) {
@@ -39,14 +14,13 @@ export async function getNewsBySlug(slug: string) {
     }
 
     const news = await res.json();
-    if (Array.isArray(news)) {
-      const article = news.find((item: any) => item.slug === slug);
-      return article || null;
-    }
 
-    return null;
+    const article = news.find((item: any) => item.slug === slug);
+
+    return article || null;
   } catch (error) {
     console.error("News fetch error", error);
+
     return null;
   }
 }
