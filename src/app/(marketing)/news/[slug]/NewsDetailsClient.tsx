@@ -130,6 +130,7 @@ interface NewsArticle {
   published_at: string;
   updated_at?: string;
   author_name?: string;
+  author?: { id?: string; name?: string; email?: string } | string;
   category?: string;
 }
 
@@ -138,6 +139,11 @@ interface Props {
 }
 
 export default function NewsDetailsClient({ news }: Props) {
+  const authorDisplayName =
+    (typeof news.author === "object" && news.author?.name) ||
+    news.author_name ||
+    (typeof news.author === "string" ? news.author : null);
+
   return (
     <>
       <main className="mx-auto px-2">
@@ -187,7 +193,9 @@ export default function NewsDetailsClient({ news }: Props) {
         className="mb-4"
       />
 
-              {news.author_name && <span>By {news.author_name}</span>}
+              {authorDisplayName && (
+                <span>By {authorDisplayName}</span>
+              )}
             </div>
           </header>
 
@@ -206,7 +214,7 @@ export default function NewsDetailsClient({ news }: Props) {
           )}
           {/* Article Content */}
           <div className="mt-10">
-            {news.content.split("\n\n").map((paragraph, index) => (
+            {(news.content || "").split("\n\n").map((paragraph, index) => (
               <p key={index} className="mb-6 text-lg leading-8 text-gray-700">
                 {paragraph}
               </p>
