@@ -1,9 +1,9 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
-import { usePathname } from 'next/navigation';
+import { usePathname, useRouter } from 'next/navigation';
 import {
     Home,
     Gift,
@@ -33,6 +33,7 @@ const menuItems = [
    
     {
         name: 'Casinos',
+        href: '/casinos',
         icon: Trophy,
         subItems: [
             { name: 'Online Casinos', href: '/casinos/online-casino' },
@@ -61,9 +62,10 @@ const menuItems = [
     },
     {
         name: 'Bonuses',
+        href: '/casino-bonuses',
         icon: Gift,
         subItems: [
-            { name: 'Casino Bonuses', href: '/bonuses/casino-bonuses' },
+            { name: 'Casino Bonuses', href: '/casino-bonuses' },
             { name: 'Latest Bonuses', href: '/bonuses/latest-bonuses' },
             { name: 'Exclusive Bonuses', href: '/bonuses/exclusive-bonuses' },
             { name: 'Bonuses by Country', href: '/bonuses/bonuses-by-country' },
@@ -92,6 +94,7 @@ const menuItems = [
     },
     {
         name: 'Games',
+        href: '/games',
         icon: Dices,
         subItems: [
             { name: 'Casino Games', href: '/games/casino-games' },
@@ -111,6 +114,7 @@ const menuItems = [
     },
     {
         name: 'Slots',
+        href: '/slots',
         icon: Flame,
         subItems: [
             { name: 'Video Slots', href: '/slots/video-slots' },
@@ -121,6 +125,7 @@ const menuItems = [
     },
     {
         name: 'Betting',
+        href: '/betting',
         icon: Tv,
         subItems: [
             { name: 'Sports Betting', href: '/betting/sports-betting' },
@@ -162,7 +167,19 @@ const menuItems = [
 
 export default function Sidebar({ open, onClose }: SidebarProps) {
     const pathname = usePathname();
+    const router = useRouter();
     const [openDropdowns, setOpenDropdowns] = useState<Record<string, boolean>>({});
+
+    useEffect(() => {
+        menuItems.forEach((item) => {
+            if (item.subItems) {
+                const isActive = (item.href && pathname === item.href) || item.subItems.some(sub => pathname === sub.href);
+                if (isActive) {
+                    setOpenDropdowns((prev) => ({ ...prev, [item.name]: true }));
+                }
+            }
+        });
+    }, [pathname]);
 
     const toggleDropdown = (name: string) => {
         setOpenDropdowns((prev) => ({ ...prev, [name]: !prev[name] }));
@@ -311,13 +328,20 @@ export default function Sidebar({ open, onClose }: SidebarProps) {
 
                             if (item.subItems) {
                                 const isDropdownOpen = !!openDropdowns[item.name];
-                                const isAnyChildActive = item.subItems.some(sub => pathname === sub.href);
+                                const isAnyChildActive = (item.href && pathname === item.href) || item.subItems.some(sub => pathname === sub.href);
 
                                 return (
                                     <div key={item.name} className="flex flex-col w-[212px]">
-                                        <button
-                                            onClick={() => toggleDropdown(item.name)}
-                                            className={`w-full h-[46px] rounded-[8px] px-[10px] py-[11px] flex items-center justify-between transition-all duration-300 ${isAnyChildActive
+                                        <div
+                                            onClick={() => {
+                                                if (item.href) {
+                                                    setOpenDropdowns((prev) => ({ ...prev, [item.name]: true }));
+                                                    router.push(item.href);
+                                                } else {
+                                                    toggleDropdown(item.name);
+                                                }
+                                            }}
+                                            className={`w-full h-[46px] rounded-[8px] px-[10px] py-[11px] flex items-center justify-between transition-all duration-300 cursor-pointer select-none ${isAnyChildActive
                                                 ? 'border border-[#C5D6FF] bg-white/40'
                                                 : 'hover:border hover:border-[#C5D6FF] hover:bg-white/50'
                                                 }`}
@@ -328,11 +352,21 @@ export default function Sidebar({ open, onClose }: SidebarProps) {
                                                     {item.name}
                                                 </span>
                                             </div>
-                                            <ChevronDown
-                                                size={16}
-                                                className={`text-slate-400 transition-transform duration-300 ${isDropdownOpen ? 'rotate-180' : ''}`}
-                                            />
-                                        </button>
+                                            <button
+                                                type="button"
+                                                onClick={(e) => {
+                                                    e.stopPropagation();
+                                                    toggleDropdown(item.name);
+                                                }}
+                                                className="p-1 -mr-1 hover:bg-black/5 rounded flex items-center justify-center transition-colors"
+                                                aria-label={`Toggle ${item.name} menu`}
+                                            >
+                                                <ChevronDown
+                                                    size={16}
+                                                    className={`text-slate-400 transition-transform duration-300 ${isDropdownOpen ? 'rotate-180' : ''}`}
+                                                />
+                                            </button>
+                                        </div>
 
                                         {/* Dropdown child items list without internal scroll container */}
                                         <div

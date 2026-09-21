@@ -30,7 +30,6 @@ export function generateSEO({
   section,
   tags,
 }: SEOProps): Metadata {
-  // const url = `${SITE.url}${path}`;
   const cleanPath = path ? (path.startsWith("/") ? path : `/${path}`) : "";
   const siteUrl = SITE.url.replace(/\/+$/, "");
   const url = `${siteUrl}${cleanPath}`;

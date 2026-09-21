@@ -86,21 +86,12 @@ export default function BonusCategoryClient({
   const category = categoryData || initialData?.category;
   const contentSections = category?.content_sections || [];
 
-  //   if (loading) {
-  //     return (
-  //       <div className="min-h-screen flex items-center justify-center">
-  //         Loading casinos...
-  //       </div>
-  //     );
-  //   }
-
   return (
     <div className="overflow-x-hidden w-full">
-      {/* Optional category hero/header */}
-
       <Hero
-        title={category?.name || category}
-        subtitle="Explore the best online casinos in this category"
+        title={category?.name || (typeof slug === 'string' ? slug.replace(/-/g, ' ') : 'Casino Bonuses')}
+        subtitle="Explore the best online casino welcome packages, free spins, and promo codes"
+        bannerImage="/images/hero/bonuses-hero.jpg"
       />
       {/* Filter only category casinos */}
       <CasinoFilter onFilterChange={handleFilterChange} />

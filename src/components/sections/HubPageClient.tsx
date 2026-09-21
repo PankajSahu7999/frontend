@@ -20,6 +20,7 @@ import CasinoCardDisclaimer from "@/components/CasinoCardDisclaimer";
 import { getImageUrl } from "@/lib/utils/getImageUrl";
 import { formatPayoutTime } from "@/lib/utils";
 import StarRating from "@/components/ui/StarRating";
+import CasinoCardBadge from "@/components/casino/CasinoCardBadge";
 
 const ICON_MAP: Record<string, any> = {
   Gift,
@@ -30,7 +31,7 @@ const ICON_MAP: Record<string, any> = {
   Trophy,
 };
 
-interface BonusOfferItem {
+export interface SectionItemData {
   id: string;
   casino_id: string;
   custom_title?: string;
@@ -59,35 +60,49 @@ interface BonusOfferItem {
     games_count?: string | number;
     established_year?: string | number;
     payment_methods?: { id: string; method_name: string }[];
+    card_badge?: string;
+    hot_casino?: boolean;
     features?: { id: string; feature: string }[];
     bonuses?: { id?: string; amount?: string; title?: string }[];
   };
 }
 
-interface BonusSectionData {
+export interface HubSectionData {
   id: string;
   title: string;
   slug: string;
   badge_text?: string;
   description?: string;
   icon_name?: string;
+  section_type?: string;
   sort_order?: number;
   status?: string;
-  items: BonusOfferItem[];
+  items: SectionItemData[];
 }
 
-interface CasinoBonusesClientProps {
-  initialSections: BonusSectionData[];
+export interface HubPageClientProps {
+  pageTitle: string;
+  pageSubtitle: string;
+  bannerBadge?: string;
+  bannerImage: string;
+  breadcrumbName: string;
+  initialSections: HubSectionData[];
+  emptyStateMessage?: string;
 }
 
-export default function CasinoBonusesClient({
+export default function HubPageClient({
+  pageTitle,
+  pageSubtitle,
+  bannerBadge = "EXCLUSIVE DIRECTORY",
+  bannerImage,
+  breadcrumbName,
   initialSections = [],
-}: CasinoBonusesClientProps) {
-  const [sections] = useState<BonusSectionData[]>(initialSections);
+  emptyStateMessage = "No sections currently available in this category.",
+}: HubPageClientProps) {
+  const [sections] = useState<HubSectionData[]>(initialSections);
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedSectionSlug, setSelectedSectionSlug] = useState<string>("all");
 
-  // Filter sections and offers based on search and selected section pill
   const filteredSections = useMemo(() => {
     const q = searchQuery.toLowerCase().trim();
 
@@ -101,7 +116,7 @@ export default function CasinoBonusesClient({
       .map((sec) => {
         if (!q) return sec;
 
-        const filteredItems = sec.items.filter((item) => {
+        const filteredItems = (sec.items || []).filter((item) => {
           const cName = (item.casino?.name || "").toLowerCase();
           const title = (item.custom_title || "").toLowerCase();
           const code = (item.bonus_code || "").toLowerCase();
@@ -122,7 +137,7 @@ export default function CasinoBonusesClient({
       .filter((sec) => sec.items.length > 0 || !q);
   }, [sections, searchQuery, selectedSectionSlug]);
 
-  const totalOffersCount = useMemo(() => {
+  const totalItemsCount = useMemo(() => {
     return sections.reduce((acc, sec) => acc + (sec.items?.length || 0), 0);
   }, [sections]);
 
@@ -130,15 +145,15 @@ export default function CasinoBonusesClient({
     <div className="w-full pb-16 overflow-x-hidden">
       {/* Breadcrumbs */}
       <Breadcrumbs
-        items={[{ name: "Home", url: "/" }, { name: "Casino Bonuses" }]}
+        items={[{ name: "Home", url: "/" }, { name: breadcrumbName }]}
         className="mb-3"
       />
 
-      {/* Hero Blue Banner (Theme Matched) */}
+      {/* Hero Themed Banner */}
       <div className="relative w-full h-[220px] sm:h-[260px] lg:h-[300px] rounded-2xl overflow-hidden mb-6 shadow-lg bg-slate-950">
         <Image
-          src="/images/hero/bonuses-hero.jpg"
-          alt="Best Online Casino Bonuses & Promotions"
+          src={bannerImage}
+          alt={pageTitle}
           fill
           priority
           sizes="(max-width: 768px) 100vw, 1280px"
@@ -151,28 +166,26 @@ export default function CasinoBonusesClient({
         <div className="relative z-10 h-full flex items-center justify-between px-6 sm:px-10 lg:px-12 text-white">
           <div className="max-w-2xl">
             <div className="inline-flex items-center gap-1.5 px-3.5 py-1 rounded-full text-white text-[11px] font-extrabold bg-gradient-to-r from-amber-500 to-orange-500 w-fit mb-2.5 shadow-md border border-amber-400/30">
-              <Gift size={13} />
-              <span>EXCLUSIVE CASINO OFFERS</span>
+              <Trophy size={13} />
+              <span>{bannerBadge}</span>
             </div>
             <h1 className="text-2xl sm:text-3xl lg:text-4xl font-black tracking-tight text-white mb-2 drop-shadow-[0_2px_10px_rgba(0,0,0,0.8)]">
-              Best Online Casino Bonuses
+              {pageTitle}
             </h1>
             <p className="text-xs sm:text-sm text-slate-200 max-w-xl font-medium leading-relaxed drop-shadow-[0_1px_4px_rgba(0,0,0,0.8)]">
-              Discover verified welcome packages, zero-deposit free spins, crypto
-              deposit boosts, and weekly cashback deals with honest wagering
-              terms.
+              {pageSubtitle}
             </p>
           </div>
 
           {/* Desktop Trust Highlights */}
           <div className="hidden md:flex flex-col gap-2.5 items-end shrink-0 ml-4">
             <div className="flex items-center gap-2 px-3.5 py-1.5 rounded-xl bg-white/10 backdrop-blur-md border border-white/20 text-white text-xs font-semibold shadow-md">
-              <Sparkles size={14} className="text-amber-400" />
-              <span>Exclusive Promo Codes</span>
+              <ShieldCheck size={14} className="text-emerald-400" />
+              <span>100% Verified & Tested</span>
             </div>
             <div className="flex items-center gap-2 px-3.5 py-1.5 rounded-xl bg-white/10 backdrop-blur-md border border-white/20 text-white text-xs font-semibold shadow-md">
-              <Coins size={14} className="text-emerald-400" />
-              <span>Verified Wagering Terms</span>
+              <Zap size={14} className="text-amber-400" />
+              <span>Instant Cashouts & Crypto</span>
             </div>
           </div>
         </div>
@@ -186,94 +199,73 @@ export default function CasinoBonusesClient({
             onClick={() => setSelectedSectionSlug("all")}
             className={`px-4 py-2 rounded-full text-xs font-bold transition-all duration-150 ${
               selectedSectionSlug === "all"
-                ? "bg-[#2E68FB] text-white shadow-sm"
-                : "bg-white text-gray-700 border border-gray-200 hover:bg-gray-50"
+                ? "bg-[#2E68FB] text-white shadow-md shadow-blue-500/25"
+                : "bg-white text-gray-600 hover:bg-gray-100 border border-gray-200"
             }`}
           >
-            All Bonuses ({totalOffersCount})
+            All Sections ({totalItemsCount})
           </button>
 
-          {sections.map((sec) => {
-            const IconComp = ICON_MAP[sec.icon_name || "Gift"] || Gift;
-            const count = sec.items?.length || 0;
-
-            return (
-              <button
-                key={sec.id || sec.slug}
-                onClick={() => setSelectedSectionSlug(sec.slug)}
-                className={`px-3.5 py-2 rounded-full text-xs font-bold transition-all duration-150 flex items-center gap-1.5 ${
-                  selectedSectionSlug === sec.slug
-                    ? "bg-[#2E68FB] text-white shadow-sm"
-                    : "bg-white text-gray-700 border border-gray-200 hover:bg-gray-50"
-                }`}
-              >
-                <IconComp size={13} />
-                <span>{sec.title}</span>
-                {count > 0 && (
-                  <span
-                    className={`text-[10px] px-1.5 py-0.2 rounded-full font-semibold ${
-                      selectedSectionSlug === sec.slug
-                        ? "bg-white/20 text-white"
-                        : "bg-gray-100 text-gray-500"
-                    }`}
-                  >
-                    {count}
-                  </span>
-                )}
-              </button>
-            );
-          })}
+          {sections.map((sec) => (
+            <button
+              key={sec.id || sec.slug}
+              onClick={() => setSelectedSectionSlug(sec.slug)}
+              className={`px-4 py-2 rounded-full text-xs font-bold transition-all duration-150 ${
+                selectedSectionSlug === sec.slug
+                  ? "bg-[#2E68FB] text-white shadow-md shadow-blue-500/25"
+                  : "bg-white text-gray-600 hover:bg-gray-100 border border-gray-200"
+              }`}
+            >
+              {sec.title} ({sec.items?.length || 0})
+            </button>
+          ))}
         </div>
 
         {/* Real-Time Search Bar */}
-        <div className="relative w-full md:w-72 shrink-0">
+        <div className="relative w-full md:w-80 flex-shrink-0">
           <Search
+            size={16}
             className="absolute left-3.5 top-1/2 -translate-y-1/2 text-gray-400"
-            size={15}
           />
           <input
             type="text"
-            placeholder="Search casino or bonus code..."
+            placeholder="Search casinos, offers, or codes..."
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
-            className="w-full pl-9 pr-4 py-2 bg-white border border-gray-200 rounded-full text-xs text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 shadow-2xs font-medium"
+            className="w-full pl-10 pr-4 py-2 bg-white border border-gray-200 rounded-full text-xs font-medium text-gray-800 placeholder-gray-400 focus:outline-none focus:border-[#2E68FB] focus:ring-1 focus:ring-[#2E68FB] shadow-2xs"
           />
         </div>
       </div>
 
-      {/* Bonus Sections */}
+      {/* Sections & Cards */}
       {filteredSections.length === 0 ? (
-        <div className="py-16 text-center bg-white border border-gray-200 rounded-2xl p-8 shadow-xs">
-          <Gift className="mx-auto text-gray-300 mb-3" size={40} />
-          <h3 className="text-base font-bold text-gray-900 mb-1">
-            No Bonus Offers Found
-          </h3>
-          <p className="text-xs text-gray-500 max-w-sm mx-auto">
-            No promotions matching &quot;{searchQuery}&quot;. Try choosing a
-            different category or resetting search.
+        <div className="py-20 text-center bg-white rounded-3xl border border-gray-100 shadow-sm p-8">
+          <Sparkles className="mx-auto text-gray-300 mb-3" size={48} />
+          <h3 className="text-lg font-bold text-gray-700">No Casinos Found</h3>
+          <p className="text-sm text-gray-400 mt-1 max-w-md mx-auto">
+            {searchQuery
+              ? `No casino offers match "${searchQuery}". Try a different search term or clear the filter.`
+              : emptyStateMessage}
           </p>
-          <button
-            onClick={() => {
-              setSearchQuery("");
-              setSelectedSectionSlug("all");
-            }}
-            className="mt-4 px-4 py-2 bg-[#2E68FB] text-white font-bold rounded-xl text-xs shadow-xs hover:brightness-105 transition-all"
-          >
-            Reset Filters
-          </button>
+          {searchQuery && (
+            <button
+              onClick={() => setSearchQuery("")}
+              className="mt-4 px-4 py-2 rounded-xl text-xs font-bold bg-[#2E68FB] text-white hover:bg-blue-700"
+            >
+              Clear Search Filter
+            </button>
+          )}
         </div>
       ) : (
         <div className="space-y-12">
           {filteredSections.map((section) => {
-            const IconComp = ICON_MAP[section.icon_name || "Gift"] || Gift;
-
             return (
               <section
                 key={section.id || section.slug}
                 id={section.slug}
                 className="scroll-mt-24"
               >
-                {/* Section Header (Matches website headings) */}
+                {/* Section Header */}
                 <div className="flex items-center justify-between mb-4">
                   <div className="flex items-center gap-3">
                     <Star size={20} fill="#B8C5FF" color="#B8C5FF" />
@@ -291,9 +283,7 @@ export default function CasinoBonusesClient({
 
                   <span className="hidden sm:inline-flex text-xs font-semibold text-gray-500 bg-white px-3 py-1 rounded-full border border-gray-100 shadow-2xs">
                     {section.items.length}{" "}
-                    {section.items.length === 1
-                      ? "Casino Deal"
-                      : "Casino Deals"}
+                    {section.items.length === 1 ? "Casino" : "Casinos"}
                   </span>
                 </div>
 
@@ -326,10 +316,18 @@ export default function CasinoBonusesClient({
                     return (
                       <div
                         key={item.id || idx}
-                        className="card-animated-border rounded-[24px] p-[2px] w-full cursor-pointer"
+                        className="card-animated-border rounded-[24px] p-[2px] w-full cursor-pointer relative group"
                       >
+                        {/* Top-Right Corner Tag / Badge */}
+                        <div className="absolute top-2 right-3 z-20">
+                          <CasinoCardBadge
+                            badge={casino.card_badge || item.highlight_badge}
+                            isHot={casino.hot_casino}
+                          />
+                        </div>
+
                         <div
-                          className="flex flex-col p-4 rounded-[22px] justify-between h-full"
+                          className="flex flex-col p-4 rounded-[22px] justify-between h-full relative"
                           style={{
                             minHeight: "410px",
                             background:
@@ -347,7 +345,7 @@ export default function CasinoBonusesClient({
                                 unoptimized
                               />
                             </div>
-                            <div className="min-w-0">
+                            <div className="min-w-0 flex-1 pr-14">
                               <h3 className="text-[20px] font-bold text-[#151515] leading-tight truncate">
                                 {casino.name || "Premium Casino"}
                               </h3>
@@ -381,7 +379,7 @@ export default function CasinoBonusesClient({
                               <span>
                                 {item.exclusive
                                   ? "★ Exclusive Deal"
-                                  : "Welcome Bonus"}
+                                  : "Featured Offer"}
                               </span>
                               {item.bonus_code && (
                                 <span className="font-mono bg-white/20 px-1.5 py-0.2 rounded text-[10px] text-white">
@@ -425,14 +423,16 @@ export default function CasinoBonusesClient({
                                 Games
                               </span>
                               <span className="text-[12px] font-bold text-[#00B67A] truncate">
-                                {casino.games_count ? `${casino.games_count}+ Games` : "2500+ Games"}
+                                {casino.games_count
+                                  ? `${casino.games_count}+ Games`
+                                  : "2500+ Games"}
                               </span>
                             </div>
 
                             {/* Payout */}
                             <div
                               className="p-2 bg-white/60 border border-[#2E68FB20] rounded-lg min-h-[52px] flex flex-col justify-center"
-                              title={casino.withdrawal_time || 'Instant / 24h'}
+                              title={casino.withdrawal_time || "Instant / 24h"}
                             >
                               <span className="block text-[9px] font-semibold text-[#2E68FB] uppercase">
                                 Payout
@@ -458,7 +458,7 @@ export default function CasinoBonusesClient({
                               }}
                               className="btn-play-now flex-1 text-white text-[12px] font-bold flex items-center justify-center gap-1"
                             >
-                              Visit Casino ↗
+                              Play Now ↗
                             </a>
 
                             <Link

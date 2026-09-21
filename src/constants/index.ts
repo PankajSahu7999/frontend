@@ -170,13 +170,6 @@ export const DEFAULT_SEO: Metadata = {
     },
   },
 
-  // verification: {
-  //   google: process.env.GOOGLE_SITE_VERIFICATION || "",
-  //   bing: process.env.BING_SITE_VERIFICATION || "",
-  //   // yandex: process.env.YANDEX_SITE_VERIFICATION,
-  //   // baidu: process.env.BAIDU_SITE_VERIFICATION,
-  // },
-
   verification: {
     ...(process.env.GOOGLE_SITE_VERIFICATION
       ? {
@@ -231,7 +224,6 @@ export const DEFAULT_SEO: Metadata = {
     site: SITE.siteName,
     title: SITE.name,
     description: SITE.description,
-    // images: [SITE.twitterImage],
     images: [
       { url: SITE.ogImage, width: 1200, height: 630, alt: SITE.siteName },
     ],

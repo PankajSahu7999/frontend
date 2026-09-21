@@ -36,7 +36,6 @@ export async function GET() {
       if (!article?.published_at) return false;
       const publishDate = new Date(article.published_at);
       return publishDate >= cutoff;
-      //   return true; // For now, include all news articles
     });
 
     const baseUrl = SITE.url.endsWith("/") ? SITE.url.slice(0, -1) : SITE.url;

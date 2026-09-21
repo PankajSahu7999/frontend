@@ -51,6 +51,7 @@ export default function NewBonusSectionPage() {
     description: '',
     icon_name: 'Gift',
     status: 'active',
+    section_type: 'bonus',
     sort_order: 0,
   });
 
@@ -271,7 +272,20 @@ export default function NewBonusSectionPage() {
               </div>
             </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+            <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
+              <Select
+                label="Target Hub / Page"
+                value={formData.section_type}
+                onChange={(e) => setFormData({ ...formData, section_type: e.target.value })}
+                options={[
+                  { value: 'bonus', label: '🎁 Casino Bonuses (/casino-bonuses)' },
+                  { value: 'casino', label: '🏆 Casinos Directory (/casinos)' },
+                  { value: 'game', label: '🎲 Casino Games (/games)' },
+                  { value: 'slot', label: '🔥 Slots Hub (/slots)' },
+                  { value: 'betting', label: '📺 Sports Betting (/betting)' },
+                ]}
+              />
+
               <Input
                 label="Badge Tag (Optional)"
                 value={formData.badge_text}

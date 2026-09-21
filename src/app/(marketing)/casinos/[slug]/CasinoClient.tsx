@@ -155,6 +155,7 @@ export default function CategoryCasinoPage({
       <Hero
         title={category?.name || (typeof slug === 'string' ? slug.replace(/-/g, ' ') : 'Casinos')}
         subtitle="Explore the best online casinos in this category"
+        bannerImage="/images/hero/casinos-hero.jpg"
       />
       {/* Filter only category casinos */}
       <CasinoFilter 

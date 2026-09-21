@@ -90,30 +90,6 @@ export default async function Page({ params }: Props) {
       <JsonLd data={graph} />
 
       <NewsDetailsClient news={article} />
-      {/* <NewsDetailsClient /> */}
     </>
   );
-}
-
-
-// API Res need:
-
-// {
-//  id,
-//  title,
-//  slug,
-//  content,
-//  meta_title,
-//  meta_description,
-//  featured_image,
-
-//  author_name,
-//  author_url,
-
-//  category,
-
-//  tags,
-
-//  created_at,
-//  updated_at
-// }
+}

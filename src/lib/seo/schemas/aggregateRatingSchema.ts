@@ -3,18 +3,22 @@
 interface AggregateRatingProps {
   pageUrl: string;
   casinoName: string;
-  reviews: {
-    rating: number;
+  reviews?: {
+    rating: number | string;
   }[];
 }
 
 export function aggregateRatingSchema({
   pageUrl,
   casinoName,
-  reviews,
+  reviews = [],
 }: AggregateRatingProps) {
+  if (!Array.isArray(reviews) || reviews.length === 0) {
+    return null;
+  }
+
   const validRatings = reviews
-    .map((review) => Number(review.rating))
+    .map((review) => Number(review?.rating))
     .filter((rating) => Number.isFinite(rating) && rating >= 1 && rating <= 5);
 
   if (validRatings.length === 0) {

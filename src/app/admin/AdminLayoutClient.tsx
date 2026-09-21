@@ -98,7 +98,7 @@ export default function AdminClientLayout({
           </NavGroup>
 
           <NavGroup title="Marketing">
-            <NavItem href="/admin/bonus-sections" icon={Gift}>Bonus Sections</NavItem>
+            <NavItem href="/admin/bonus-sections" icon={Gift}>Sections & Hubs</NavItem>
             <NavItem href="/admin/banners" icon={Image}>Banners</NavItem>
             <NavItem href="/admin/affiliate-links" icon={LinkIcon}>Affiliate Links</NavItem>
             <NavItem href="/admin/email-campaigns" icon={Mail}>Email Campaigns</NavItem>

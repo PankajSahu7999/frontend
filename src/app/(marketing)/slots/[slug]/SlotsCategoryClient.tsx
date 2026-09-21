@@ -23,48 +23,9 @@ export default function SlotsCategoryClient({
 }: {
     initialData: any;
 }) {
-    // const resolvedParams = React.use(params);
-    // const category = resolvedParams.slug;
-    // const [categoryCasinos, setCategoryCasinos] = useState<any[]>([]);
-    // const [filteredCasinos, setFilteredCasinos] = useState<any[]>([]);
-    // const [categoryData, setCategoryData] = useState<any>(null);
-    // const [loading, setLoading] = useState(true);
-
     const category = initialData.category;
     const casinos = initialData.casinos ?? [];
     const [filteredCasinos, setFilteredCasinos] = useState(casinos);
-
-    // useEffect(() => {
-    //     const fetchCategoryCasinos = async () => {
-    //         try {
-    //             const res = await fetch(
-    //                 `${process.env.NEXT_PUBLIC_API_URL}/casinos/category/${category}`,
-    //                 {
-    //                     cache: 'no-store',
-    //                 }
-    //             );
-
-    //             if (!res.ok) {
-    //                 throw new Error('Failed to fetch category casinos');
-    //             }
-
-    //             const data = await res.json();
-
-    //             const casinos = data.casinos || [];
-    //             console.log('Category API Response:', data);
-    //             setCategoryData(data.category);
-    //             setCategoryCasinos(casinos);
-    //             setFilteredCasinos(casinos);
-    //         } catch (error) {
-    //             console.error(error);
-    //         } finally {
-    //             setLoading(false);
-    //         }
-    //     };
-
-    //     fetchCategoryCasinos();
-    // }, [category]);
-
 
     const handleFilterChange = (selectedTagIds: string[]) => {
         if (selectedTagIds.length === 0) {
@@ -86,23 +47,12 @@ export default function SlotsCategoryClient({
         setFilteredCasinos(filtered);
     };
 
-    // if (loading) {
-    //     return (
-    //         <div className="min-h-screen flex items-center justify-center">
-    //             Loading casinos...
-    //         </div>
-    //     );
-    // }
-
     return (
        <div className="overflow-x-hidden w-full">
-
-            {/* Optional category hero/header */}
-
-
             <Hero
-                title={category?.name || category}
-                subtitle="Explore the best online casinos in this category"
+                title={category?.name || category || 'Slots'}
+                subtitle="Explore the best online slot casinos in this category"
+                bannerImage="/images/hero/slots-hero.jpg"
             />
             {/* Filter only category casinos */}
             <CasinoFilter onFilterChange={handleFilterChange} />

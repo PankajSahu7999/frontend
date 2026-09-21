@@ -13,6 +13,7 @@ import { API_CONFIG } from "@/config/api.config";
 import { getImageUrl } from "@/lib/utils/getImageUrl";
 import CasinoCardDisclaimer from "@/components/CasinoCardDisclaimer";
 import { formatRating } from "@/components/ui/StarRating";
+import CasinoCardBadge from "@/components/casino/CasinoCardBadge";
 
 async function getFeaturedCasinos(): Promise<Casino[]> {
   try {
@@ -61,8 +62,16 @@ export async function FeaturedCasinos() {
           {casinos.map((casino: any) => (
             <Card
               key={casino.id}
-              className="card-animated-border p-[2px] rounded-2xl flex flex-col overflow-hidden bg-slate-800 border-0 cursor-pointer"
+              className="card-animated-border p-[2px] rounded-2xl flex flex-col overflow-hidden bg-slate-800 border-0 cursor-pointer relative group"
             >
+              {/* Top-Right Corner Tag / Badge */}
+              <div className="absolute top-2 right-3 z-20">
+                <CasinoCardBadge
+                  badge={casino.card_badge}
+                  isHot={casino.hot_casino}
+                />
+              </div>
+
               <CardHeader className="bg-slate-950 pb-4 border-b border-slate-800 flex items-center justify-center pt-8">
                 <Image
                   src={getImageUrl(casino.logo || casino.featured_image)}

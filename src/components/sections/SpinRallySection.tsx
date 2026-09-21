@@ -9,6 +9,7 @@ import Link from "next/link";
 import CasinoCardDisclaimer from '@/components/CasinoCardDisclaimer';
 import { formatPayoutTime } from '@/lib/utils';
 import StarRating from '@/components/ui/StarRating';
+import CasinoCardBadge from '@/components/casino/CasinoCardBadge';
 export default function SpinRallySection({
   casinos,
 }: {
@@ -129,9 +130,17 @@ function CasinoCard({ casino }: { casino: any }) {
   const imageUrl = getImageUrl(casino.logo || casino.featured_image || '/images/888.png');
 
   return (
-    <div className="card-animated-border rounded-[24px] p-[2px] shrink-0 cursor-pointer flex flex-col h-full">
+    <div className="card-animated-border rounded-[24px] p-[2px] shrink-0 cursor-pointer flex flex-col h-full relative group">
+      {/* Top-Right Corner Tag / Badge */}
+      <div className="absolute top-2 right-3 z-20">
+        <CasinoCardBadge
+          badge={casino.card_badge}
+          isHot={casino.hot_casino}
+        />
+      </div>
+
       <div
-        className="flex flex-col p-4 rounded-[22px] justify-between flex-1 w-full h-full"
+        className="flex flex-col p-4 rounded-[22px] justify-between flex-1 w-full h-full relative"
         style={{
           width: "340px",
           background:
@@ -149,7 +158,7 @@ function CasinoCard({ casino }: { casino: any }) {
               unoptimized
             />
           </div>
-          <div className="min-w-0 flex-1">
+          <div className="min-w-0 flex-1 pr-14">
             <h3 className="text-[20px] font-bold text-[#151515] leading-tight truncate" title={casino.name || 'Casino'}>
               {casino.name || 'BC Game Casino'}
             </h3>

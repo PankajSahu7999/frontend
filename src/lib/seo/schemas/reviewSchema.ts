@@ -17,16 +17,17 @@ export interface ReviewSchemaProps {
   pageUrl: string;
   casinoName: string;
   casinoId: string;
-  reviews: ReviewItem[];
+  reviews?: ReviewItem[];
 }
 
 export function reviewSchema({
   pageUrl,
   casinoName,
   casinoId,
-  reviews,
+  reviews = [],
 }: ReviewSchemaProps) {
-  return reviews
+  const safeReviews = Array.isArray(reviews) ? reviews : [];
+  return safeReviews
     .filter(
       (review) =>
         review.content?.trim() &&

@@ -14,34 +14,43 @@ import {
   offerSchema,
 } from "@/lib/seo/schemas";
 
+import { buildApiUrl } from "@/config/api.config";
+
 const SITE_URL = "https://casinoreviewsbook.com";
 
 async function getCasino(slug: string) {
-  const res = await fetch(
-    `${process.env.NEXT_PUBLIC_API_URL}/casinos/slug/${slug}`,
-    {
-      next: {
-        revalidate: 3600,
+  try {
+    const res = await fetch(
+      buildApiUrl(`/casinos/slug/${slug}`),
+      {
+        next: {
+          revalidate: 3600,
+        },
       },
-    },
-  );
+    );
 
-  if (!res.ok) return null;
+    if (!res.ok) return null;
 
-  return res.json();
+    return res.json();
+  } catch (err) {
+    console.error(`Error fetching casino ${slug}:`, err);
+    return null;
+  }
 }
 
 async function fetchReviews(casinoId: string) {
   try {
     const res = await fetch(
-      `${process.env.NEXT_PUBLIC_API_URL}/casino-reviews/casino/${casinoId}`,
+      buildApiUrl(`/casino-reviews/casino/${casinoId}`),
     );
 
-    if (!res.ok) return;
+    if (!res.ok) return [];
 
-    return res.json();
+    const data = await res.json();
+    return Array.isArray(data) ? data : data?.reviews || [];
   } catch (error) {
     console.error("Error fetching reviews:", error);
+    return [];
   }
 }
 
@@ -150,7 +159,7 @@ export default async function Page({ params }: Props) {
       aggregateRatingSchema({
         pageUrl: PAGE_URL,
         casinoName: casino.name,
-        reviews: allReviews,
+        reviews: allReviews || [],
       }) ?? undefined,
     offer:
       //  casino?.bonuses?.length

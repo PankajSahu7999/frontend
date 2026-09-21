@@ -86,21 +86,12 @@ export default function CategoryCasinoPage({
   const category = categoryData || initialData?.category;
   const contentSections = category?.content_sections || [];
 
-  //   if (loading) {
-  //     return (
-  //       <div className="min-h-screen flex items-center justify-center">
-  //         Loading casinos...
-  //       </div>
-  //     );
-  //   }
-
   return (
     <div className="overflow-x-hidden w-full">
-      {/* Optional category hero/header */}
-
       <Hero
-        title={category?.name || category}
-        subtitle="Explore the best online casinos in this category"
+        title={category?.name || (typeof slug === 'string' ? slug.replace(/-/g, ' ') : 'Casino Games')}
+        subtitle="Explore the best online casino table games and live dealers"
+        bannerImage="/images/hero/games-hero.jpg"
       />
       {/* Filter only category casinos */}
       <CasinoFilter onFilterChange={handleFilterChange} />

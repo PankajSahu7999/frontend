@@ -18,6 +18,7 @@ import {
   ChevronRight,
 } from "lucide-react";
 import StarRating, { formatRating } from "@/components/ui/StarRating";
+import CasinoBankingAndLanguages from "@/components/casino/CasinoBankingAndLanguages";
 
 interface Props {
   casino: any;
@@ -537,6 +538,12 @@ export default function CasinoReviewClient({ casino }: Props) {
           </div>
         </div>
       </div>
+
+      {/* DEPOSIT METHODS & SUPPORTED LANGUAGES */}
+      <CasinoBankingAndLanguages
+        paymentMethods={casino.payment_methods}
+        languages={casino.languages}
+      />
 
       {/* GAMES */}
       <div className="mt-10">

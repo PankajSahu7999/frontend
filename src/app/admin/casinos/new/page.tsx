@@ -91,6 +91,7 @@ export default function NewCasinoPage() {
     status: 'active',
     featured: false,
     hot_casino: false,
+    card_badge: '',
     recommended_by_experts: false,
     certified_casino: false,
     mobile_friendly: true,
@@ -648,6 +649,46 @@ export default function NewCasinoPage() {
                   label="Responsible Gaming Section"
                   checked={formData.responsible_gaming}
                   onChange={(e) => setFormData({ ...formData, responsible_gaming: e.target.checked })}
+                />
+              </div>
+
+              <div className="pt-6 border-t border-slate-100">
+                <label className="block text-sm font-semibold text-slate-800 mb-1">
+                  Card Top-Right Tag / Badge
+                </label>
+                <p className="text-xs text-slate-500 mb-3">
+                  This badge displays prominently at the top-right corner of the casino card across listing pages. Choose a preset or type a custom tag.
+                </p>
+                <div className="flex flex-wrap gap-2 mb-3">
+                  {['🔥 Hot Offer', '⚡ Trending', '💎 Exclusive', '⭐ Top Rated', '🚀 Popular', '⚡ Fast Payout', '🆕 New'].map((preset) => (
+                    <button
+                      key={preset}
+                      type="button"
+                      onClick={() => setFormData({ ...formData, card_badge: preset })}
+                      className={`px-3 py-1.5 rounded-full text-xs font-semibold border transition-all ${
+                        formData.card_badge === preset
+                          ? 'border-indigo-600 bg-indigo-50 text-indigo-700 shadow-xs'
+                          : 'border-slate-200 bg-white text-slate-700 hover:border-slate-300 hover:bg-slate-50'
+                      }`}
+                    >
+                      {preset}
+                    </button>
+                  ))}
+                  {formData.card_badge && (
+                    <button
+                      type="button"
+                      onClick={() => setFormData({ ...formData, card_badge: '' })}
+                      className="px-3 py-1.5 rounded-full text-xs font-medium text-rose-600 hover:bg-rose-50 border border-transparent"
+                    >
+                      Clear Badge
+                    </button>
+                  )}
+                </div>
+                <Input
+                  label="Custom Badge Text"
+                  value={formData.card_badge}
+                  onChange={(e) => setFormData({ ...formData, card_badge: e.target.value })}
+                  placeholder="e.g. 🔥 Hot Offer, 💎 VIP Club, etc."
                 />
               </div>
             </div>

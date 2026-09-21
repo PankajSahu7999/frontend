@@ -6,6 +6,8 @@ export interface Casino {
   features: string[];
   logo: string;
   url: string;
+  card_badge?: string;
+  hot_casino?: boolean;
 }
 
 export interface Review {

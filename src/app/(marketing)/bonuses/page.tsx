@@ -29,7 +29,7 @@ export const metadata = generateSEO({
 
 async function getBonusSectionsData() {
   try {
-    const res = await fetch(buildApiUrl("/bonus-sections"), {
+    const res = await fetch(buildApiUrl("/bonus-sections?section_type=bonus"), {
       next: { revalidate: 60 },
     });
     if (!res.ok) {

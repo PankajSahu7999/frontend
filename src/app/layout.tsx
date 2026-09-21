@@ -36,9 +36,6 @@ export default function RootLayout({
         <meta name="msvalidate.01" content="556963428BB38B747A02A4E5AE20FCD2" />
       </head>
       <body className="min-h-full flex flex-col">
-        {/* <JsonLd data={organizationSchema()} />
-        <JsonLd data={websiteSchema()} /> */}
-
         <ReduxProvider>
           <DataInitializer />
           {children}
