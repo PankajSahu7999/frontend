@@ -37,6 +37,10 @@ const nextConfig: NextConfig = {
         protocol: "https",
         hostname: "**.unsplash.com",
       },
+      {
+        protocol: "https",
+        hostname: "**",
+      },
     ],
   },
   // Optimize for modern browsers to reduce polyfills
