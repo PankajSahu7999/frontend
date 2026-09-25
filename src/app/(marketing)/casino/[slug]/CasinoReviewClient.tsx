@@ -19,6 +19,9 @@ import {
 } from "lucide-react";
 import StarRating, { formatRating } from "@/components/ui/StarRating";
 import CasinoBankingAndLanguages from "@/components/casino/CasinoBankingAndLanguages";
+import CasinoBonusesSection from "@/components/casino/CasinoBonusesSection";
+import CasinoProsConsSection from "@/components/casino/CasinoProsConsSection";
+import CasinoGamingToolsSection from "@/components/casino/CasinoGamingToolsSection";
 
 interface Props {
   casino: any;
@@ -415,6 +418,13 @@ export default function CasinoReviewClient({ casino }: Props) {
         </div>
       </div>
 
+      {/* PROS & CONS */}
+      <CasinoProsConsSection
+        casinoName={casino.name}
+        pros={casino.pros}
+        cons={casino.cons}
+      />
+
       {/* CASINO LIVE INTERACTIVE FRAME / ADMIN BANNER */}
       <CasinoWebsitePreview
         key={`${casino.id || ''}-${casino.slug || ''}-${casino.affiliate_url || ''}`}
@@ -423,78 +433,17 @@ export default function CasinoReviewClient({ casino }: Props) {
         featuredImage={casino.featured_image}
       />
 
-      {/* WELCOME BONUS */}
-      <div>
-        <h2 className="font-poppins text-[24px] font-bold leading-[24px] tracking-normal text-[#16171D] mb-3">
-          Welcome Bonus & Promotions
-        </h2>
-        <div className="card-animated-border rounded-2xl bg-[linear-gradient(158.37deg,#FF9C2C_2.3%,#FFF1CC_15.9%,#B45B1B_24.24%,#FFC170_62.4%,#FEE5B3_75.76%,#9F5E26_90.07%)] p-[1px]">
-          <div className="rounded-2xl p-6 bg-[linear-gradient(0deg,rgba(255,255,255,0.033),rgba(255,255,255,0.033)),linear-gradient(231.79deg,#D5EDFF_32.55%,#EEECFF_43.54%,#F9F3FF_53.23%,#F5FCFF_66.16%,#E9F5FF_79.08%)]">
-            <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 pb-4 border-b border-[#2E68FB]">
-              <div>
-                <span
-                  className="inline-flex items-center px-2.5 py-1 rounded-md text-[9px] font-extrabold uppercase tracking-wide text-white border border-[#F59E0B4D]"
-                  style={{
-                    background:
-                      "linear-gradient(90deg, #F59E0B 0%, #D97706 100%)",
-                  }}
-                >
-                  Welcome Offer
-                </span>
-                <h3 className="font-poppins font-semibold text-[26px] leading-[100%] tracking-normal text-[#111827] mt-2">
-                  {mainBonusTitle}
-                </h3>
-                <p className="font-poppins font-normal text-[12px] leading-[100%] tracking-[0.01em] text-[#4D4D4D] mt-0.5">
-                  No promo code required bonus credited automatically.
-                </p>
-              </div>
-              <CasinoAffiliateButton
-                casinoId={casino.id}
-                defaultUrl={
-                  casino.affiliate_url ||
-                  casino.default_affiliate_url ||
-                  casino.website_url
-                }
-                className="btn-amber-glow inline-flex items-center justify-center gap-[3px] w-[195px] h-[52px] px-[10px] py-[14px] rounded-[12px] font-poppins font-semibold text-[14px] leading-[100%] tracking-normal text-[#16171D] bg-[linear-gradient(180deg,#FFE11F_0%,#FF8533_100%)] shadow-[0px_2px_0px_0px_#E36D1F] transition-all duration-200 hover:opacity-95 shrink-0"
-              >
-                Claim Bonus <span className="text-base">▶</span>
-              </CasinoAffiliateButton>
-            </div>
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-4 pt-4 text-xs">
-              <div>
-                <p className="font-bold text-black uppercase tracking-wider text-[12px]">
-                  Min Deposit:
-                </p>
-                <p className="font-bold text-gray-900 text-[16px] mt-1">
-                  ${casino.minimum_deposit}
-                </p>
-              </div>
-              <div>
-                <p className="font-bold text-black uppercase tracking-wider text-[12px]">
-                  Wagering:
-                </p>
-                <p className="font-bold text-gray-900 text-[16px] mt-1">35x</p>
-              </div>
-              <div>
-                <p className="font-bold text-black uppercase tracking-wider text-[12px]">
-                  Max Cashout:
-                </p>
-                <p className="font-bold text-gray-900 text-[16px] mt-1">
-                  Unlimited
-                </p>
-              </div>
-              <div>
-                <p className="font-bold text-black uppercase tracking-wider text-[12px]">
-                  Validity:
-                </p>
-                <p className="font-bold text-gray-900 text-[16px] mt-1">
-                  30 days
-                </p>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
+      {/* BONUSES & PROMOTIONS SLIDER */}
+      <CasinoBonusesSection
+        casinoId={casino.id}
+        casinoName={casino.name}
+        defaultAffiliateUrl={
+          casino.affiliate_url ||
+          casino.default_affiliate_url ||
+          casino.website_url
+        }
+        bonuses={casino.bonuses}
+      />
 
       {/* DEPOSIT INFO */}
       <div className="mt-10">
@@ -628,6 +577,12 @@ export default function CasinoReviewClient({ casino }: Props) {
           ))}
         </div>
       </div>
+
+      {/* RESPONSIBLE GAMING & SAFETY TOOLS */}
+      <CasinoGamingToolsSection
+        casinoName={casino.name}
+        gamingTools={casino.gaming_tools}
+      />
 
       {/* EXPERT REVIEW */}
       <div className="mt-10">

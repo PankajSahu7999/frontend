@@ -9,6 +9,7 @@ import CasinoReviews from '../../../../../components/admin/CasinoReviews';
 import CasinoAffiliateLinks from '../../../../../components/admin/CasinoAffiliateLinks';
 import MultiLicenseInput from '../../../../../components/admin/MultiLicenseInput';
 import CasinoAcceptanceInput from '../../../../../components/admin/CasinoAcceptanceInput';
+import CasinoGamingToolsInput from '../../../../../components/admin/CasinoGamingToolsInput';
 export default function EditCasinoPage({ params }: { params: Promise<{ id: string }> }) {
   const router = useRouter();
   const resolvedParams = use(params);
@@ -105,6 +106,7 @@ export default function EditCasinoPage({ params }: { params: Promise<{ id: strin
     live_casino: true,
     sports_betting: false,
     responsible_gaming: true,
+    gaming_tools: '',
     meta_title: '',
     meta_description: '',
     meta_keywords: '',
@@ -174,6 +176,7 @@ export default function EditCasinoPage({ params }: { params: Promise<{ id: strin
         live_casino: !!data.live_casino,
         sports_betting: !!data.sports_betting,
         responsible_gaming: !!data.responsible_gaming,
+        gaming_tools: Array.isArray(data.gaming_tools) ? data.gaming_tools.join('\n') : (data.gaming_tools || ''),
         meta_title: data.meta_title || '',
         meta_description: data.meta_description || '',
         meta_keywords: Array.isArray(data.meta_keywords) ? data.meta_keywords.join(', ') : '',
@@ -205,7 +208,21 @@ export default function EditCasinoPage({ params }: { params: Promise<{ id: strin
   };
 
   const handleAddBonus = () => {
-    setBonuses([...bonuses, { title: '100% Welcome Bonus', type: 'Welcome Bonus', amount: '$1000', bonus_code: '', wagering_requirement: '35x', sort_order: bonuses.length }]);
+    setBonuses([
+      ...bonuses,
+      {
+        title: '100% Welcome Bonus',
+        type: 'Welcome Bonus',
+        amount: '$1000',
+        bonus_code: '',
+        wagering_requirement: '35x',
+        minimum_deposit: '15',
+        bonus_percentage: '100%',
+        affiliate_url: '',
+        terms_url: '',
+        sort_order: bonuses.length,
+      },
+    ]);
   };
 
   const handleRemoveBonus = (index: number) => {
@@ -665,6 +682,14 @@ export default function EditCasinoPage({ params }: { params: Promise<{ id: strin
       />
     </div>
 
+    {/* Responsible Gaming Tools & Player Safety */}
+    <div className="rounded-xl border border-slate-200 bg-white p-6 shadow-sm">
+      <CasinoGamingToolsInput
+        value={formData.gaming_tools}
+        onChange={(val) => setFormData({ ...formData, gaming_tools: val })}
+      />
+    </div>
+
     {/* Payment / Providers */}
     <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
       <Input
@@ -825,16 +850,19 @@ export default function EditCasinoPage({ params }: { params: Promise<{ id: strin
                           label="Bonus Title" 
                           value={bonus.title} 
                           onChange={(e) => handleBonusChange(index, 'title', e.target.value)} 
-                          placeholder="e.g. 100% up to $1000"
+                          placeholder="e.g. 200% up to $2000 + 100 Free Spins"
                           required
                         />
                         <Select 
-                          label="Type" 
+                          label="Type / Badge" 
                           options={[
                             {value: 'Welcome Bonus', label: 'Welcome Bonus'},
+                            {value: 'Match Deposit Bonus', label: 'Match Deposit Bonus'},
+                            {value: 'Deposit Bonus', label: 'Deposit Bonus'},
                             {value: 'Free Spins Bonus', label: 'Free Spins Bonus'},
                             {value: 'Cashback Bonus', label: 'Cashback Bonus'},
                             {value: 'No Deposit Bonus', label: 'No Deposit Bonus'},
+                            {value: 'Reload Bonus', label: 'Reload Bonus'},
                             {value: 'VIP Bonus', label: 'VIP Bonus'},
                             {value: 'Exclusive Bonus', label: 'Exclusive Bonus'}
                           ]}
@@ -845,26 +873,48 @@ export default function EditCasinoPage({ params }: { params: Promise<{ id: strin
                           label="Amount / Value" 
                           value={bonus.amount} 
                           onChange={(e) => handleBonusChange(index, 'amount', e.target.value)} 
-                          placeholder="e.g. $1,000"
+                          placeholder="e.g. $2,000"
                           required
                         />
                       </div>
-                      <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                      <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
                         <Input 
-                          label="Bonus Promo Code" 
-                          value={bonus.bonus_code} 
-                          onChange={(e) => handleBonusChange(index, 'bonus_code', e.target.value)} 
-                          placeholder="e.g. SPIN100"
+                          label="Bonus Percentage" 
+                          value={bonus.bonus_percentage || ''} 
+                          onChange={(e) => handleBonusChange(index, 'bonus_percentage', e.target.value)} 
+                          placeholder="e.g. 200%"
+                        />
+                        <Input 
+                          label="Minimum Deposit" 
+                          value={bonus.minimum_deposit || ''} 
+                          onChange={(e) => handleBonusChange(index, 'minimum_deposit', e.target.value)} 
+                          placeholder="e.g. $15"
                         />
                         <Input 
                           label="Wagering Requirements" 
-                          value={bonus.wagering_requirement} 
+                          value={bonus.wagering_requirement || ''} 
                           onChange={(e) => handleBonusChange(index, 'wagering_requirement', e.target.value)} 
-                          placeholder="e.g. 35x"
+                          placeholder="e.g. 30x(d+b)"
                         />
                         <Input 
+                          label="Bonus Promo Code" 
+                          value={bonus.bonus_code || ''} 
+                          onChange={(e) => handleBonusChange(index, 'bonus_code', e.target.value)} 
+                          placeholder="e.g. AG600"
+                        />
+                      </div>
+                      <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                        <div className="md:col-span-2">
+                          <Input 
+                            label="Specific Bonus Affiliate Link (Optional)" 
+                            value={bonus.affiliate_url || ''} 
+                            onChange={(e) => handleBonusChange(index, 'affiliate_url', e.target.value)} 
+                            placeholder="https://tracking.affiliate.com/unique-promo-link (Leave empty to use casino default)"
+                          />
+                        </div>
+                        <Input 
                           label="Sort Order" 
-                          type="number"
+                          type="number" 
                           value={bonus.sort_order} 
                           onChange={(e) => handleBonusChange(index, 'sort_order', e.target.value)} 
                           placeholder="0"
