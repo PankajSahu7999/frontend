@@ -83,6 +83,7 @@ export default function AdminClientLayout({
           
           <NavGroup title="Directory">
             <NavItem href="/admin/casinos" icon={Building2}>Casinos</NavItem>
+            <NavItem href="/admin/games" icon={Gamepad2}>Games</NavItem>
             <NavItem href="/admin/categories" icon={Tags}>Categories</NavItem>
             <NavItem href="/admin/tags" icon={Tags}>Tags</NavItem>
             <NavItem href="/admin/countries" icon={Globe}>Countries</NavItem>
