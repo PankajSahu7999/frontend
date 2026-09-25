@@ -2,7 +2,7 @@
 
 import React, { useRef, useState } from 'react';
 import Link from 'next/link';
-import { ChevronLeft, ChevronRight, ExternalLink, Copy, Check, Info } from 'lucide-react';
+import { ChevronLeft, ChevronRight, ShieldCheck, ExternalLink, Copy, Check, Info } from 'lucide-react';
 
 export interface CasinoBonusItem {
   id?: string;
@@ -40,39 +40,39 @@ export default function CasinoBonusesSection({
     bonuses.length > 0
       ? bonuses
       : [
-          {
-            title: `200% up to $2,000 + 100 Free Spins, 1st Deposit Bonus`,
-            type: 'Welcome Bonus',
-            minimum_deposit: '$15',
-            wagering_requirement: '30x(d+b)',
-            bonus_percentage: '200%',
-            affiliate_url: defaultAffiliateUrl,
-          },
-          {
-            title: `100% up to $2,000 + 100 Free Spins, 2nd Deposit Bonus`,
-            type: 'Match Deposit Bonus',
-            minimum_deposit: '$15',
-            wagering_requirement: '30x(d+b)',
-            bonus_percentage: '100%',
-            affiliate_url: defaultAffiliateUrl,
-          },
-          {
-            title: `75% up to $2,000 + 100 Free Spins, 3rd Deposit Bonus`,
-            type: 'Match Deposit Bonus',
-            minimum_deposit: '$15',
-            wagering_requirement: '30x(d+b)',
-            bonus_percentage: '75%',
-            affiliate_url: defaultAffiliateUrl,
-          },
-          {
-            title: `125% up to $2,000 + 100 Free Spins, 4th Deposit Bonus`,
-            type: 'Match Deposit Bonus',
-            minimum_deposit: '$15',
-            wagering_requirement: '30x(d+b)',
-            bonus_percentage: '125%',
-            affiliate_url: defaultAffiliateUrl,
-          },
-        ];
+        {
+          title: `200% up to $2,000 + 100 Free Spins, 1st Deposit Bonus`,
+          type: 'Welcome Bonus',
+          minimum_deposit: '$15',
+          wagering_requirement: '30x(d+b)',
+          bonus_percentage: '200%',
+          affiliate_url: defaultAffiliateUrl,
+        },
+        {
+          title: `100% up to $2,000 + 100 Free Spins, 2nd Deposit Bonus`,
+          type: 'Match Deposit Bonus',
+          minimum_deposit: '$15',
+          wagering_requirement: '30x(d+b)',
+          bonus_percentage: '100%',
+          affiliate_url: defaultAffiliateUrl,
+        },
+        {
+          title: `75% up to $2,000 + 100 Free Spins, 3rd Deposit Bonus`,
+          type: 'Match Deposit Bonus',
+          minimum_deposit: '$15',
+          wagering_requirement: '30x(d+b)',
+          bonus_percentage: '75%',
+          affiliate_url: defaultAffiliateUrl,
+        },
+        {
+          title: `125% up to $2,000 + 100 Free Spins, 4th Deposit Bonus`,
+          type: 'Match Deposit Bonus',
+          minimum_deposit: '$15',
+          wagering_requirement: '30x(d+b)',
+          bonus_percentage: '125%',
+          affiliate_url: defaultAffiliateUrl,
+        },
+      ];
 
   const scroll = (direction: 'left' | 'right') => {
     if (scrollContainerRef.current) {
@@ -93,52 +93,24 @@ export default function CasinoBonusesSection({
   return (
     <section className="mt-10">
       {/* Blue Banner Outer Container - Matches media_1790358377405.png */}
-      <div className="relative rounded-3xl p-6 sm:p-8 bg-gradient-to-r from-[#0051B3] via-[#0B5FD7] to-[#1C73E8] shadow-xl overflow-hidden">
+      <div className="relative overflow-hidden">
         {/* Subtle decorative glow accents */}
-        <div className="absolute -top-24 -right-24 w-80 h-80 rounded-full bg-blue-400/20 blur-3xl pointer-events-none" />
-        <div className="absolute -bottom-24 -left-24 w-80 h-80 rounded-full bg-indigo-500/20 blur-3xl pointer-events-none" />
 
-        {/* Header Row */}
-        <div className="relative z-10 flex flex-col md:flex-row md:items-center justify-between gap-4 mb-6">
-          <div>
-            <h2 className="text-2xl sm:text-3xl font-black text-white tracking-tight inline-block border-b-2 border-white/70 pb-1">
-              {casinoName} Bonuses
-            </h2>
-            <p className="mt-2 text-xs sm:text-sm text-blue-100 font-medium max-w-xl">
-              Check out other {casinoName} bonuses and pick one that suits your preferences best.
-            </p>
-          </div>
 
-          {/* Action buttons on right */}
-          <div className="flex items-center gap-3 self-end md:self-auto">
-            <Link
-              href="/bonuses"
-              className="inline-flex items-center justify-center px-4 py-2 rounded-full text-xs font-bold text-[#0051B3] bg-white hover:bg-blue-50 active:scale-95 transition-all shadow-sm"
-            >
-              Discover all
-            </Link>
-
-            {/* Slider arrows */}
-            <div className="flex items-center gap-1.5">
-              <button
-                type="button"
-                onClick={() => scroll('left')}
-                aria-label="Previous bonuses"
-                className="w-8 h-8 rounded-full border border-white/50 bg-white/10 hover:bg-white/25 active:scale-90 flex items-center justify-center text-white transition-all backdrop-blur-xs"
-              >
-                <ChevronLeft className="w-4 h-4" />
-              </button>
-              <button
-                type="button"
-                onClick={() => scroll('right')}
-                aria-label="Next bonuses"
-                className="w-8 h-8 rounded-full border border-white/50 bg-white/10 hover:bg-white/25 active:scale-90 flex items-center justify-center text-white transition-all backdrop-blur-xs"
-              >
-                <ChevronRight className="w-4 h-4" />
-              </button>
-            </div>
+        <div className="inline-flex rounded-full bg-[radial-gradient(circle_at_center,#B8CEFF_0%,#2E68FB_100%)] p-[1px]">
+          <div className="flex items-center gap-1 rounded-full bg-[#E6EDFF] px-4 py-1">
+            <ShieldCheck className="w-3.5 h-3.5 text-[#2E68FB]" />
+            <span className="font-poppins text-[10px] font-medium uppercase text-[#2E68FB]">
+              Casino Bonuses Section
+            </span>
           </div>
         </div>
+
+        <h2 className="font-poppins text-[24px] font-bold leading-[24px] tracking-normal text-[#16171D] mb-6 mt-3">
+          {casinoName} Bonuses
+        </h2>
+
+
 
         {/* Carousel / Cards Horizontal Container */}
         <div
@@ -151,7 +123,12 @@ export default function CasinoBonusesSection({
             const badgeType = bonus.type || 'Welcome Bonus';
             const minDeposit = bonus.minimum_deposit || '$15';
             const wagering = bonus.wagering_requirement || '30x(d+b)';
-            const bonusPercentage = bonus.bonus_percentage || (bonus.amount ? bonus.amount : '100%');
+            const hasPercentage = Boolean(bonus.bonus_percentage && bonus.bonus_percentage.trim());
+            const bonusMetricLabel = hasPercentage ? 'Bonus Percentage' : 'Bonus Value';
+            const bonusMetricValue = hasPercentage
+              ? bonus.bonus_percentage
+              : (bonus.amount || '100%');
+            const hasBonusCode = Boolean(bonus.bonus_code && bonus.bonus_code.trim());
 
             return (
               <div
@@ -165,12 +142,12 @@ export default function CasinoBonusesSection({
                   </span>
 
                   {/* Title */}
-                  <h3 className="mt-3.5 font-bold text-[15px] sm:text-[16px] text-slate-900 leading-snug min-h-[44px] line-clamp-2">
+                  <h3 className="mt-3.5 font-bold text-[15px] sm:text-[16px] text-slate-900 leading-snug min-h-[24px] line-clamp-2">
                     {bonus.title}
                   </h3>
 
                   {/* Metrics Grid */}
-                  <div className="grid grid-cols-2 gap-x-2 gap-y-3 mt-4 pt-4 border-t border-slate-100 text-left">
+                  <div className="grid grid-cols-2 gap-x-2 gap-y-3 pt-4 border-t border-slate-100 text-left">
                     <div>
                       <span className="text-[11px] text-slate-400 font-medium block">
                         Minimum Deposit
@@ -182,23 +159,16 @@ export default function CasinoBonusesSection({
 
                     <div>
                       <span className="text-[11px] text-slate-400 font-medium block">
-                        Wagering Requirements
+                        Wagering
                       </span>
                       <span className="text-sm font-bold text-slate-900 block mt-0.5">
                         {wagering}
                       </span>
                     </div>
 
-                    <div>
-                      <span className="text-[11px] text-slate-400 font-medium block">
-                        Bonus Percentage
-                      </span>
-                      <span className="text-sm font-bold text-slate-900 block mt-0.5">
-                        {bonusPercentage}
-                      </span>
-                    </div>
 
-                    {bonus.bonus_code ? (
+
+                    {hasBonusCode ? (
                       <div>
                         <span className="text-[11px] text-slate-400 font-medium block">
                           Bonus Code
@@ -219,30 +189,19 @@ export default function CasinoBonusesSection({
                           </button>
                         </div>
                       </div>
-                    ) : (
-                      <div>
-                        <span className="text-[11px] text-slate-400 font-medium block">
-                          Bonus Value
-                        </span>
-                        <span className="text-sm font-bold text-slate-900 block mt-0.5">
-                          {bonus.amount || 'Instant'}
-                        </span>
-                      </div>
-                    )}
+                    ) : null}
                   </div>
                 </div>
-
-                <div className="mt-5 pt-3">
-                  {/* More info link */}
-                  <button
-                    type="button"
-                    onClick={() => setActiveModalBonus(bonus)}
-                    className="text-xs font-semibold text-blue-600 hover:text-blue-700 underline block mb-3 text-left transition"
-                  >
-                    More info
-                  </button>
-
-                  {/* Claim Bonus CTA button with distinct affiliate link */}
+                <div>
+                  <span className="text-[11px] mt-3 text-slate-400 font-medium block">
+                    {bonusMetricLabel}
+                  </span>
+                  <span className="text-sm font-bold text-slate-900 block mt-0.5">
+                    {bonusMetricValue}
+                  </span>
+                </div>
+                <div className="mt-3">
+                 
                   <a
                     href={affiliateTarget}
                     target="_blank"
@@ -253,10 +212,7 @@ export default function CasinoBonusesSection({
                     <ExternalLink className="w-4 h-4" />
                   </a>
 
-                  {/* T&Cs Apply */}
-                  <p className="text-[11px] text-slate-400 hover:text-slate-600 text-center mt-2.5 cursor-pointer underline">
-                    T&Cs Apply
-                  </p>
+                 
                 </div>
               </div>
             );

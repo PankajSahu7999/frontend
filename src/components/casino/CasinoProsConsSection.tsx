@@ -51,21 +51,17 @@ export default function CasinoProsConsSection({
         </div>
       </div>
 
-      <h2 className="font-poppins text-[24px] font-bold leading-[24px] tracking-normal text-[#16171D] mb-3 mt-3">
+      <h2 className="font-poppins text-[24px] font-bold leading-[24px] tracking-normal text-[#16171D] mb-6 mt-3">
         {casinoName} Pros & Cons
       </h2>
-      <p className="text-sm text-gray-500 max-w-2xl mb-6">
-        Our editorial review team evaluated {casinoName} based on licensing, bonus transparency, payout speeds, and game fairness. Here is what we found:
-      </p>
+    
 
       {/* Dual Cards Grid */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
         {/* PROS CARD */}
         <div className="rounded-2xl border border-emerald-200/90 bg-gradient-to-b from-[#F2FFF7] via-white to-white p-6 shadow-sm transition hover:shadow-md">
           <div className="flex items-center gap-3 pb-4 border-b border-emerald-100 mb-4">
-            <div className="w-10 h-10 rounded-xl bg-emerald-500 flex items-center justify-center text-white shadow-xs">
-              <Check className="w-5 h-5 stroke-[2.5]" />
-            </div>
+           
             <div>
               <h3 className="font-poppins text-lg font-bold text-slate-900">
                 What We Like (Pros)
@@ -93,9 +89,7 @@ export default function CasinoProsConsSection({
         {/* CONS CARD */}
         <div className="rounded-2xl border border-rose-200/90 bg-gradient-to-b from-[#FFF5F5] via-white to-white p-6 shadow-sm transition hover:shadow-md">
           <div className="flex items-center gap-3 pb-4 border-b border-rose-100 mb-4">
-            <div className="w-10 h-10 rounded-xl bg-rose-500 flex items-center justify-center text-white shadow-xs">
-              <X className="w-5 h-5 stroke-[2.5]" />
-            </div>
+          
             <div>
               <h3 className="font-poppins text-lg font-bold text-slate-900">
                 What Could Be Better (Cons)

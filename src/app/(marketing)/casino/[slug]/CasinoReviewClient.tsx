@@ -418,12 +418,7 @@ export default function CasinoReviewClient({ casino }: Props) {
         </div>
       </div>
 
-      {/* PROS & CONS */}
-      <CasinoProsConsSection
-        casinoName={casino.name}
-        pros={casino.pros}
-        cons={casino.cons}
-      />
+      
 
       {/* CASINO LIVE INTERACTIVE FRAME / ADMIN BANNER */}
       <CasinoWebsitePreview
@@ -433,17 +428,7 @@ export default function CasinoReviewClient({ casino }: Props) {
         featuredImage={casino.featured_image}
       />
 
-      {/* BONUSES & PROMOTIONS SLIDER */}
-      <CasinoBonusesSection
-        casinoId={casino.id}
-        casinoName={casino.name}
-        defaultAffiliateUrl={
-          casino.affiliate_url ||
-          casino.default_affiliate_url ||
-          casino.website_url
-        }
-        bonuses={casino.bonuses}
-      />
+     
 
       {/* DEPOSIT INFO */}
       <div className="mt-10">
@@ -492,6 +477,12 @@ export default function CasinoReviewClient({ casino }: Props) {
       <CasinoBankingAndLanguages
         paymentMethods={casino.payment_methods}
         languages={casino.languages}
+      />
+      {/* PROS & CONS */}
+      <CasinoProsConsSection
+        casinoName={casino.name}
+        pros={casino.pros}
+        cons={casino.cons}
       />
 
       {/* GAMES */}
@@ -577,6 +568,17 @@ export default function CasinoReviewClient({ casino }: Props) {
           ))}
         </div>
       </div>
+       {/* BONUSES & PROMOTIONS SLIDER */}
+      <CasinoBonusesSection
+        casinoId={casino.id}
+        casinoName={casino.name}
+        defaultAffiliateUrl={
+          casino.affiliate_url ||
+          casino.default_affiliate_url ||
+          casino.website_url
+        }
+        bonuses={casino.bonuses}
+      />
 
       {/* RESPONSIBLE GAMING & SAFETY TOOLS */}
       <CasinoGamingToolsSection

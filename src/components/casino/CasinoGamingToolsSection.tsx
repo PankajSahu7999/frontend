@@ -102,12 +102,10 @@ export default function CasinoGamingToolsSection({
         </div>
       </div>
 
-      <h2 className="font-poppins text-[24px] font-bold leading-[24px] tracking-normal text-[#16171D] mb-3 mt-3">
+      <h2 className="font-poppins text-[24px] font-bold leading-[24px] tracking-normal text-[#16171D] mb-6 mt-3">
         Responsible Gaming Tools at {casinoName}
       </h2>
-      <p className="text-sm text-gray-500 max-w-2xl mb-6">
-        Safe gambling is our highest priority. {casinoName} provides player control features directly inside your account profile to ensure your gaming remains safe, measured, and entertaining.
-      </p>
+  
 
       {/* Tools Grid */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-5">
