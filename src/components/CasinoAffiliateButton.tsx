@@ -23,10 +23,19 @@ export default function CasinoAffiliateButton({
 
   useEffect(() => {
     const fetchAffiliateLink = async () => {
+      if (!casinoId) {
+        setIsLoading(false);
+        return;
+      }
       try {
         const countryCode = await getUserCountryCode();
+        if (!countryCode) {
+          setIsLoading(false);
+          return;
+        }
+        const apiUrl = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:4000/api';
         const res = await fetch(
-          `${process.env.NEXT_PUBLIC_API_URL}/casino-affiliate-links/casino/${casinoId}/country/${countryCode}`
+          `${apiUrl}/casino-affiliate-links/casino/${encodeURIComponent(casinoId)}/country/${encodeURIComponent(countryCode)}`
         );
 
         if (res.ok) {
@@ -36,7 +45,7 @@ export default function CasinoAffiliateButton({
           }
         }
       } catch (error) {
-        console.error('Error fetching affiliate link:', error);
+        console.warn('Error fetching affiliate link:', error);
       } finally {
         setIsLoading(false);
       }

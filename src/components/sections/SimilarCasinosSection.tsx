@@ -22,8 +22,13 @@ export default function SimilarCasinosSection({ slug }: SimilarCasinosSectionPro
 
   useEffect(() => {
     const fetchSimilarCasinos = async () => {
+      if (!slug) {
+        setLoading(false);
+        return;
+      }
       try {
-        const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/casinos/slug/${slug}/similar`, {
+        const apiUrl = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:4000/api';
+        const res = await fetch(`${apiUrl}/casinos/slug/${encodeURIComponent(slug)}/similar`, {
           cache: 'no-store'
         });
         if (res.ok) {
@@ -31,7 +36,7 @@ export default function SimilarCasinosSection({ slug }: SimilarCasinosSectionPro
           setCasinos(data);
         }
       } catch (error) {
-        console.error('Failed to fetch similar casinos:', error);
+        console.warn('Failed to fetch similar casinos:', error);
       } finally {
         setLoading(false);
       }

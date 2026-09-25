@@ -33,8 +33,9 @@ export default function UserReviewForm({
     setSubmitError("");
 
     try {
+      const apiUrl = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:4000/api';
       const res = await fetch(
-        `${process.env.NEXT_PUBLIC_API_URL}/casino-reviews/user`,
+        `${apiUrl}/casino-reviews/user`,
         {
           method: "POST",
           headers: {

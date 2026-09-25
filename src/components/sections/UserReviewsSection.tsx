@@ -28,18 +28,23 @@ export default function UserReviewsSection({
   const [loading, setLoading] = useState(true);
 
   const fetchReviews = async () => {
+    if (!casinoId) {
+      setLoading(false);
+      return;
+    }
     try {
+      const apiUrl = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:4000/api';
       const res = await fetch(
-        `${process.env.NEXT_PUBLIC_API_URL}/casino-reviews/casino/${casinoId}`
+        `${apiUrl}/casino-reviews/casino/${encodeURIComponent(casinoId)}`
       );
 
       if (!res.ok) return;
 
       const data = await res.json();
 
-      setReviews(data);
+      setReviews(Array.isArray(data) ? data : []);
     } catch (error) {
-      console.error("Error fetching reviews:", error);
+      console.warn("Error fetching reviews:", error);
     } finally {
       setLoading(false);
     }
