@@ -39,8 +39,26 @@ async function getRecommendedGames() {
   }
 }
 
-export default async function GamesPage() {
-  const recommended = await getRecommendedGames();
+async function getRealCasinos() {
+  try {
+    const res = await fetch(buildApiUrl("/casinos?limit=8"), {
+      cache: "no-store",
+    });
+    if (!res.ok) {
+      return [];
+    }
+    return await res.json();
+  } catch (err) {
+    console.error("Error fetching real casinos for games hub:", err);
+    return [];
+  }
+}
 
-  return <GamesHubClient recommended={recommended} />;
+export default async function GamesPage() {
+  const [recommended, topCasinos] = await Promise.all([
+    getRecommendedGames(),
+    getRealCasinos(),
+  ]);
+
+  return <GamesHubClient recommended={recommended} topCasinos={topCasinos} />;
 }

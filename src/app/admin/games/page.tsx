@@ -3,12 +3,13 @@
 import React, { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
-import { Plus, Search, Edit2, Trash2, ExternalLink, Gamepad2, Eye } from 'lucide-react';
+import { Plus, Search, Edit2, Trash2, ExternalLink, Gamepad2, Eye, Sparkles, RefreshCw } from 'lucide-react';
 
 export default function AdminGamesPage() {
   const router = useRouter();
   const [games, setGames] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
+  const [seeding, setSeeding] = useState(false);
   const [search, setSearch] = useState('');
   const [selectedCategory, setSelectedCategory] = useState('All');
 
@@ -26,6 +27,29 @@ export default function AdminGamesPage() {
       console.error('Failed to fetch games:', err);
     } finally {
       setLoading(false);
+    }
+  };
+
+  const handleRunSeeder = async () => {
+    if (!confirm('Run Casino Games seeder on the server? This will seed or update the 25 official casino games.')) return;
+
+    setSeeding(true);
+    try {
+      const res = await fetch(`${apiUrl}/admin/games/seed`, {
+        method: 'POST',
+      });
+      const data = await res.json();
+      if (res.ok && data.success) {
+        alert(data.message || 'Successfully seeded casino games on the server!');
+        await fetchGames();
+      } else {
+        alert(data.error || 'Failed to seed games');
+      }
+    } catch (err) {
+      console.error('Error running seeder:', err);
+      alert('An error occurred while contacting the server seeder endpoint.');
+    } finally {
+      setSeeding(false);
     }
   };
 
@@ -80,13 +104,25 @@ export default function AdminGamesPage() {
           </p>
         </div>
 
-        <Link
-          href="/admin/games/new"
-          className="inline-flex items-center justify-center gap-2 px-4 py-2.5 bg-indigo-600 hover:bg-indigo-700 text-white text-sm font-semibold rounded-xl shadow-sm shadow-indigo-600/20 transition-all active:scale-95"
-        >
-          <Plus className="w-4 h-4" />
-          <span>Add New Game</span>
-        </Link>
+        <div className="flex items-center gap-3">
+          <button
+            type="button"
+            onClick={handleRunSeeder}
+            disabled={seeding}
+            className="inline-flex items-center justify-center gap-2 px-4 py-2.5 bg-emerald-600 hover:bg-emerald-700 disabled:opacity-50 text-white text-sm font-semibold rounded-xl shadow-sm shadow-emerald-600/20 transition-all active:scale-95 cursor-pointer"
+          >
+            <Sparkles className={`w-4 h-4 ${seeding ? 'animate-spin' : ''}`} />
+            <span>{seeding ? 'Seeding Database...' : 'Run Games Seeder'}</span>
+          </button>
+
+          <Link
+            href="/admin/games/new"
+            className="inline-flex items-center justify-center gap-2 px-4 py-2.5 bg-indigo-600 hover:bg-indigo-700 text-white text-sm font-semibold rounded-xl shadow-sm shadow-indigo-600/20 transition-all active:scale-95"
+          >
+            <Plus className="w-4 h-4" />
+            <span>Add New Game</span>
+          </Link>
+        </div>
       </div>
 
       {/* Filter and Search Bar */}

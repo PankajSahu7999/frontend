@@ -97,14 +97,38 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   });
 }
 
+async function getRealCasinos() {
+  try {
+    const res = await fetch(buildApiUrl("/casinos?limit=8"), {
+      cache: "no-store",
+    });
+    if (res.ok) {
+      return await res.json();
+    }
+    return [];
+  } catch (err) {
+    console.error("Error fetching real casinos for game detail:", err);
+    return [];
+  }
+}
+
 export default async function Page({ params }: Props) {
   const { slug } = await params;
 
   // 1. Check if this is an individual game
   const game = await getGameBySlug(slug);
   if (game) {
-    const sponsored = await getSponsoredSlots();
-    return <GameDetailClient game={game} sponsoredSlots={sponsored.length > 0 ? sponsored : undefined} />;
+    const [sponsored, topCasinos] = await Promise.all([
+      getSponsoredSlots(),
+      getRealCasinos(),
+    ]);
+    return (
+      <GameDetailClient
+        game={game}
+        sponsoredSlots={sponsored.length > 0 ? sponsored : undefined}
+        topCasinos={topCasinos}
+      />
+    );
   }
 
   // 2. Otherwise render category list

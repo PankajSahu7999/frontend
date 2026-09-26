@@ -1,25 +1,26 @@
 'use client';
 
-import React, { useState } from 'react';
+import React from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import {
-  ShieldCheck,
-  CheckCircle2,
-  ChevronDown,
-  ExternalLink,
   Sparkles,
   Info,
   Layers,
-  HelpCircle,
-  Award,
   ChevronRight,
-  TrendingUp,
-  Percent,
-  Play,
+  ArrowRight,
+  BadgeCheck,
+  CheckCircle2,
+  Gamepad2,
   Flame,
-  ArrowRight
+  Award
 } from 'lucide-react';
+import StarRating from '@/components/ui/StarRating';
+import CasinoCardBadge from '@/components/casino/CasinoCardBadge';
+import CasinoAffiliateButton from '@/components/CasinoAffiliateButton';
+import CasinoCardDisclaimer from '@/components/CasinoCardDisclaimer';
+import { getImageUrl } from '@/lib/utils/getImageUrl';
+import { formatPayoutTime } from '@/lib/utils';
 
 interface GameItem {
   id: string;
@@ -48,6 +49,7 @@ interface RecommendedData {
 
 interface Props {
   recommended: RecommendedData;
+  topCasinos?: any[];
 }
 
 const CATEGORIES = [
@@ -81,157 +83,172 @@ const FAQS = [
   },
 ];
 
-export default function GamesHubClient({ recommended }: Props) {
-  const [activeCategory, setActiveCategory] = useState<string>('All');
-  const [openFaq, setOpenFaq] = useState<number | null>(null);
-
-  const toggleFaq = (index: number) => {
-    setOpenFaq(openFaq === index ? null : index);
-  };
-
+export default function GamesHubClient({ recommended, topCasinos = [] }: Props) {
   return (
-    <div className="bg-[#FAFBFD] min-h-screen text-[#16171D]">
-      {/* 1. HERO TOP BANNER WITH GAME IMAGE */}
-      <div className="relative overflow-hidden bg-gradient-to-r from-[#002661] via-[#0047A5] to-[#1C73E8] text-white py-14 sm:py-20 px-4">
-        {/* Background ambient lighting */}
-        <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_right,rgba(255,255,255,0.15),transparent_60%)] pointer-events-none" />
-        <div className="absolute -bottom-20 -right-20 w-96 h-96 rounded-full bg-blue-400/20 blur-3xl pointer-events-none" />
-
-        <div className="max-w-6xl mx-auto relative z-10">
-          <div className="flex flex-col lg:flex-row items-center justify-between gap-10">
-            <div className="max-w-2xl">
-              {/* Badge */}
-              <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/10 backdrop-blur-xs border border-white/20 text-white text-xs font-bold uppercase tracking-wider mb-4">
-                <Flame className="w-3.5 h-3.5 text-amber-400" />
-                <span>Hot Casino Game Categories</span>
-              </div>
-
-              <h1 className="font-poppins text-3xl sm:text-5xl font-black tracking-tight leading-tight">
-                Casino Games Hub
-              </h1>
-
-              <p className="mt-4 text-sm sm:text-base text-blue-100 font-normal leading-relaxed max-w-xl">
-                Explore the world's most popular online casino games, compare house edges and RTPs, practice in free-play demo mode, and find verified licensed operators to play for real money.
-              </p>
-
-              {/* Category Quick Chips */}
-              <div className="mt-8 flex flex-wrap gap-2.5">
-                {CATEGORIES.map((cat) => (
-                  <Link
-                    key={cat.slug}
-                    href={`#${cat.slug}`}
-                    className="inline-flex items-center gap-2 px-4 py-2 rounded-xl text-xs sm:text-sm font-semibold bg-white/15 hover:bg-white text-white hover:text-blue-900 border border-white/25 shadow-sm transition-all active:scale-95"
-                  >
-                    <span>{cat.icon}</span>
-                    <span>{cat.name}</span>
-                  </Link>
-                ))}
-              </div>
+    <div className="mx-auto px-4 py-8 font-sans text-gray-800 min-h-screen max-w-7xl">
+      {/* 1. HERO CARD - EXACT THEME MATCH WITH CASINO REVIEW HERO */}
+      <div className="card-animated-border rounded-2xl p-[2px] bg-[linear-gradient(158.37deg,_#FF9C2C_2.3%,_#FFF1CC_15.9%,_#B45B1B_24.24%,_#FFC170_62.4%,_#FEE5B3_75.76%,_#9F5E26_90.07%)] mb-10">
+        <div
+          className="rounded-[14px] p-6 sm:p-8 shadow-sm flex flex-col lg:flex-row gap-8 items-center justify-between"
+          style={{
+            background:
+              'linear-gradient(231.79deg, #D5EDFF 32.55%, #EEECFF 43.54%, #F9F3FF 53.23%, #F5FCFF 66.16%, #E9F5FF 79.08%)',
+          }}
+        >
+          <div className="max-w-2xl text-center lg:text-left">
+            <div className="flex flex-wrap items-center justify-center lg:justify-start gap-2 mb-2">
+              <span className="px-3 py-1 rounded-full text-white text-[11px] font-semibold border border-[#F59E0B4D] bg-[linear-gradient(90deg,_#F59E0B_0%,_#D97706_100%)]">
+                Hot Casino Game Categories
+              </span>
             </div>
 
-            {/* Hero Visual Game Showcase Box */}
-            <div className="w-full lg:w-96 rounded-2xl bg-white/10 backdrop-blur-md border border-white/20 p-5 shadow-2xl relative">
-              <div className="flex items-center justify-between pb-3 border-b border-white/15 mb-4">
-                <span className="text-xs font-bold text-amber-300 uppercase tracking-wide flex items-center gap-1.5">
-                  <Sparkles className="w-3.5 h-3.5" /> Featured Game
-                </span>
-                <span className="text-[11px] font-semibold text-blue-200">Real Dealer Studios</span>
-              </div>
+            <h1 className="font-poppins text-3xl sm:text-5xl font-bold tracking-tight text-gray-900 leading-tight">
+              Casino Games Hub
+            </h1>
 
-              <div className="relative h-44 rounded-xl overflow-hidden mb-4 border border-white/10 group">
-                <img
-                  src="https://images.unsplash.com/photo-1518609878373-06d740f60d8b?w=800&auto=format&fit=crop&q=80"
-                  alt="Hockey Fever Roulette"
-                  className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent flex items-end p-4">
-                  <div>
-                    <h4 className="font-bold text-white text-lg leading-tight">Hockey Fever Roulette</h4>
-                    <p className="text-xs text-blue-200 mt-0.5">RTP: 97.3% • European Single Zero</p>
-                  </div>
+            <p className="mt-3 text-sm text-[#475467] leading-relaxed max-w-xl">
+              Explore the world's most popular online casino games, compare house edges and RTPs,
+              practice in free-play demo mode, and find verified licensed operators to play for real
+              money.
+            </p>
+
+            {/* Category Quick Chips */}
+            <div className="mt-6 flex flex-wrap justify-center lg:justify-start gap-2">
+              {CATEGORIES.map((cat) => (
+                <Link
+                  key={cat.slug}
+                  href={`#${cat.slug}`}
+                  className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-xl text-xs font-semibold bg-white/80 hover:bg-white text-[#16171D] hover:text-[#2E68FB] border border-[#2E68FB30] shadow-xs transition"
+                >
+                  <span>{cat.icon}</span>
+                  <span>{cat.name}</span>
+                </Link>
+              ))}
+            </div>
+          </div>
+
+          {/* Featured Game Card */}
+          <div className="w-full sm:w-[320px] rounded-2xl bg-white/70 p-4 border border-[#2E68FB40] shadow-xs shrink-0">
+            <div className="flex items-center justify-between pb-2 mb-3 border-b border-[#EEF2FF]">
+              <span className="text-[11px] font-bold text-[#F59E0B] uppercase flex items-center gap-1">
+                <Sparkles className="w-3.5 h-3.5" /> Featured Game
+              </span>
+              <span className="text-[11px] font-semibold text-gray-500">Real Dealer Studios</span>
+            </div>
+
+            <div className="relative h-40 rounded-xl overflow-hidden mb-3 border border-[#2E68FB20]">
+              <img
+                src="https://images.unsplash.com/photo-1518609878373-06d740f60d8b?w=800&auto=format&fit=crop&q=80"
+                alt="Hockey Fever Roulette"
+                className="w-full h-full object-cover"
+              />
+              <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent flex items-end p-3">
+                <div>
+                  <h4 className="font-bold text-white text-base leading-tight">
+                    Hockey Fever Roulette
+                  </h4>
+                  <p className="text-[11px] text-blue-200 mt-0.5">
+                    RTP: 97.3% • European Single Zero
+                  </p>
                 </div>
               </div>
-
-              <div className="flex items-center justify-between text-xs text-blue-100 mb-4 px-1">
-                <span>Volatility: <strong className="text-white">Medium</strong></span>
-                <span>Limits: <strong className="text-white">€0.25 - €1,000</strong></span>
-              </div>
-
-              <Link
-                href="/games/hockey-fever-roulette"
-                className="w-full py-2.5 rounded-xl bg-gradient-to-r from-amber-400 to-amber-500 hover:from-amber-300 hover:to-amber-400 text-slate-900 text-xs font-bold flex items-center justify-center gap-2 shadow-md transition-all active:scale-98"
-              >
-                <span>Play Demo & Read Review</span>
-                <ArrowRight className="w-4 h-4" />
-              </Link>
             </div>
+
+            <Link
+              href="/games/hockey-fever-roulette"
+              className="w-full py-2.5 rounded-xl text-[#16171D] text-xs font-bold flex items-center justify-center gap-2 shadow-xs transition"
+              style={{
+                background: 'linear-gradient(180deg, #FFE11F 0%, #FF8533 100%)',
+                boxShadow: '0px 2px 0px 0px #E36D1F',
+              }}
+            >
+              <span>Play Demo & Review</span>
+              <ArrowRight className="w-3.5 h-3.5" />
+            </Link>
           </div>
         </div>
       </div>
 
-      <div className="max-w-6xl mx-auto px-4 py-8">
-        {/* 2. AFFILIATE DISCLOSURE & AUTHOR */}
-        <div className="rounded-2xl border border-blue-150 bg-blue-50/60 p-4 sm:p-5 mb-10 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
-          <div className="flex items-start gap-3">
-            <div className="w-8 h-8 rounded-lg bg-blue-600/10 text-blue-600 flex items-center justify-center shrink-0 mt-0.5">
-              <Info className="w-4 h-4" />
-            </div>
-            <div>
-              <h4 className="text-xs font-bold text-slate-900 uppercase tracking-wider">
-                Affiliate Disclosure
-              </h4>
-              <p className="text-xs text-slate-600 mt-0.5 leading-relaxed">
-                Our content contains affiliate links and we may make a commission on operator registrations and deposits made through these links. We only recommend licensed operators and we would not endorse any brand that is not verified by our experts. Get the truth. Then play.
-              </p>
-            </div>
+      {/* 2. AFFILIATE DISCLOSURE & AUTHOR */}
+      <div
+        className="rounded-2xl p-6 mb-10 border border-[#2E68FB] shadow-sm flex flex-col md:flex-row items-start md:items-center justify-between gap-6"
+        style={{
+          background:
+            'linear-gradient(231.79deg, #D5EDFF 32.55%, #F5FCFF 66.16%, #E9F5FF 79.08%)',
+        }}
+      >
+        <div className="flex items-start gap-3">
+          <div className="w-8 h-8 rounded-lg bg-[#2E68FB]/10 text-[#2E68FB] flex items-center justify-center shrink-0 mt-0.5">
+            <Info className="w-4 h-4" />
           </div>
-
-          <div className="flex items-center gap-3 pl-0 sm:pl-4 sm:border-l border-blue-200/80 shrink-0">
-            <div className="w-10 h-10 rounded-full bg-slate-200 border-2 border-white shadow-xs overflow-hidden">
-              <img
-                src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=100&auto=format&fit=crop&q=80"
-                alt="Petar Mitrovic"
-                className="w-full h-full object-cover"
-              />
-            </div>
-            <div>
-              <span className="text-[10px] uppercase font-bold text-slate-400 block">Lead Casino Analyst</span>
-              <span className="text-xs font-bold text-slate-900">Petar Mitrovic</span>
-            </div>
+          <div>
+            <h4 className="text-xs font-bold text-[#16171D] uppercase tracking-wider">
+              Affiliate Disclosure
+            </h4>
+            <p className="text-xs text-[#475467] mt-1 leading-relaxed">
+              Our content contains affiliate links and we may make a commission on operator
+              registrations and deposits made through these links. We only recommend licensed
+              operators and we would not endorse any brand that is not verified by our experts. Get
+              the truth. Then play.
+            </p>
           </div>
         </div>
 
-        {/* 3. RECOMMENDED THIS MONTH */}
-        <section className="mb-14">
-          <div className="flex items-center gap-2 mb-2">
-            <div className="inline-flex rounded-full bg-[radial-gradient(circle_at_center,#B8CEFF_0%,#2E68FB_100%)] p-[1px]">
-              <div className="flex items-center gap-1 rounded-full bg-[#E6EDFF] px-3.5 py-0.5">
-                <Award className="w-3.5 h-3.5 text-[#2E68FB]" />
-                <span className="font-poppins text-[10px] font-bold uppercase text-[#2E68FB]">
-                  Editor's Picks
-                </span>
-              </div>
-            </div>
+        <div className="flex items-center gap-3 pl-0 md:pl-6 md:border-l border-[#2E68FB30] shrink-0">
+          <div className="w-11 h-11 rounded-full bg-[#E6EDFF] border border-[#2E68FB30] shadow-xs overflow-hidden">
+            <img
+              src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=100&auto=format&fit=crop&q=80"
+              alt="Petar Mitrovic"
+              className="w-full h-full object-cover"
+            />
           </div>
+          <div>
+            <span className="text-[10px] uppercase font-bold text-gray-400 block">
+              Lead Casino Analyst
+            </span>
+            <span className="text-sm font-bold text-[#16171D]">Petar Mitrovic</span>
+          </div>
+        </div>
+      </div>
 
-          <h2 className="font-poppins text-2xl sm:text-3xl font-bold tracking-tight text-slate-900 mb-8">
-            Recommended This Month
-          </h2>
+      {/* 3. RECOMMENDED THIS MONTH - PASTEL GRADIENT CARDS */}
+      <section className="mb-14">
+        <div className="inline-flex rounded-full bg-[radial-gradient(circle_at_center,#B8CEFF_0%,#2E68FB_100%)] p-[1px]">
+          <div className="flex items-center gap-1 rounded-full bg-[#E6EDFF] px-4 py-1">
+            <BadgeCheck className="w-3.5 h-3.5 text-[#2E68FB]" />
+            <span className="font-poppins text-[10px] font-medium uppercase text-[#2E68FB]">
+              Editor's Picks
+            </span>
+          </div>
+        </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-            {/* ONLINE POKER BLOCK */}
-            <div className="rounded-2xl border border-slate-200 bg-white p-6 shadow-xs flex flex-col justify-between">
+        <h2 className="font-poppins text-[24px] font-bold leading-[24px] tracking-normal text-[#16171D] mb-6 mt-3">
+          Recommended This Month
+        </h2>
+
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          {/* ONLINE POKER BLOCK */}
+          <div className="card-animated-border rounded-[24px] p-[2px] flex flex-col h-full">
+            <div
+              className="rounded-[22px] p-6 flex flex-col justify-between h-full"
+              style={{
+                background:
+                  'linear-gradient(231.79deg, #D5EDFF 32.55%, #EEECFF 43.54%, #F9F3FF 53.23%, #F5FCFF 66.16%, #E9F5FF 79.08%)',
+              }}
+            >
               <div>
-                <div className="flex items-center justify-between pb-3 border-b border-slate-100 mb-3">
-                  <h3 className="font-poppins text-lg font-bold text-slate-900 flex items-center gap-2">
+                <div className="flex items-center justify-between pb-3 border-b border-[#2E68FB20] mb-3">
+                  <h3 className="font-poppins text-lg font-bold text-gray-900 flex items-center gap-2">
                     <span>♠️</span> Online Poker
                   </h3>
-                  <span className="text-xs font-semibold text-blue-600 bg-blue-50 px-2.5 py-0.5 rounded-full">
-                    5 Top Picks
+                  <span className="text-xs font-semibold text-[#2E68FB] bg-[#E6EDFF] px-2.5 py-0.5 rounded-full border border-[#B8CEFF]">
+                    Top Picks
                   </span>
                 </div>
-                <p className="text-xs text-slate-500 leading-relaxed mb-4">
-                  Poker is one of the most played casino games in the world, but online poker has only boosted its popularity. Peruse our poker selection and find out what makes this game so timeless.
+                <p className="text-xs text-gray-600 leading-relaxed mb-4">
+                  Poker is one of the most played casino games in the world, but online poker has
+                  only boosted its popularity. Peruse our poker selection and find out what makes
+                  this game so timeless.
                 </p>
 
                 <div className="space-y-2.5">
@@ -239,46 +256,56 @@ export default function GamesHubClient({ recommended }: Props) {
                     <Link
                       key={game.id}
                       href={`/games/${game.slug}`}
-                      className="group flex items-center justify-between p-2.5 rounded-xl border border-slate-150 hover:border-blue-300 bg-slate-50/60 hover:bg-blue-50/30 transition"
+                      className="group flex items-center justify-between p-2.5 rounded-xl border border-[#2E68FB20] hover:border-[#2E68FB] bg-white/80 hover:bg-white transition"
                     >
                       <div className="flex items-center gap-3">
-                        <div className="w-8 h-8 rounded-lg bg-white border border-slate-200 flex items-center justify-center font-bold text-slate-700 text-xs">
+                        <div className="w-8 h-8 rounded-lg bg-[#E6EDFF] border border-[#2E68FB30] flex items-center justify-center font-bold text-[#2E68FB] text-xs">
                           🃏
                         </div>
                         <div>
-                          <div className="text-xs font-bold text-slate-900 group-hover:text-blue-600 transition">
+                          <div className="text-xs font-bold text-gray-900 group-hover:text-[#2E68FB] transition">
                             {game.title}
                           </div>
-                          <div className="text-[11px] text-slate-400">{game.provider}</div>
+                          <div className="text-[11px] text-gray-500">{game.provider}</div>
                         </div>
                       </div>
                       <div className="flex items-center gap-2">
                         {game.rtp && (
-                          <span className="text-[11px] font-bold text-emerald-600 bg-emerald-50 px-2 py-0.5 rounded">
+                          <span className="text-[11px] font-bold text-emerald-600 bg-emerald-50 px-2 py-0.5 rounded border border-emerald-200">
                             {game.rtp}
                           </span>
                         )}
-                        <ChevronRight className="w-4 h-4 text-slate-400 group-hover:text-blue-600 group-hover:translate-x-0.5 transition" />
+                        <ChevronRight className="w-4 h-4 text-gray-400 group-hover:text-[#2E68FB] group-hover:translate-x-0.5 transition" />
                       </div>
                     </Link>
                   ))}
                 </div>
               </div>
             </div>
+          </div>
 
-            {/* ONLINE ROULETTE BLOCK */}
-            <div className="rounded-2xl border border-slate-200 bg-white p-6 shadow-xs flex flex-col justify-between">
+          {/* ONLINE ROULETTE BLOCK */}
+          <div className="card-animated-border rounded-[24px] p-[2px] flex flex-col h-full">
+            <div
+              className="rounded-[22px] p-6 flex flex-col justify-between h-full"
+              style={{
+                background:
+                  'linear-gradient(231.79deg, #D5EDFF 32.55%, #EEECFF 43.54%, #F9F3FF 53.23%, #F5FCFF 66.16%, #E9F5FF 79.08%)',
+              }}
+            >
               <div>
-                <div className="flex items-center justify-between pb-3 border-b border-slate-100 mb-3">
-                  <h3 className="font-poppins text-lg font-bold text-slate-900 flex items-center gap-2">
+                <div className="flex items-center justify-between pb-3 border-b border-[#2E68FB20] mb-3">
+                  <h3 className="font-poppins text-lg font-bold text-gray-900 flex items-center gap-2">
                     <span>🎡</span> Online Roulette
                   </h3>
-                  <span className="text-xs font-semibold text-blue-600 bg-blue-50 px-2.5 py-0.5 rounded-full">
-                    5 Top Picks
+                  <span className="text-xs font-semibold text-[#2E68FB] bg-[#E6EDFF] px-2.5 py-0.5 rounded-full border border-[#B8CEFF]">
+                    Top Picks
                   </span>
                 </div>
-                <p className="text-xs text-slate-500 leading-relaxed mb-4">
-                  Roulette has been popular for hundreds of years; today you don't even have to leave your home to spin the wheel. Find your new favourite online roulette games right here.
+                <p className="text-xs text-gray-600 leading-relaxed mb-4">
+                  Roulette has been popular for hundreds of years; today you don't even have to leave
+                  your home to spin the wheel. Find your new favourite online roulette games right
+                  here.
                 </p>
 
                 <div className="space-y-2.5">
@@ -286,46 +313,55 @@ export default function GamesHubClient({ recommended }: Props) {
                     <Link
                       key={game.id}
                       href={`/games/${game.slug}`}
-                      className="group flex items-center justify-between p-2.5 rounded-xl border border-slate-150 hover:border-blue-300 bg-slate-50/60 hover:bg-blue-50/30 transition"
+                      className="group flex items-center justify-between p-2.5 rounded-xl border border-[#2E68FB20] hover:border-[#2E68FB] bg-white/80 hover:bg-white transition"
                     >
                       <div className="flex items-center gap-3">
-                        <div className="w-8 h-8 rounded-lg bg-white border border-slate-200 flex items-center justify-center font-bold text-slate-700 text-xs">
+                        <div className="w-8 h-8 rounded-lg bg-[#E6EDFF] border border-[#2E68FB30] flex items-center justify-center font-bold text-[#2E68FB] text-xs">
                           🎯
                         </div>
                         <div>
-                          <div className="text-xs font-bold text-slate-900 group-hover:text-blue-600 transition">
+                          <div className="text-xs font-bold text-gray-900 group-hover:text-[#2E68FB] transition">
                             {game.title}
                           </div>
-                          <div className="text-[11px] text-slate-400">{game.provider}</div>
+                          <div className="text-[11px] text-gray-500">{game.provider}</div>
                         </div>
                       </div>
                       <div className="flex items-center gap-2">
                         {game.rtp && (
-                          <span className="text-[11px] font-bold text-emerald-600 bg-emerald-50 px-2 py-0.5 rounded">
+                          <span className="text-[11px] font-bold text-emerald-600 bg-emerald-50 px-2 py-0.5 rounded border border-emerald-200">
                             {game.rtp}
                           </span>
                         )}
-                        <ChevronRight className="w-4 h-4 text-slate-400 group-hover:text-blue-600 group-hover:translate-x-0.5 transition" />
+                        <ChevronRight className="w-4 h-4 text-gray-400 group-hover:text-[#2E68FB] group-hover:translate-x-0.5 transition" />
                       </div>
                     </Link>
                   ))}
                 </div>
               </div>
             </div>
+          </div>
 
-            {/* ONLINE BLACKJACK BLOCK */}
-            <div className="rounded-2xl border border-slate-200 bg-white p-6 shadow-xs flex flex-col justify-between">
+          {/* ONLINE BLACKJACK BLOCK */}
+          <div className="card-animated-border rounded-[24px] p-[2px] flex flex-col h-full">
+            <div
+              className="rounded-[22px] p-6 flex flex-col justify-between h-full"
+              style={{
+                background:
+                  'linear-gradient(231.79deg, #D5EDFF 32.55%, #EEECFF 43.54%, #F9F3FF 53.23%, #F5FCFF 66.16%, #E9F5FF 79.08%)',
+              }}
+            >
               <div>
-                <div className="flex items-center justify-between pb-3 border-b border-slate-100 mb-3">
-                  <h3 className="font-poppins text-lg font-bold text-slate-900 flex items-center gap-2">
+                <div className="flex items-center justify-between pb-3 border-b border-[#2E68FB20] mb-3">
+                  <h3 className="font-poppins text-lg font-bold text-gray-900 flex items-center gap-2">
                     <span>♣️</span> Online Blackjack
                   </h3>
-                  <span className="text-xs font-semibold text-blue-600 bg-blue-50 px-2.5 py-0.5 rounded-full">
-                    5 Top Picks
+                  <span className="text-xs font-semibold text-[#2E68FB] bg-[#E6EDFF] px-2.5 py-0.5 rounded-full border border-[#B8CEFF]">
+                    Top Picks
                   </span>
                 </div>
-                <p className="text-xs text-slate-500 leading-relaxed mb-4">
-                  Blackjack never goes out of style, and online blackjack only makes it more accessible. Is number 21 in the cards for you?
+                <p className="text-xs text-gray-600 leading-relaxed mb-4">
+                  Blackjack never goes out of style, and online blackjack only makes it more
+                  accessible. Is number 21 in the cards for you?
                 </p>
 
                 <div className="space-y-2.5">
@@ -333,46 +369,55 @@ export default function GamesHubClient({ recommended }: Props) {
                     <Link
                       key={game.id}
                       href={`/games/${game.slug}`}
-                      className="group flex items-center justify-between p-2.5 rounded-xl border border-slate-150 hover:border-blue-300 bg-slate-50/60 hover:bg-blue-50/30 transition"
+                      className="group flex items-center justify-between p-2.5 rounded-xl border border-[#2E68FB20] hover:border-[#2E68FB] bg-white/80 hover:bg-white transition"
                     >
                       <div className="flex items-center gap-3">
-                        <div className="w-8 h-8 rounded-lg bg-white border border-slate-200 flex items-center justify-center font-bold text-slate-700 text-xs">
+                        <div className="w-8 h-8 rounded-lg bg-[#E6EDFF] border border-[#2E68FB30] flex items-center justify-center font-bold text-[#2E68FB] text-xs">
                           21
                         </div>
                         <div>
-                          <div className="text-xs font-bold text-slate-900 group-hover:text-blue-600 transition">
+                          <div className="text-xs font-bold text-gray-900 group-hover:text-[#2E68FB] transition">
                             {game.title}
                           </div>
-                          <div className="text-[11px] text-slate-400">{game.provider}</div>
+                          <div className="text-[11px] text-gray-500">{game.provider}</div>
                         </div>
                       </div>
                       <div className="flex items-center gap-2">
                         {game.rtp && (
-                          <span className="text-[11px] font-bold text-emerald-600 bg-emerald-50 px-2 py-0.5 rounded">
+                          <span className="text-[11px] font-bold text-emerald-600 bg-emerald-50 px-2 py-0.5 rounded border border-emerald-200">
                             {game.rtp}
                           </span>
                         )}
-                        <ChevronRight className="w-4 h-4 text-slate-400 group-hover:text-blue-600 group-hover:translate-x-0.5 transition" />
+                        <ChevronRight className="w-4 h-4 text-gray-400 group-hover:text-[#2E68FB] group-hover:translate-x-0.5 transition" />
                       </div>
                     </Link>
                   ))}
                 </div>
               </div>
             </div>
+          </div>
 
-            {/* ONLINE CRAPS BLOCK */}
-            <div className="rounded-2xl border border-slate-200 bg-white p-6 shadow-xs flex flex-col justify-between">
+          {/* ONLINE CRAPS BLOCK */}
+          <div className="card-animated-border rounded-[24px] p-[2px] flex flex-col h-full">
+            <div
+              className="rounded-[22px] p-6 flex flex-col justify-between h-full"
+              style={{
+                background:
+                  'linear-gradient(231.79deg, #D5EDFF 32.55%, #EEECFF 43.54%, #F9F3FF 53.23%, #F5FCFF 66.16%, #E9F5FF 79.08%)',
+              }}
+            >
               <div>
-                <div className="flex items-center justify-between pb-3 border-b border-slate-100 mb-3">
-                  <h3 className="font-poppins text-lg font-bold text-slate-900 flex items-center gap-2">
+                <div className="flex items-center justify-between pb-3 border-b border-[#2E68FB20] mb-3">
+                  <h3 className="font-poppins text-lg font-bold text-gray-900 flex items-center gap-2">
                     <span>🎲</span> Online Craps
                   </h3>
-                  <span className="text-xs font-semibold text-blue-600 bg-blue-50 px-2.5 py-0.5 rounded-full">
-                    5 Top Picks
+                  <span className="text-xs font-semibold text-[#2E68FB] bg-[#E6EDFF] px-2.5 py-0.5 rounded-full border border-[#B8CEFF]">
+                    Top Picks
                   </span>
                 </div>
-                <p className="text-xs text-slate-500 leading-relaxed mb-4">
-                  Looking for a fast-paced game with plenty of betting options? Take a seat at an online craps table.
+                <p className="text-xs text-gray-600 leading-relaxed mb-4">
+                  Looking for a fast-paced game with plenty of betting options? Take a seat at an
+                  online craps table.
                 </p>
 
                 <div className="space-y-2.5">
@@ -380,26 +425,26 @@ export default function GamesHubClient({ recommended }: Props) {
                     <Link
                       key={game.id}
                       href={`/games/${game.slug}`}
-                      className="group flex items-center justify-between p-2.5 rounded-xl border border-slate-150 hover:border-blue-300 bg-slate-50/60 hover:bg-blue-50/30 transition"
+                      className="group flex items-center justify-between p-2.5 rounded-xl border border-[#2E68FB20] hover:border-[#2E68FB] bg-white/80 hover:bg-white transition"
                     >
                       <div className="flex items-center gap-3">
-                        <div className="w-8 h-8 rounded-lg bg-white border border-slate-200 flex items-center justify-center font-bold text-slate-700 text-xs">
+                        <div className="w-8 h-8 rounded-lg bg-[#E6EDFF] border border-[#2E68FB30] flex items-center justify-center font-bold text-[#2E68FB] text-xs">
                           🎲
                         </div>
                         <div>
-                          <div className="text-xs font-bold text-slate-900 group-hover:text-blue-600 transition">
+                          <div className="text-xs font-bold text-gray-900 group-hover:text-[#2E68FB] transition">
                             {game.title}
                           </div>
-                          <div className="text-[11px] text-slate-400">{game.provider}</div>
+                          <div className="text-[11px] text-gray-500">{game.provider}</div>
                         </div>
                       </div>
                       <div className="flex items-center gap-2">
                         {game.rtp && (
-                          <span className="text-[11px] font-bold text-emerald-600 bg-emerald-50 px-2 py-0.5 rounded">
+                          <span className="text-[11px] font-bold text-emerald-600 bg-emerald-50 px-2 py-0.5 rounded border border-emerald-200">
                             {game.rtp}
                           </span>
                         )}
-                        <ChevronRight className="w-4 h-4 text-slate-400 group-hover:text-blue-600 group-hover:translate-x-0.5 transition" />
+                        <ChevronRight className="w-4 h-4 text-gray-400 group-hover:text-[#2E68FB] group-hover:translate-x-0.5 transition" />
                       </div>
                     </Link>
                   ))}
@@ -407,280 +452,383 @@ export default function GamesHubClient({ recommended }: Props) {
               </div>
             </div>
           </div>
-        </section>
-
-        {/* 4. EDITORIAL & STRATEGY GUIDE + TABLE OF CONTENTS */}
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 mb-16">
-          {/* Main Article Text */}
-          <article className="lg:col-span-8 bg-white rounded-2xl p-6 sm:p-8 border border-slate-200 shadow-xs space-y-8 text-sm sm:text-base leading-relaxed text-slate-700">
-            <div>
-              <p className="text-base sm:text-lg font-medium text-slate-900 leading-relaxed">
-                Whether you’re into blackjack, poker, live casino games or slots, you can find the best online casino games here and play them at your favourite online casino. Learn all there is about different types of casino games, check their odds, see which games are popular among players and choose the ones that suit you.
-              </p>
-            </div>
-
-            <section id="what-are-casino-games" className="pt-4 border-t border-slate-100">
-              <h2 className="text-2xl font-bold text-slate-900 mb-3">
-                What Are Casino Games?
-              </h2>
-              <p className="mb-3">
-                Casino games are games of luck you can play in offshore and online casinos. The games give players a chance to win money, which is one of the main reasons why people engage in the first place.
-              </p>
-              <p className="mb-3">
-                Although casino games are primarily games of luck, there’s a dose of skill involved, especially in table and card games. Different playing strategies exist for each game, which players research to increase their chances of winning.
-              </p>
-              <p>
-                In addition, casino games are entertaining, especially if you play them in land-based casinos, where the social factor is also involved for specific games. On the other hand, there’s a great variety of online casino games, especially online slots. People can join slot and poker tournaments or enjoy live dealer games from the comfort of their homes.
-              </p>
-            </section>
-
-            <section id="how-do-games-work" className="pt-4 border-t border-slate-100">
-              <h2 className="text-2xl font-bold text-slate-900 mb-3">
-                How Do Casino Games Work?
-              </h2>
-              <p className="mb-3">
-                All casino games provide a long-term advantage to the casino often referred to as “house”, while the players have a possibility to score some wins, but they lose in the long run. You should differentiate between gaming machines, table games and random number games because the mechanics and dynamics of each game is different.
-              </p>
-              <p className="mb-3">
-                Gaming machines are slots and pachinko games. Online slots come with the return-to-player percentage and volatility, which shows what you can expect. They are purely based on luck. On the other hand, table games have a dose of skill and players either compete against the casino or each other. As the name suggests, random number games are based on the selection of random numbers.
-              </p>
-              <p>
-                Some games combine these mechanics and roulette is the perfect example. It involves random numbers, while there’s a skill and social element involved where players try to beat the house.
-              </p>
-            </section>
-
-            <section id="different-types" className="pt-4 border-t border-slate-100">
-              <h2 className="text-2xl font-bold text-slate-900 mb-3">
-                Different Types of Casino Games
-              </h2>
-              <p className="mb-4">
-                There is a large number of casino games you can play both in land-based and online casinos. Some of the most common games include:
-              </p>
-              <div className="grid grid-cols-2 sm:grid-cols-3 gap-3 mb-4">
-                {['Slots', 'Table games', 'Card games', 'Dice games', 'Lottery', 'Bingo'].map((item) => (
-                  <div key={item} className="p-3 bg-slate-50 rounded-xl border border-slate-200 text-xs font-bold text-slate-800 flex items-center gap-2">
-                    <CheckCircle2 className="w-4 h-4 text-blue-600" />
-                    <span>{item}</span>
-                  </div>
-                ))}
-              </div>
-              <p>
-                In each of these categories, you can find different types of games. When we’re talking about slots, you can find classic, modern, progressive jackpot games, megaways, bonus buys, etc. The same can be done for all other games, as there are numerous versions for every game.
-              </p>
-            </section>
-
-            <section id="top-games" className="pt-4 border-t border-slate-100">
-              <h2 className="text-2xl font-bold text-slate-900 mb-3">
-                Top Casino Games You Can Play Online
-              </h2>
-              <p className="mb-4">
-                The online casino games list is a long one, and each may have their own top 10 casino games. Let’s talk about some of the popular choices players make when they join online casinos:
-              </p>
-
-              <div className="space-y-4">
-                <div className="bg-slate-50 p-4 rounded-xl border border-slate-150">
-                  <h3 className="font-bold text-slate-900 text-base mb-1">Slot Machines</h3>
-                  <p className="text-xs sm:text-sm text-slate-600 leading-relaxed">
-                    A slot machine is one of the most played casino games, featuring reels that spin. When you place a bet and spin the reels, symbols randomly land on them. Modern online slots rely on Random Number Generators (RNG) generating thousands of numbers per second to ensure mathematically fair stop outcomes.
-                  </p>
-                </div>
-
-                <div className="bg-slate-50 p-4 rounded-xl border border-slate-150">
-                  <h3 className="font-bold text-slate-900 text-base mb-1">Poker</h3>
-                  <p className="text-xs sm:text-sm text-slate-600 leading-relaxed">
-                    Fixed-odds five-card draw games and video poker are among the best casino video games. Unlike slots, players must employ skill and optimal strategy to play the hand they are dealt based on traditional poker rankings.
-                  </p>
-                </div>
-
-                <div className="bg-slate-50 p-4 rounded-xl border border-slate-150">
-                  <h3 className="font-bold text-slate-900 text-base mb-1">Blackjack</h3>
-                  <p className="text-xs sm:text-sm text-slate-600 leading-relaxed">
-                    Enjoying the reputation of the most popular casino game in the world, blackjack employs 52-card decks with an aim to hit 21. Blackjack has gained vast popularity due to having the lowest house edge (down to 0.5% with perfect basic strategy).
-                  </p>
-                </div>
-
-                <div className="bg-slate-50 p-4 rounded-xl border border-slate-150">
-                  <h3 className="font-bold text-slate-900 text-base mb-1">Roulette</h3>
-                  <p className="text-xs sm:text-sm text-slate-600 leading-relaxed">
-                    Players bet on numbered compartments of a revolving wheel. European roulette features a single zero (2.7% house edge), while American roulette features a 0 and 00 (5.26% house edge).
-                  </p>
-                </div>
-
-                <div className="bg-slate-50 p-4 rounded-xl border border-slate-150">
-                  <h3 className="font-bold text-slate-900 text-base mb-1">Baccarat</h3>
-                  <p className="text-xs sm:text-sm text-slate-600 leading-relaxed">
-                    Simple two-party card-comparison game between the player and the banker. The low house edge on Banker bets (approx. 1.06%) makes it a high-roller staple worldwide.
-                  </p>
-                </div>
-
-                <div className="bg-slate-50 p-4 rounded-xl border border-slate-150">
-                  <h3 className="font-bold text-slate-900 text-base mb-1">Craps, Keno & Bingo</h3>
-                  <p className="text-xs sm:text-sm text-slate-600 leading-relaxed">
-                    Craps delivers high-energy dice betting action with Pass Line bets boasting high win rates, while lottery variations like Keno and Bingo provide thrilling number drawing entertainment.
-                  </p>
-                </div>
-              </div>
-            </section>
-
-            <section id="winning-potential" className="pt-4 border-t border-slate-100">
-              <h2 className="text-2xl font-bold text-slate-900 mb-3">
-                Casino Games With the Best Winning Potential
-              </h2>
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-4">
-                <div className="p-4 rounded-xl bg-emerald-50/70 border border-emerald-200">
-                  <h4 className="font-bold text-emerald-900 text-sm mb-1">Games With the Best Odds</h4>
-                  <p className="text-xs text-emerald-800 leading-relaxed">
-                    Blackjack has the best mathematical odds (~42% win, ~49% loss, ~9% tie, with a house edge as low as 0.5%). Baccarat Banker bets also maintain a low house edge of 1.06%.
-                  </p>
-                </div>
-                <div className="p-4 rounded-xl bg-rose-50/70 border border-rose-200">
-                  <h4 className="font-bold text-rose-900 text-sm mb-1">Games With the Worst Odds</h4>
-                  <p className="text-xs text-rose-800 leading-relaxed">
-                    Keno and national lottery games come with high house edges (often exceeding 20-30%). Guessing exact numbers is statistically harder, though jackpots can be life-changing.
-                  </p>
-                </div>
-              </div>
-              <p className="text-xs text-slate-600 leading-relaxed">
-                <strong>Highest Win Rate:</strong> Video poker, blackjack and baccarat exceed 98% RTP. Top slots include <em>Mega Joker (99%)</em>, <em>Blood Suckers (98%)</em>, and <em>Ultra Stack Feature Rose (97.93%)</em>.
-              </p>
-            </section>
-
-            <section id="strategy-vs-luck" className="pt-4 border-t border-slate-100">
-              <h2 className="text-2xl font-bold text-slate-900 mb-3">
-                Strategy-Based vs. Luck-Based Casino Games
-              </h2>
-              <p className="mb-3">
-                Before we head further, we have to say that all casino games are luck-based. However, there’s a clear division between games that use strategy and games which are purely based on luck.
-              </p>
-              <p>
-                Casino games using strategy are mostly card games such as blackjack and poker. By utilising the right strategy, you can increase your chances of winning and walk out of the casino profitable. That is why games such as slots and roulette are always popular—you can enjoy them without having to worry too much about complex charts.
-              </p>
-            </section>
-
-            <section id="free-vs-real" className="pt-4 border-t border-slate-100">
-              <h2 className="text-2xl font-bold text-slate-900 mb-3">
-                Free vs. Real Money Casino Games
-              </h2>
-              <p className="mb-3">
-                The only difference between free vs. real money casino games is in the deposit. With free games, you can enjoy the game without the stress of potentially losing your money. Free games are completely risk-free and you can play them to test mechanics and volatility.
-              </p>
-              <p>
-                However, depositing money to a casino to play the best casino games online adds another layer of excitement. It’s the potential of winning real cash or triggering a bonus round that keeps players engaged.
-              </p>
-            </section>
-
-            <section id="providers" className="pt-4 border-t border-slate-100">
-              <h2 className="text-2xl font-bold text-slate-900 mb-3">
-                Casino Game Providers and Software
-              </h2>
-              <p className="mb-3">
-                All the casino games you can play online come from software companies that specialise in creating games for gambling websites. Top software giants include <strong>NetEnt</strong>, <strong>Games Global</strong>, <strong>Pragmatic Play</strong>, <strong>Betsoft</strong>, <strong>Evolution Gaming</strong>, and <strong>Real Dealer Studios</strong>.
-              </p>
-              <p>
-                All game suppliers must ensure certified fairness by submitting their RNG algorithms to independent testing laboratories such as <strong>eCOGRA</strong>, <strong>iTech Labs</strong>, and <strong>BMM Testlabs</strong>.
-              </p>
-            </section>
-          </article>
-
-          {/* Sticky Table of Contents Sidebar */}
-          <aside className="lg:col-span-4">
-            <div className="sticky top-24 bg-white rounded-2xl p-6 border border-slate-200 shadow-xs">
-              <h3 className="font-bold text-slate-900 text-sm uppercase tracking-wider mb-4 flex items-center gap-2">
-                <Layers className="w-4 h-4 text-blue-600" />
-                Table of Contents
-              </h3>
-
-              <nav className="space-y-2 text-xs font-semibold text-slate-600">
-                {[
-                  { id: 'what-are-casino-games', title: 'What Are Casino Games?' },
-                  { id: 'how-do-games-work', title: 'How Do Casino Games Work?' },
-                  { id: 'different-types', title: 'Different Types of Casino Games' },
-                  { id: 'top-games', title: 'Top Casino Games You Can Play Online' },
-                  { id: 'winning-potential', title: 'Casino Games With Best Winning Potential' },
-                  { id: 'strategy-vs-luck', title: 'Strategy-Based vs. Luck-Based Games' },
-                  { id: 'free-vs-real', title: 'Free vs. Real Money Casino Games' },
-                  { id: 'providers', title: 'Casino Game Providers and Software' },
-                  { id: 'faqs', title: 'Frequently Asked Questions (FAQ)' },
-                ].map((item) => (
-                  <a
-                    key={item.id}
-                    href={`#${item.id}`}
-                    className="block py-1.5 px-2.5 rounded-lg hover:bg-slate-100 hover:text-blue-600 transition"
-                  >
-                    {item.title}
-                  </a>
-                ))}
-              </nav>
-
-              {/* Quick Helper Box */}
-              <div className="mt-6 pt-5 border-t border-slate-150">
-                <div className="rounded-xl bg-blue-50/70 p-3.5 border border-blue-150">
-                  <span className="text-[11px] font-bold text-blue-900 block mb-1">Looking for a specific game?</span>
-                  <p className="text-[11px] text-blue-700 leading-relaxed mb-3">
-                    Check out individual game reviews for RTP breakdowns, betting limits, and free demo launchers.
-                  </p>
-                  <Link
-                    href="/games/hockey-fever-roulette"
-                    className="inline-flex items-center gap-1.5 text-xs font-bold text-blue-600 hover:underline"
-                  >
-                    <span>View Hockey Fever Roulette</span>
-                    <ArrowRight className="w-3.5 h-3.5" />
-                  </Link>
-                </div>
-              </div>
-            </div>
-          </aside>
         </div>
+      </section>
 
-        {/* 5. FAQ SECTION */}
-        <section id="faqs" className="mb-14">
-          <div className="flex items-center gap-2 mb-2">
+      {/* 4. REAL DATABASE CASINOS SECTION - WHERE TO PLAY */}
+      {topCasinos.length > 0 && (
+        <section className="mb-14">
+          <div className="mb-6">
             <div className="inline-flex rounded-full bg-[radial-gradient(circle_at_center,#B8CEFF_0%,#2E68FB_100%)] p-[1px]">
-              <div className="flex items-center gap-1 rounded-full bg-[#E6EDFF] px-3.5 py-0.5">
-                <HelpCircle className="w-3.5 h-3.5 text-[#2E68FB]" />
-                <span className="font-poppins text-[10px] font-bold uppercase text-[#2E68FB]">
-                  Common Questions
+              <div className="flex items-center gap-1 rounded-full bg-[#E6EDFF] px-4 py-1">
+                <BadgeCheck className="w-3.5 h-3.5 text-[#2E68FB]" />
+                <span className="font-poppins text-[10px] font-medium uppercase text-[#2E68FB]">
+                  Verified Casinos
                 </span>
               </div>
             </div>
+            <h2 className="font-poppins text-[24px] font-bold leading-[24px] tracking-normal text-[#16171D] mb-2 mt-3">
+              Top Rated Casinos for Table & Slot Games
+            </h2>
+            <p className="text-xs sm:text-sm text-gray-500 max-w-2xl">
+              Play these certified games at authorized, licensed online casinos featuring fast
+              withdrawals and generous bonuses.
+            </p>
           </div>
 
-          <h2 className="font-poppins text-2xl sm:text-3xl font-bold tracking-tight text-slate-900 mb-6">
-            Frequently Asked Questions
-          </h2>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {topCasinos.map((casino) => {
+              const welcomeBonus =
+                casino.bonuses?.[0]?.amount ||
+                casino.bonuses?.[0]?.title ||
+                '100% up to $1,500 + 150 Free Spins';
+              const imageUrl = getImageUrl(
+                casino.logo || casino.featured_image || '/images/888.png',
+              );
 
-          <div className="space-y-3 max-w-4xl">
-            {FAQS.map((faq, index) => {
-              const isOpen = openFaq === index;
               return (
                 <div
-                  key={index}
-                  className="rounded-2xl border border-slate-200 bg-white overflow-hidden shadow-xs transition"
+                  key={casino.id}
+                  className="card-animated-border rounded-[24px] p-[2px] cursor-pointer flex flex-col h-full relative group"
                 >
-                  <button
-                    type="button"
-                    onClick={() => toggleFaq(index)}
-                    className="w-full py-4 px-5 text-left flex items-center justify-between gap-4 font-bold text-sm sm:text-base text-slate-900 hover:text-blue-600 transition"
-                  >
-                    <span>{faq.q}</span>
-                    <ChevronDown
-                      className={`w-4 h-4 text-slate-400 shrink-0 transition-transform duration-200 ${
-                        isOpen ? 'rotate-180 text-blue-600' : ''
-                      }`}
-                    />
-                  </button>
+                  {/* Top-Right Corner Tag / Badge */}
+                  <div className="absolute top-2 right-3 z-20">
+                    <CasinoCardBadge badge={casino.card_badge} isHot={casino.hot_casino} />
+                  </div>
 
-                  {isOpen && (
-                    <div className="px-5 pb-4 text-xs sm:text-sm text-slate-600 leading-relaxed border-t border-slate-100 pt-3">
-                      {faq.a}
+                  <div
+                    className="flex flex-col p-5 rounded-[22px] justify-between flex-1 w-full h-full relative"
+                    style={{
+                      background:
+                        'linear-gradient(231.79deg, #D5EDFF 32.55%, #EEECFF 43.54%, #F9F3FF 53.23%, #F5FCFF 66.16%, #E9F5FF 79.08%)',
+                    }}
+                  >
+                    <div>
+                      {/* Logo + Name */}
+                      <div className="flex gap-4 items-center">
+                        <div className="relative w-16 h-16 sm:w-20 sm:h-20 bg-white rounded-xl overflow-hidden shadow-sm flex-shrink-0 border border-gray-100 p-1">
+                          <Image
+                            src={imageUrl}
+                            alt={casino.name || 'Casino'}
+                            fill
+                            className="object-contain p-1"
+                            unoptimized
+                          />
+                        </div>
+                        <div className="min-w-0 flex-1 pr-12">
+                          <Link href={`/casino/${casino.slug}`}>
+                            <h3
+                              className="text-[18px] sm:text-[20px] font-bold text-[#151515] leading-tight truncate hover:text-[#2E68FB] transition"
+                              title={casino.name}
+                            >
+                              {casino.name}
+                            </h3>
+                          </Link>
+                          <p className="text-[12px] text-[#666] mt-1 line-clamp-2 leading-[17px]">
+                            {casino.short_description ||
+                              'Certified real money online casino with verified games.'}
+                          </p>
+                        </div>
+                      </div>
+
+                      {/* Rating & Chips */}
+                      <div className="flex items-center justify-between mt-3">
+                        <StarRating rating={casino.rating || 5} size={14} />
+                        <div className="flex gap-1">
+                          <span className="text-[9px] font-bold text-white px-2 py-0.5 rounded-md bg-gradient-to-r from-[#FFB000] to-[#FF8A00]">
+                            Top Pick
+                          </span>
+                          <span className="text-[9px] font-bold text-white px-2 py-0.5 rounded-md bg-[#00B67A]">
+                            Fast Pay
+                          </span>
+                        </div>
+                      </div>
+
+                      {/* Bonus Banner */}
+                      <div className="mt-3 px-3 py-2 rounded-xl bg-[#2E68FB] text-white flex flex-col justify-center h-[54px]">
+                        <span className="text-[9px] font-semibold tracking-wider uppercase text-blue-100 block">
+                          Exclusive Welcome Bonus
+                        </span>
+                        <span
+                          className="text-[13px] font-bold mt-0.5 leading-snug line-clamp-1 truncate"
+                          title={welcomeBonus}
+                        >
+                          {welcomeBonus}
+                        </span>
+                      </div>
+
+                      {/* Min Deposit & Payout */}
+                      <div className="grid grid-cols-2 gap-2 mt-3">
+                        <div className="p-2 bg-white/50 border border-[#2E68FB20] rounded-lg h-[50px] flex flex-col justify-center">
+                          <span className="block text-[9px] font-semibold text-[#2E68FB] uppercase">
+                            Min Deposit
+                          </span>
+                          <span className="text-[12px] font-bold text-[#363636] truncate">
+                            {casino.minimum_deposit ? `$${casino.minimum_deposit}` : '$20'}
+                          </span>
+                        </div>
+
+                        <div className="p-2 bg-white/50 border border-[#2E68FB20] rounded-lg h-[50px] flex flex-col justify-center">
+                          <span className="block text-[9px] font-semibold text-[#2E68FB] uppercase">
+                            Payout time
+                          </span>
+                          <span className="text-[12px] font-bold text-[#363636] truncate">
+                            {formatPayoutTime(casino.withdrawal_time)}
+                          </span>
+                        </div>
+                      </div>
                     </div>
-                  )}
+
+                    {/* Dual Action Buttons */}
+                    <div>
+                      <div className="grid grid-cols-2 gap-2 mt-4">
+                        <Link
+                          href={`/casino/${casino.slug}`}
+                          className="h-11 rounded-xl flex items-center justify-center font-bold text-[13px] text-[#16171D] transition"
+                          style={{
+                            background: 'linear-gradient(180deg, #FFE11F 0%, #FF8533 100%)',
+                            boxShadow: '0px 2px 0px 0px #E36D1F',
+                          }}
+                        >
+                          Read Review
+                        </Link>
+                        <CasinoAffiliateButton
+                          casinoId={casino.id}
+                          defaultUrl={
+                            casino.affiliate_url ||
+                            casino.default_affiliate_url ||
+                            casino.website_url
+                          }
+                          className="h-11 rounded-xl flex items-center justify-center font-bold text-[13px] text-white shadow-sm transition"
+                          style={{
+                            background: 'linear-gradient(180deg, #CDDCFB 0%, #588CF3 100%)',
+                            boxShadow: '0px 2px 0px 0px #2E68FB',
+                          }}
+                        >
+                          Play Now ▶
+                        </CasinoAffiliateButton>
+                      </div>
+
+                      <CasinoCardDisclaimer casinoName={casino.name} />
+                    </div>
+                  </div>
                 </div>
               );
             })}
           </div>
         </section>
+      )}
+
+      {/* 5. EDITORIAL & STRATEGY GUIDE + TABLE OF CONTENTS */}
+      <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 mb-16">
+        {/* Main Article Text */}
+        <article className="lg:col-span-8 space-y-8 text-sm sm:text-base leading-relaxed text-[#475467]">
+          <div
+            className="rounded-2xl p-6 border border-[#2E68FB] shadow-sm"
+            style={{
+              background:
+                'linear-gradient(231.79deg, #D5EDFF 32.55%, #F5FCFF 66.16%, #E9F5FF 79.08%)',
+            }}
+          >
+            <p className="text-base sm:text-lg font-medium text-[#16171D] leading-relaxed">
+              Whether you’re into blackjack, poker, live casino games or slots, you can find the
+              best online casino games here and play them at your favourite online casino. Learn all
+              there is about different types of casino games, check their odds, see which games are
+              popular among players and choose the ones that suit you.
+            </p>
+          </div>
+
+          <section id="what-are-casino-games" className="pt-4 border-t border-gray-200">
+            <h2 className="font-poppins text-[22px] font-bold text-[#16171D] mb-3">
+              What Are Casino Games?
+            </h2>
+            <p className="mb-3">
+              Casino games are games of luck you can play in offshore and online casinos. The games
+              give players a chance to win money, which is one of the main reasons why people
+              engage in the first place.
+            </p>
+            <p className="mb-3">
+              Although casino games are primarily games of luck, there’s a dose of skill involved,
+              especially in table and card games. Different playing strategies exist for each game,
+              which players research to increase their chances of winning.
+            </p>
+            <p>
+              In addition, casino games are entertaining, especially if you play them in
+              land-based casinos, where the social factor is also involved for specific games. On
+              the other hand, there’s a great variety of online casino games, especially online
+              slots. People can join slot and poker tournaments or enjoy live dealer games from the
+              comfort of their homes.
+            </p>
+          </section>
+
+          <section id="how-do-games-work" className="pt-4 border-t border-gray-200">
+            <h2 className="font-poppins text-[22px] font-bold text-[#16171D] mb-3">
+              How Do Casino Games Work?
+            </h2>
+            <p className="mb-3">
+              All casino games provide a long-term advantage to the casino often referred to as
+              “house”, while the players have a possibility to score some wins, but they lose in the
+              long run. You should differentiate between gaming machines, table games and random
+              number games because the mechanics and dynamics of each game is different.
+            </p>
+            <p className="mb-3">
+              Gaming machines are slots and pachinko games. Online slots come with the
+              return-to-player percentage and volatility, which shows what you can expect. They are
+              purely based on luck. On the other hand, table games have a dose of skill and players
+              either compete against the casino or each other.
+            </p>
+            <p>
+              Some games combine these mechanics and roulette is the perfect example. It involves
+              random numbers, while there’s a skill and social element involved where players try to
+              beat the house.
+            </p>
+          </section>
+
+          <section id="different-types" className="pt-4 border-t border-gray-200">
+            <h2 className="font-poppins text-[22px] font-bold text-[#16171D] mb-3">
+              Different Types of Casino Games
+            </h2>
+            <p className="mb-4">
+              There is a large number of casino games you can play both in land-based and online
+              casinos. Some of the most common games include:
+            </p>
+            <div className="grid grid-cols-2 sm:grid-cols-3 gap-3 mb-4">
+              {['Slots', 'Table games', 'Card games', 'Dice games', 'Lottery', 'Bingo'].map(
+                (item) => (
+                  <div
+                    key={item}
+                    className="p-3 bg-white rounded-xl border border-[#2E68FB40] text-xs font-bold text-[#16171D] flex items-center gap-2 shadow-2xs"
+                  >
+                    <CheckCircle2 className="w-4 h-4 text-[#2E68FB]" />
+                    <span>{item}</span>
+                  </div>
+                ),
+              )}
+            </div>
+            <p>
+              In each of these categories, you can find different types of games. When we’re talking
+              about slots, you can find classic, modern, progressive jackpot games, megaways, bonus
+              buys, etc. The same can be done for all other games, as there are numerous versions for
+              every game.
+            </p>
+          </section>
+
+          <section id="winning-potential" className="pt-4 border-t border-gray-200">
+            <h2 className="font-poppins text-[22px] font-bold text-[#16171D] mb-3">
+              Casino Games With the Best Winning Potential
+            </h2>
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-4">
+              <div className="p-5 rounded-2xl bg-[#F2FFF7] border border-[#22C55E]">
+                <h4 className="font-bold text-[#22C55E] text-sm mb-1 uppercase tracking-wider">
+                  Games With the Best Odds
+                </h4>
+                <p className="text-xs text-gray-800 leading-relaxed mt-2">
+                  Blackjack has the best mathematical odds (~42% win, ~49% loss, ~9% tie, with a
+                  house edge as low as 0.5%). Baccarat Banker bets also maintain a low house edge
+                  of 1.06%.
+                </p>
+              </div>
+              <div className="p-5 rounded-2xl bg-[#FFF5F5] border border-[#FF5A5A]">
+                <h4 className="font-bold text-[#FF5A5A] text-sm mb-1 uppercase tracking-wider">
+                  Games With the Worst Odds
+                </h4>
+                <p className="text-xs text-gray-800 leading-relaxed mt-2">
+                  Keno and national lottery games come with high house edges (often exceeding
+                  20-30%). Guessing exact numbers is statistically harder, though jackpots can be
+                  substantial.
+                </p>
+              </div>
+            </div>
+          </section>
+        </article>
+
+        {/* Sticky Table of Contents Sidebar */}
+        <aside className="lg:col-span-4">
+          <div className="sticky top-24 bg-white rounded-2xl p-6 border border-[#2E68FB40] shadow-xs">
+            <h3 className="font-bold text-[#16171D] text-sm uppercase tracking-wider mb-4 flex items-center gap-2">
+              <Layers className="w-4 h-4 text-[#2E68FB]" />
+              Table of Contents
+            </h3>
+
+            <nav className="space-y-2 text-xs font-semibold text-gray-600">
+              {[
+                { id: 'what-are-casino-games', title: 'What Are Casino Games?' },
+                { id: 'how-do-games-work', title: 'How Do Casino Games Work?' },
+                { id: 'different-types', title: 'Different Types of Casino Games' },
+                { id: 'winning-potential', title: 'Casino Games With Best Winning Potential' },
+                { id: 'faqs', title: 'Frequently Asked Questions (FAQ)' },
+              ].map((item) => (
+                <a
+                  key={item.id}
+                  href={`#${item.id}`}
+                  className="block py-1.5 px-2.5 rounded-lg hover:bg-[#E6EDFF] hover:text-[#2E68FB] transition"
+                >
+                  {item.title}
+                </a>
+              ))}
+            </nav>
+
+            {/* Quick Helper Box */}
+            <div className="mt-6 pt-5 border-t border-gray-150">
+              <div
+                className="rounded-xl p-3.5 border border-[#2E68FB30]"
+                style={{
+                  background:
+                    'linear-gradient(231.79deg, #D5EDFF 32.55%, #F5FCFF 66.16%, #E9F5FF 79.08%)',
+                }}
+              >
+                <span className="text-[11px] font-bold text-[#16171D] block mb-1">
+                  Looking for a specific game?
+                </span>
+                <p className="text-[11px] text-[#475467] leading-relaxed mb-3">
+                  Check out individual game reviews for RTP breakdowns, betting limits, and free
+                  demo launchers.
+                </p>
+                <Link
+                  href="/games/hockey-fever-roulette"
+                  className="inline-flex items-center gap-1.5 text-xs font-bold text-[#2E68FB] hover:underline"
+                >
+                  <span>View Hockey Fever Roulette</span>
+                  <ArrowRight className="w-3.5 h-3.5" />
+                </Link>
+              </div>
+            </div>
+          </div>
+        </aside>
       </div>
+
+      {/* 6. FAQ SECTION - EXACT MATCH WITH REVIEW PAGE */}
+      <section id="faqs" className="mb-14">
+        <div className="inline-flex rounded-full bg-[radial-gradient(circle_at_center,#B8CEFF_0%,#2E68FB_100%)] p-[1px]">
+          <div className="flex items-center gap-1 rounded-full bg-[#E6EDFF] px-4 py-1">
+            <BadgeCheck className="w-3.5 h-3.5 text-[#2E68FB]" />
+            <span className="font-poppins text-[10px] font-medium uppercase text-[#2E68FB]">
+              Common Questions
+            </span>
+          </div>
+        </div>
+
+        <h2 className="font-poppins text-[24px] font-bold leading-[24px] tracking-normal text-[#16171D] mb-6 mt-3">
+          Frequently Asked Questions
+        </h2>
+
+        <div className="overflow-hidden rounded-[16px] bg-white border border-[#EEF2FF]">
+          <div className="h-1 bg-[#2E68FB]" />
+          {FAQS.map((faq, index) => (
+            <details
+              key={index}
+              open={index === 0}
+              className={`group ${index !== FAQS.length - 1 ? 'border-b border-[#EEF2FF]' : ''}`}
+            >
+              <summary className="flex cursor-pointer list-none items-center justify-between px-6 py-5 font-semibold text-[#16171D] group-open:text-[#2E68FB]">
+                {faq.q}
+                <ChevronRight className="h-5 w-5 transition group-open:rotate-90 text-[#2E68FB]" />
+              </summary>
+              <p className="px-6 pb-6 text-[14px] text-[#7C7C7C] leading-7">{faq.a}</p>
+            </details>
+          ))}
+        </div>
+      </section>
     </div>
   );
 }
