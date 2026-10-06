@@ -32,7 +32,7 @@ const categories = [
 
 export default function CategorySection() {
     return (
-        <section className="w-full">
+        <section className="w-full py-8">
             {/* Header */}
             <div className="mb-4 flex items-center justify-between">
                 <h2 className="text-[28px] font-bold text-[#1F2937]">

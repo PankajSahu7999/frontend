@@ -16,20 +16,29 @@ export interface FAQSectionProps {
 
 const DEFAULT_FAQS: FAQItem[] = [
   {
-    question: 'How do I choose the best online casino?',
-    answer: 'Look for reputable licenses (MGA, Curacao, UKGC), fair bonus terms, quick withdrawal times, SSL encryption, and high-quality game selections from audited providers.',
+    question: 'What is Casino Reviews Book?',
+    answer:
+      'Casino Reviews Book is an independent iGaming research and review platform covering online casino reviews, licensing information, bonus terms, payments, withdrawals, player support and related gambling guides.',
   },
   {
-    question: 'Are online casino bonuses worth claiming?',
-    answer: 'Yes, if the wagering requirements are fair (usually below 40x). Look for low wagering requirements, no-deposit bonuses, and reasonable game contribution limits.',
+    question: 'How do you review online casinos?',
+    answer:
+      'We use a structured review methodology covering licensing and ownership, KYC and account setup, deposits and bonuses, games and platform experience, withdrawals, and customer support.',
   },
   {
-    question: 'How fast are online casino withdrawals processed?',
-    answer: 'Crypto and e-wallet withdrawals are typically processed within 0 to 24 hours, while debit cards and bank wire transfers generally take 1 to 5 business days.',
+    question: 'Are rankings paid for?',
+    answer:
+      'Affiliate relationships may fund the site, but operators cannot buy higher editorial rankings or alter ratings. All review scores strictly reflect our independent scoring rubric and hands-on testing.',
   },
   {
-    question: 'Is it safe to play with real money at online casinos?',
-    answer: 'Yes, provided you play at licensed, regulated, and verified online casinos that utilize 256-bit SSL encryption and certified RNG (Random Number Generator) fairness auditors.',
+    question: 'Do you guarantee payouts?',
+    answer:
+      'No. We do not operate casinos, hold player funds or guarantee operator payouts. We audit and report operator withdrawal rules, payment methods, and processing records.',
+  },
+  {
+    question: 'Are online casinos legal everywhere?',
+    answer:
+      'No. Availability and legality vary by jurisdiction. Local laws and regional regulations must always be verified before participating in real-money gambling.',
   },
 ];
 

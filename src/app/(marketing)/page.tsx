@@ -11,16 +11,18 @@ import JsonLd from "@/components/seo/JsonLd";
 import HomeContent from "./HomeContent";
 
 export const metadata = generateSEO({
-  title: SITE.title,
-  description: SITE.description,
+  title: "Casino Reviews & Ratings | Casino Reviews Book",
+  description:
+    "Compare independent online casino reviews, ratings, licensing, bonus terms, payment methods and payout research. See what we verify before you choose.",
   path: "/",
   keywords: [
-    "best online casinos",
     "casino reviews",
-    "casino bonuses",
-    "top rated online casinos",
+    "online casino reviews",
+    "independent casino reviews",
+    "casino ratings",
+    "licensed casino reviews",
+    "casino withdrawal reviews",
     "safe online gambling",
-    "verified casino sites",
   ],
 });
 
@@ -35,21 +37,37 @@ export default async function Home() {
     website: websiteSchema(),
     webpage: webpageSchema({
       url: SITE.url,
-      title: SITE.title,
-      description: SITE.description,
+      title: "Casino Reviews & Ratings | Casino Reviews Book",
+      description:
+        "Compare independent online casino reviews, ratings, licensing, bonus terms, payment methods and payout research.",
     }),
     faq: faqSchema({
       pageUrl: "https://casinoreviewsbook.com/",
       faqs: [
         {
-          question: "How are casinos reviewed on Casino Reviews Book?",
+          question: "What is Casino Reviews Book?",
           answer:
-            "Each casino is tested by our team for licensing validity, payout speed, game fairness, and bonus terms before publishing a rating.",
+            "Casino Reviews Book is an independent iGaming research and review platform covering online casino reviews, licensing information, bonus terms, payments, withdrawals, player support and related gambling guides.",
         },
         {
-          question: "Are the casino bonuses verified?",
+          question: "How do you review online casinos?",
           answer:
-            "Yes, all listed bonuses are manually checked for accuracy, including wagering requirements and expiry terms, before publication.",
+            "We use a structured review methodology covering licensing and ownership, KYC and account setup, deposits and bonuses, games and platform experience, withdrawals, and customer support.",
+        },
+        {
+          question: "Are rankings paid for?",
+          answer:
+            "Affiliate relationships may fund the site, but operators cannot buy higher editorial rankings or alter ratings. All review scores strictly reflect our independent scoring rubric and hands-on testing.",
+        },
+        {
+          question: "Do you guarantee payouts?",
+          answer:
+            "No. We do not operate casinos, hold player funds or guarantee operator payouts. We audit and report operator withdrawal rules, payment methods, and processing records.",
+        },
+        {
+          question: "Are online casinos legal everywhere?",
+          answer:
+            "No. Availability and legality vary by jurisdiction. Local laws and regional regulations must always be verified before participating in real-money gambling.",
         },
       ],
     }),

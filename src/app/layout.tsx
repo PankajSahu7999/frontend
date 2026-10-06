@@ -20,6 +20,8 @@ import { DEFAULT_SEO } from "@/constants";
 
 export const metadata: Metadata = DEFAULT_SEO;
 
+import NavigationLoader from "@/components/NavigationLoader";
+
 export default function RootLayout({
   children,
 }: Readonly<{
@@ -38,6 +40,7 @@ export default function RootLayout({
       <body className="min-h-full flex flex-col">
         <ReduxProvider>
           <DataInitializer />
+          <NavigationLoader />
           {children}
         </ReduxProvider>
       </body>

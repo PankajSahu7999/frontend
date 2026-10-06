@@ -1,55 +1,58 @@
-import Link from "next/link";
+'use client';
+
+import React from 'react';
+import Link from 'next/link';
 import {
-  BookOpen,
-  Dices,
-  FileText,
-  Sparkles,
+  Zap,
+  Gift,
+  Smartphone,
+  ShieldCheck,
   BadgeCheck,
   ChevronRight,
   ArrowRight,
-} from "lucide-react";
+} from 'lucide-react';
 
-export function HomeSEOSection() {
-  const guideCards = [
+export default function CompareByNeedSection() {
+  const cards = [
     {
-      icon: BookOpen,
-      title: "Game Strategy Guides",
-      badge: "Blackjack & Roulette",
-      badgeColor: "bg-blue-100 text-[#2E68FB] border-blue-200",
+      icon: Zap,
+      title: 'Fast Withdrawals',
+      badge: '0–24h Cashouts',
+      badgeColor: 'bg-amber-100 text-amber-800 border-amber-200',
       description:
-        "Learn basic strategy charts, house edge odds, and bankroll management to play smarter at the tables.",
-      cta: "Explore Game Strategies",
-      href: "/guides",
+        'See which verified operators support instant crypto or same-day e-wallet processing without delayed KYC bottlenecks.',
+      cta: 'View Fast Payout Casinos',
+      href: '/casinos/fast-withdrawal-casinos',
     },
     {
-      icon: Dices,
-      title: "Slot Mechanics & RTP",
-      badge: "Payout Audits",
-      badgeColor: "bg-amber-100 text-amber-800 border-amber-200",
+      icon: Gift,
+      title: 'Fairer Bonus Terms',
+      badge: 'Transparent Rollover',
+      badgeColor: 'bg-emerald-100 text-emerald-800 border-emerald-200',
       description:
-        "Understand return-to-player percentages, volatility ratings, and RNG mechanics before spinning real money slots.",
-      cta: "Read Slot Guides",
-      href: "/guides",
+        'Compare reasonable wagering requirements (under 40x), realistic maximum cashout limits, and zero-wager promotions.',
+      cta: 'Explore Bonus Reviews',
+      href: '/casino-bonuses',
     },
     {
-      icon: FileText,
-      title: "Bonus Wagering Rules",
-      badge: "Terms Decoded",
-      badgeColor: "bg-emerald-100 text-emerald-800 border-emerald-200",
+      icon: Smartphone,
+      title: 'Mobile Casino Experience',
+      badge: 'iOS & Android Tested',
+      badgeColor: 'bg-blue-100 text-[#2E68FB] border-blue-200',
       description:
-        "Demystify wagering multiples, game weightings, and fine-print conditions to avoid predatory rollover caps.",
-      cta: "Master Bonus Rules",
-      href: "/guides",
+        'Evaluate touchscreen responsiveness, native web app performance, and touch-optimized live dealer tables.',
+      cta: 'View Mobile Casinos',
+      href: '/casinos/mobile-casinos',
     },
     {
-      icon: Sparkles,
-      title: "Crypto & Provably Fair",
-      badge: "Web3 Gaming",
-      badgeColor: "bg-purple-100 text-purple-800 border-purple-200",
+      icon: ShieldCheck,
+      title: 'Licensed & Regulated',
+      badge: 'Strict Player Protection',
+      badgeColor: 'bg-purple-100 text-purple-800 border-purple-200',
       description:
-        "Step-by-step guidance on crypto casino deposits, verifying cryptographic seed hashes, and fast withdrawals.",
-      cta: "View Crypto Guide",
-      href: "/guides/crypto-gambling-101",
+        'Start with verified licenses (MGA, UKGC, Curacao) and jurisdiction compliance before depositing real funds.',
+      cta: 'Browse Licensed Casinos',
+      href: '/casinos/licensed-casinos',
     },
   ];
 
@@ -59,37 +62,38 @@ export function HomeSEOSection() {
       <div className="flex flex-col md:flex-row md:items-end justify-between gap-4 mb-8">
         <div>
           <div className="inline-flex rounded-full bg-[radial-gradient(circle_at_center,#B8CEFF_0%,#2E68FB_100%)] p-[1px]">
-            <div className="flex items-center gap-1.5 rounded-full bg-[#E6EDFF] px-4 py-1">
+            <div className="flex items-center gap-1 rounded-full bg-[#E6EDFF] px-4 py-1">
               <BadgeCheck className="w-3.5 h-3.5 text-[#2E68FB]" />
-              <span className="font-poppins text-[10px] font-bold uppercase text-[#2E68FB]">
-                Casino Guides & Player Education
+              <span className="font-poppins text-[10px] font-medium uppercase text-[#2E68FB]">
+                Targeted Research
               </span>
             </div>
           </div>
           <h2 className="font-poppins text-[26px] sm:text-[34px] font-bold leading-tight text-[#16171D] mt-3 mb-2">
-            Master Online Casinos With Expert Guides
+            Compare Casinos by What Matters to You
           </h2>
           <p className="text-xs sm:text-sm text-[#475467] max-w-2xl leading-relaxed">
-            Level up your gameplay with verified strategy tutorials, payout audits, and transparent rules. Everything you need to play smarter and safer in one place.
+            Skip generic lists. Filter our audited directory based on your specific criteria—whether
+            you prioritize instant payouts, fair bonus conditions, or mobile usability.
           </p>
         </div>
 
         <Link
-          href="/guides"
+          href="/compare-casinos"
           className="inline-flex items-center gap-2 h-11 px-5 rounded-xl font-bold text-xs text-white shadow-xs shrink-0 transition active:scale-95"
           style={{
-            background: "linear-gradient(180deg, #CDDCFB 0%, #588CF3 100%)",
-            boxShadow: "0px 2px 0px 0px #2E68FB",
+            background: 'linear-gradient(180deg, #CDDCFB 0%, #588CF3 100%)',
+            boxShadow: '0px 2px 0px 0px #2E68FB',
           }}
         >
-          <span>Explore All Casino Guides</span>
+          <span>Open Side-by-Side Compare Tool</span>
           <ArrowRight className="w-3.5 h-3.5" />
         </Link>
       </div>
 
-      {/* 4 Themed Guide Cards */}
+      {/* 4 Cards Grid */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
-        {guideCards.map((card, idx) => {
+        {cards.map((card, idx) => {
           const Icon = card.icon;
           return (
             <div
@@ -100,7 +104,7 @@ export function HomeSEOSection() {
                 className="rounded-[20px] p-5 flex flex-col justify-between h-full"
                 style={{
                   background:
-                    "linear-gradient(231.79deg, #D5EDFF 32.55%, #EEECFF 43.54%, #F9F3FF 53.23%, #F5FCFF 66.16%, #E9F5FF 79.08%)",
+                    'linear-gradient(231.79deg, #D5EDFF 32.55%, #EEECFF 43.54%, #F9F3FF 53.23%, #F5FCFF 66.16%, #E9F5FF 79.08%)',
                 }}
               >
                 <div>
@@ -138,8 +142,6 @@ export function HomeSEOSection() {
           );
         })}
       </div>
-
-    
     </section>
   );
 }
