@@ -2,10 +2,12 @@ import { API_CONFIG } from "@/config/api.config";
 
 export async function getNewsBySlug(slug: string) {
   try {
+    const baseUrl = API_CONFIG.baseURL || process.env.NEXT_PUBLIC_API_URL || 'http://localhost:4000/api';
+
     // 1. Try direct slug endpoint
     try {
-      const directRes = await fetch(`${API_CONFIG.baseURL}/news/${encodeURIComponent(slug)}`, {
-        next: { revalidate: 3600 },
+      const directRes = await fetch(`${baseUrl}/news/${encodeURIComponent(slug)}`, {
+        cache: 'no-store',
       });
       if (directRes.ok) {
         const directData = await directRes.json();
@@ -18,8 +20,8 @@ export async function getNewsBySlug(slug: string) {
     }
 
     // 2. Fallback to list search
-    const res = await fetch(`${API_CONFIG.baseURL}/news`, {
-      next: { revalidate: 3600 },
+    const res = await fetch(`${baseUrl}/news`, {
+      cache: 'no-store',
     });
 
     if (!res.ok) return null;
@@ -37,10 +39,9 @@ export async function getNewsBySlug(slug: string) {
 
 export async function getAllNews() {
   try {
-    const res = await fetch(`${API_CONFIG.baseURL}/news`, {
-      next: {
-        revalidate: 3600,
-      },
+    const baseUrl = API_CONFIG.baseURL || process.env.NEXT_PUBLIC_API_URL || 'http://localhost:4000/api';
+    const res = await fetch(`${baseUrl}/news`, {
+      cache: 'no-store',
     });
 
     if (!res.ok) {
@@ -51,7 +52,6 @@ export async function getAllNews() {
     }
   } catch (error) {
     console.error("News fetch error", error);
-
     return null;
   }
 }

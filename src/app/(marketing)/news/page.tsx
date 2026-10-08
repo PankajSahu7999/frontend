@@ -26,6 +26,9 @@ export const metadata = generateSEO({
   ],
 });
 
+export const dynamic = 'force-dynamic';
+export const revalidate = 0;
+
 const PAGE_URL = "https://casinoreviewsbook.com/news";
 
 export default async function Page() {
