@@ -1,3 +1,4 @@
+import { notFound } from "next/navigation";
 import { getNewsBySlug } from "@/lib/seo/seoApi";
 import NewsDetailsClient from "./NewsDetailsClient";
 import { generateSEO } from "@/lib/seo";
@@ -30,7 +31,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   }
   return generateSEO({
     title: article.meta_title || article.title,
-    description: article.content.substring(0, 160),
+    description: article.content ? article.content.replace(/<[^>]*>/g, '').substring(0, 160) : '',
     path: `/news/${article.slug}`,
     image: article.featured_image,
     keywords: article.meta_keywords,
@@ -41,7 +42,11 @@ export default async function Page({ params }: Props) {
   const { slug } = await params;
 
   const article = await getNewsBySlug(slug);
-  const PAGE_URL = `${process.env.NEXT_PUBLIC_SITE_URL}/news/${article.slug}/`;
+  if (!article) {
+    notFound();
+  }
+
+  const PAGE_URL = `${process.env.NEXT_PUBLIC_SITE_URL || 'https://casinoreviewbook.com'}/news/${article.slug}/`;
 
   const graph = buildSchemaGraph({
     webpage: webpageSchema({
