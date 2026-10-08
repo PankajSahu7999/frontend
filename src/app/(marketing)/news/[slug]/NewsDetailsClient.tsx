@@ -44,7 +44,7 @@ export default function NewsDetailsClient({ news }: Props) {
   const updatedDate = news.updated_at ? formatDate(news.updated_at) : '';
 
   return (
-    <main className="max-w-4xl mx-auto px-4 sm:px-6 py-6 sm:py-10">
+    <main className="w-full py-8 ">
       {/* Breadcrumbs Navigation */}
       <Breadcrumbs
         items={[
