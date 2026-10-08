@@ -72,7 +72,7 @@ export default async function Page() {
   return (
     <>
       <JsonLd data={graph} />
-      <NewsPageClient />
+      <NewsPageClient initialNews={newsList} />
     </>
   );
 }

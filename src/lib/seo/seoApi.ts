@@ -1,26 +1,36 @@
 import { API_CONFIG } from "@/config/api.config";
-import error from "next/dist/api/error";
 
 export async function getNewsBySlug(slug: string) {
   try {
-    const res = await fetch(`${API_CONFIG.baseURL}/news`, {
-      next: {
-        revalidate: 3600,
-      },
-    });
-
-    if (!res.ok) {
-      return null;
+    // 1. Try direct slug endpoint
+    try {
+      const directRes = await fetch(`${API_CONFIG.baseURL}/news/${encodeURIComponent(slug)}`, {
+        next: { revalidate: 3600 },
+      });
+      if (directRes.ok) {
+        const directData = await directRes.json();
+        if (directData && (directData.id || directData.slug)) {
+          return directData;
+        }
+      }
+    } catch {
+      // Direct endpoint failed, fall through to list search
     }
 
+    // 2. Fallback to list search
+    const res = await fetch(`${API_CONFIG.baseURL}/news`, {
+      next: { revalidate: 3600 },
+    });
+
+    if (!res.ok) return null;
     const news = await res.json();
-
-    const article = news.find((item: any) => item.slug === slug);
-
-    return article || null;
+    if (Array.isArray(news)) {
+      const article = news.find((item: any) => item.slug === slug);
+      return article || null;
+    }
+    return null;
   } catch (error) {
     console.error("News fetch error", error);
-
     return null;
   }
 }

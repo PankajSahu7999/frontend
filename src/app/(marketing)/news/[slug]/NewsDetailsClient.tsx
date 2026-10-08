@@ -1,125 +1,8 @@
 'use client';
 
-import { useEffect } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
-import { useParams } from 'next/navigation';
-import { useDispatch, useSelector } from 'react-redux';
 import Breadcrumbs from '@/components/seo/Breadcrumbs';
-
-// import { fetchNews } from '@/store/slices/newsSlice';
-// import { AppDispatch, RootState } from '@/store';
-
-// export default function NewsDetailPage() {
-//   const params = useParams();
-//   const dispatch = useDispatch<AppDispatch>();
-
-//   const { news, loading, error } = useSelector(
-//     (state: RootState) => state.news
-//   );
-
-//   const slug = params.slug as string;
-
-//   useEffect(() => {
-//     // Fetch news only if it is not already loaded
-//     if (news.length === 0) {
-//       dispatch(fetchNews());
-//     }
-//   }, [dispatch, news.length]);
-
-//   const currentNews = news.find(
-//     (item) => item.slug === slug
-//   );
-
-//   if (loading) {
-//     return (
-//       <div className="max-w-5xl mx-auto px-4 py-20 text-center">
-//         <p>Loading news...</p>
-//       </div>
-//     );
-//   }
-
-//   if (error) {
-//     return (
-//       <div className="max-w-5xl mx-auto px-4 py-20 text-center">
-//         <p className="text-red-500">{error}</p>
-//       </div>
-//     );
-//   }
-
-//   if (!currentNews) {
-//     return (
-//       <div className="max-w-5xl mx-auto px-4 py-20 text-center">
-//         <h1 className="text-3xl font-bold">
-//           News Not Found
-//         </h1>
-
-//         <Link
-//           href="/news"
-//           className="inline-block mt-6 text-blue-600 hover:underline"
-//         >
-//           ← Back to News
-//         </Link>
-//       </div>
-//     );
-//   }
-
-//   return (
-//     <main className="mx-auto px-2">
-
-//       {/* Back Button */}
-//       <Link
-//         href="/news"
-//         className="inline-block mb-8 text-blue-600 hover:underline"
-//       >
-//         ← Back to News
-//       </Link>
-
-//       {/* Article Header */}
-//       <article>
-
-//         <h1 className="text-4xl md:text-5xl font-bold text-gray-900 leading-tight">
-//           {currentNews.title}
-//         </h1>
-
-//         <div className="mt-4 text-sm text-gray-500">
-//           Published on{' '}
-//           {new Date(
-//             currentNews.published_at
-//           ).toLocaleDateString()}
-//         </div>
-
-//         {/* Featured Image */}
-//         <div className="relative w-full h-[300px] md:h-[500px] mt-8 rounded-xl overflow-hidden">
-//           <img
-//   src={currentNews.featured_image}
-//   alt={currentNews.title}
-//   className="w-full h-full object-cover"
-// />
-//         </div>
-
-//         {/* Article Content */}
-//         <div className="mt-10">
-
-//           {currentNews.content
-//             .split('\n\n')
-//             .map((paragraph, index) => (
-//               <p
-//                 key={index}
-//                 className="mb-6 text-lg leading-8 text-gray-700"
-//               >
-//                 {paragraph}
-//               </p>
-//             ))}
-
-//         </div>
-
-//       </article>
-
-//     </main>
-//   );
-// }
-
 
 interface NewsArticle {
   id: number | string;
@@ -127,9 +10,11 @@ interface NewsArticle {
   title: string;
   content: string;
   featured_image: string;
-  published_at: string;
+  published_at?: string;
+  created_at?: string;
   updated_at?: string;
   author_name?: string;
+  author?: any;
   category?: string;
 }
 
@@ -137,109 +22,120 @@ interface Props {
   news: NewsArticle;
 }
 
+function formatDate(dateStr?: string) {
+  if (!dateStr) return '';
+  try {
+    const d = new Date(dateStr);
+    if (isNaN(d.getTime())) return '';
+    const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+    return `${months[d.getUTCMonth()]} ${d.getUTCDate()}, ${d.getUTCFullYear()}`;
+  } catch {
+    return '';
+  }
+}
+
 export default function NewsDetailsClient({ news }: Props) {
+  const authorName =
+    (typeof news.author === 'string' ? news.author : news.author?.name) ||
+    news.author_name ||
+    'Casino Reviews Book Editorial Team';
+
+  const publishedDate = formatDate(news.published_at || news.created_at);
+  const updatedDate = news.updated_at ? formatDate(news.updated_at) : '';
+
   return (
-    <>
-      <main className="mx-auto px-2">
-        {/*  Back Button */}
-        <Link
-          href="/news"
-          className="inline-block mb-8 text-blue-600 hover:underline"
-        >
-          ← Back to News
-        </Link>
-
-        {/* Article Header */}
-        <article>
-          <header>
-            {news.category && (
-              <div className="mb-3">
-                <span className="rounded-full bg-blue-100 px-3 py-1 text-sm font-medium text-blue-700">
-                  {news.category}
-                </span>
-              </div>
-            )}
-            <h1 className="text-4xl md:text-5xl font-bold text-gray-900 leading-tight">
-              {news.title}
-            </h1>
-            <div className="mt-5 flex flex-wrap gap-4 text-sm text-gray-500">
-              <span>
-                Published on{" "}
-                <time dateTime={news.published_at}>
-                  {new Date(news.published_at).toLocaleDateString()}
-                </time>
-              </span>
-
-              {news.updated_at && (
-                <span>
-                  Updated{" "}
-                  <time dateTime={news.updated_at}>
-                    {new Date(news.updated_at).toLocaleDateString()}
-                  </time>
-                </span>
-              )}
-      {/* Back Button */}
+    <main className="max-w-4xl mx-auto px-4 sm:px-6 py-6 sm:py-10">
+      {/* Breadcrumbs Navigation */}
       <Breadcrumbs
         items={[
           { name: 'News', url: '/news' },
-          { name: news.title },
+          { name: news.title || 'Article' },
         ]}
-        className="mb-4"
+        className="mb-6"
       />
 
-              {news.author_name && <span>By {news.author_name}</span>}
-            </div>
-          </header>
-
-          {/* Featured Image */}
-          {news.featured_image && (
-            <div className="relative mt-10 aspect-[16/9] overflow-hidden rounded-xl">
-              <Image
-                src={news.featured_image}
-                alt={news.title}
-                fill
-                priority
-                sizes="(max-width:768px) 100vw, 900px"
-                className="object-cover"
-              />
+      {/* Article Container */}
+      <article className="bg-white">
+        <header className="mb-8">
+          {news.category && (
+            <div className="mb-3">
+              <span className="rounded-full bg-blue-100 px-3 py-1 text-xs font-semibold uppercase tracking-wider text-blue-700">
+                {news.category}
+              </span>
             </div>
           )}
-          {/* Article Content */}
-          <div className="mt-10">
-            {news.content.split("\n\n").map((paragraph, index) => (
-              <p key={index} className="mb-6 text-lg leading-8 text-gray-700">
-                {paragraph}
-              </p>
-            ))}
+
+          <h1 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold text-gray-900 leading-tight">
+            {news.title}
+          </h1>
+
+          <div className="mt-4 flex flex-wrap items-center gap-3 text-sm text-gray-500 pb-6 border-b border-gray-100">
+            {publishedDate && (
+              <span>
+                Published <time dateTime={news.published_at || news.created_at}>{publishedDate}</time>
+              </span>
+            )}
+            {updatedDate && updatedDate !== publishedDate && (
+              <span>
+                • Updated <time dateTime={news.updated_at}>{updatedDate}</time>
+              </span>
+            )}
+            <span>
+              • By <strong className="text-gray-800 font-semibold">{authorName}</strong>
+            </span>
           </div>
-        </article>
+        </header>
 
-        {/* Continue Reading Section */}
-        <section className="mt-16 border-t border-blue-600 pt-10">
-          <h2 className="text-2xl font-bold text-gray-900">Continue Reading</h2>
-
-          <p className="mt-2 text-gray-600">
-            Browse more casino news, industry updates, responsible gambling
-            resources, and expert guides.
-          </p>
-
-          <div className="mt-6 flex gap-4">
-            <Link
-              href="/news"
-              className="rounded-lg bg-[#2E68FB] px-5 py-3 text-white hover:bg-blue-700"
-            >
-              All News
-            </Link>
-
-            <Link
-              href="/guides/how-to-win"
-              className="rounded-lg border border-blue-600 text-blue-600 px-5 py-3 hover:bg-blue-100"
-            >
-              Guides
-            </Link>
+        {/* Featured Hero Image */}
+        {news.featured_image && (
+          <div className="relative w-full aspect-[16/9] max-h-[500px] overflow-hidden rounded-2xl mb-8 bg-gray-100 shadow-sm">
+            <Image
+              src={news.featured_image}
+              alt={news.title || 'News cover image'}
+              fill
+              priority
+              sizes="(max-width: 1024px) 100vw, 900px"
+              className="object-cover"
+            />
           </div>
-        </section>
-      </main>
-    </>
+        )}
+
+        {/* Article Body with rich HTML styling */}
+        {news.content ? (
+          <div
+            className="article-body text-gray-800 text-base sm:text-lg leading-relaxed space-y-6 [&_h2]:text-2xl [&_h2]:sm:text-3xl [&_h2]:font-bold [&_h2]:text-gray-900 [&_h2]:mt-10 [&_h2]:mb-4 [&_h3]:text-xl [&_h3]:font-semibold [&_h3]:text-gray-900 [&_h3]:mt-6 [&_h3]:mb-3 [&_p]:text-gray-700 [&_p]:leading-relaxed [&_p]:mb-4 [&_strong]:font-semibold [&_strong]:text-gray-900 [&_ul]:list-disc [&_ul]:pl-6 [&_ul]:space-y-2 [&_li]:text-gray-700 [&_a]:text-blue-600 [&_a]:underline [&_a]:hover:text-blue-800"
+            dangerouslySetInnerHTML={{ __html: news.content }}
+          />
+        ) : null}
+      </article>
+
+      {/* Continue Reading & Quick Links */}
+      <section className="mt-16 border-t border-gray-200 pt-10">
+        <h2 className="text-2xl font-bold text-gray-900">Explore More</h2>
+        <p className="mt-2 text-gray-600 text-sm sm:text-base">
+          Discover verified casino ratings, industry updates, responsible gaming resources, and game guides.
+        </p>
+        <div className="mt-6 flex flex-wrap gap-4">
+          <Link
+            href="/news"
+            className="rounded-lg bg-blue-600 px-6 py-3 text-white text-sm font-semibold hover:bg-blue-700 transition shadow-sm"
+          >
+            All News Articles
+          </Link>
+          <Link
+            href="/guides/how-to-win"
+            className="rounded-lg border border-blue-600 text-blue-600 px-6 py-3 text-sm font-semibold hover:bg-blue-50 transition"
+          >
+            Casino Guides
+          </Link>
+          <Link
+            href="/responsible-gambling"
+            className="rounded-lg border border-gray-300 text-gray-700 px-6 py-3 text-sm font-semibold hover:bg-gray-50 transition"
+          >
+            Responsible Gaming
+          </Link>
+        </div>
+      </section>
+    </main>
   );
 }

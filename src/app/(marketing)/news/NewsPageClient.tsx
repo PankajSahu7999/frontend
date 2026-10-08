@@ -6,20 +6,60 @@ import Image from "next/image";
 import { useDispatch, useSelector } from "react-redux";
 import { Clock, ArrowRight, TrendingUp, Search } from "lucide-react";
 
-import { fetchNews } from "@/store/slices/newsSlice";
+import { fetchNews, setInitialNews } from "@/store/slices/newsSlice";
 import { AppDispatch, RootState } from "@/store";
 
-export default function NewsPage() {
+interface NewsPageProps {
+  initialNews?: any[];
+}
+
+function getCleanExcerpt(item: any, maxLength = 160): string {
+  if (item.meta_description && item.meta_description.trim()) {
+    return item.meta_description.trim();
+  }
+  if (item.excerpt && item.excerpt.trim()) {
+    return item.excerpt.replace(/<[^>]*>/g, ' ').replace(/\s+/g, ' ').trim();
+  }
+  if (item.content) {
+    const clean = item.content.replace(/<[^>]*>/g, ' ').replace(/\s+/g, ' ').trim();
+    return clean.length > maxLength ? clean.substring(0, maxLength) + '...' : clean;
+  }
+  return '';
+}
+
+function formatDate(dateStr?: string) {
+  if (!dateStr) return 'Recent';
+  try {
+    const d = new Date(dateStr);
+    if (isNaN(d.getTime())) return 'Recent';
+    const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+    return `${months[d.getUTCMonth()]} ${d.getUTCDate()}, ${d.getUTCFullYear()}`;
+  } catch {
+    return 'Recent';
+  }
+}
+
+export default function NewsPage({ initialNews = [] }: NewsPageProps) {
   const dispatch = useDispatch<AppDispatch>();
   const [searchTerm, setSearchTerm] = useState("");
 
-  const { news, loading, error } = useSelector(
+  const { news: reduxNews, loading: reduxLoading, error } = useSelector(
     (state: RootState) => state.news,
   );
 
   useEffect(() => {
-    dispatch(fetchNews());
-  }, [dispatch]);
+    if (initialNews.length > 0) {
+      dispatch(setInitialNews(initialNews));
+    } else {
+      dispatch(fetchNews());
+    }
+  }, [dispatch, initialNews]);
+
+  const activeNews = (initialNews && initialNews.length > 0)
+    ? (reduxNews.length > initialNews.length ? reduxNews : initialNews)
+    : reduxNews;
+
+  const loading = (initialNews && initialNews.length > 0) ? false : reduxLoading;
 
   // Skeleton Loading State
   if (loading) {
@@ -38,7 +78,7 @@ export default function NewsPage() {
   }
 
   // Error State
-  if (error) {
+  if (error && activeNews.length === 0) {
     return (
       <div className="max-w-7xl mx-auto px-4 py-20 text-center">
         <div className="p-6 max-w-md mx-auto bg-red-50 border border-red-200 rounded-2xl">
@@ -56,15 +96,13 @@ export default function NewsPage() {
 
   const searchQuery = searchTerm.trim().toLowerCase();
 
-  const filteredNews = news.filter((item) => {
+  const filteredNews = activeNews.filter((item: any) => {
     const title = item.title?.toLowerCase() || "";
-    const excerpt = item.excerpt?.toLowerCase() || "";
-    const content = item.content?.toLowerCase() || "";
+    const cleanExcerpt = getCleanExcerpt(item, 500).toLowerCase();
 
     return (
       title.includes(searchQuery) ||
-      excerpt.includes(searchQuery) ||
-      content.includes(searchQuery)
+      cleanExcerpt.includes(searchQuery)
     );
   });
 
@@ -72,8 +110,8 @@ export default function NewsPage() {
   const gridNews = filteredNews.slice(1);
 
   return (
-    <main className=" min-h-screen py-4">
-      <div className=" mx-auto px-2 ">
+    <main className="min-h-screen py-4">
+      <div className="mx-auto px-2">
         {/* Page Header & Search */}
         <div className="flex flex-col md:flex-row md:items-end justify-between border-b border-gray-200 pb-8 mb-10 gap-6">
           <div>
@@ -98,7 +136,7 @@ export default function NewsPage() {
               placeholder="Search news..."
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
-              className="w-full pl-9 pr-4 py-2.5 bg-white border border-gray-300 rounded-lg text-sm text-black placeholder:text-black focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition shadow-sm"
+              className="w-full pl-9 pr-4 py-2.5 bg-white border border-gray-300 rounded-lg text-sm text-black placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition shadow-sm"
             />
           </div>
         </div>
@@ -117,7 +155,7 @@ export default function NewsPage() {
                     {heroNews.featured_image ? (
                       <Image
                         src={heroNews.featured_image}
-                        alt={heroNews.title}
+                        alt={heroNews.title || "Featured News"}
                         fill
                         priority
                         sizes="(max-width: 1024px) 100vw, 60vw"
@@ -134,15 +172,8 @@ export default function NewsPage() {
                   <div className="lg:col-span-5 p-6 sm:p-8 lg:pr-10">
                     <div className="flex items-center gap-2 text-xs font-medium text-gray-500 mb-3">
                       <Clock className="w-3.5 h-3.5" />
-                      <time dateTime={heroNews.published_at}>
-                        {new Date(heroNews.published_at).toLocaleDateString(
-                          "en-US",
-                          {
-                            month: "short",
-                            day: "numeric",
-                            year: "numeric",
-                          },
-                        )}
+                      <time dateTime={heroNews.published_at || heroNews.created_at}>
+                        {formatDate(heroNews.published_at || heroNews.created_at)}
                       </time>
                     </div>
 
@@ -153,7 +184,7 @@ export default function NewsPage() {
                     </h2>
 
                     <p className="mt-4 text-gray-600 line-clamp-3 text-base leading-relaxed">
-                      {heroNews.excerpt || heroNews.content}
+                      {getCleanExcerpt(heroNews, 240)}
                     </p>
 
                     <Link
@@ -172,14 +203,14 @@ export default function NewsPage() {
             <section>
               <div className="flex items-center justify-between mb-6">
                 <h3 className="text-xl font-bold text-gray-900">
-                  Latest Articles
+                  Latest Articles ({gridNews.length + (heroNews ? 1 : 0)})
                 </h3>
               </div>
 
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-                {gridNews.map((item) => (
+                {gridNews.map((item: any) => (
                   <article
-                    key={item.id}
+                    key={item.id || item.slug}
                     className="group flex flex-col bg-white rounded-xl border border-gray-200 overflow-hidden shadow-sm hover:shadow-lg transition-all duration-300"
                   >
                     {/* Card Image Container */}
@@ -190,7 +221,7 @@ export default function NewsPage() {
                       {item.featured_image ? (
                         <Image
                           src={item.featured_image}
-                          alt={item.title}
+                          alt={item.title || "News article"}
                           fill
                           sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
                           className="object-cover group-hover:scale-105 transition-transform duration-500 ease-out"
@@ -205,15 +236,8 @@ export default function NewsPage() {
                     <div className="flex flex-col flex-grow p-6">
                       <div className="flex items-center gap-2 text-xs font-medium text-gray-500 mb-3">
                         <Clock className="w-3.5 h-3.5" />
-                        <time dateTime={item.published_at}>
-                          {new Date(item.published_at).toLocaleDateString(
-                            "en-US",
-                            {
-                              month: "short",
-                              day: "numeric",
-                              year: "numeric",
-                            },
-                          )}
+                        <time dateTime={item.published_at || item.created_at}>
+                          {formatDate(item.published_at || item.created_at)}
                         </time>
                       </div>
 
@@ -222,7 +246,7 @@ export default function NewsPage() {
                       </h3>
 
                       <p className="mt-3 text-sm text-gray-600 line-clamp-3 leading-relaxed flex-grow">
-                        {item.excerpt || item.content}
+                        {getCleanExcerpt(item, 140)}
                       </p>
 
                       <div className="pt-5 mt-5 border-t border-gray-100 flex items-center justify-between">
