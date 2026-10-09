@@ -1,7 +1,8 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import { Check, ChevronDown, ChevronRight } from 'lucide-react';
+import Link from 'next/link';
+import { Check, ChevronDown, ChevronRight, Mail, ShieldCheck } from 'lucide-react';
 import { API_CONFIG } from '@/config/api.config';
 import { faqSchema, FAQItem } from '@/lib/seo/schemas/faqSchema';
 
@@ -139,6 +140,23 @@ export function FAQSection({
                   Compare customer support options including live chat, email, and response times.
                 </p>
               </div>
+            </div>
+
+            <div className="flex flex-wrap items-center gap-3 pt-3">
+              <Link
+                href="/contact-us"
+                className="inline-flex items-center justify-center gap-2 px-5 py-2.5 rounded-full bg-[#2E68FB] text-white font-semibold text-sm hover:bg-blue-700 transition shadow-sm hover:shadow"
+              >
+                <Mail className="w-4 h-4" />
+                Contact Us
+              </Link>
+              <Link
+                href="/responsible-gambling"
+                className="inline-flex items-center justify-center gap-2 px-5 py-2.5 rounded-full bg-white text-slate-800 border border-slate-200 font-semibold text-sm hover:bg-slate-50 hover:border-slate-300 transition shadow-sm"
+              >
+                <ShieldCheck className="w-4 h-4 text-emerald-600" />
+                Responsible Gaming
+              </Link>
             </div>
           </div>
 

@@ -55,7 +55,7 @@ export default function NewsDetailsClient({ news }: Props) {
       />
 
       {/* Article Container */}
-      <article className="bg-white">
+      <article className="w-full">
         <header className="mb-8">
           {news.category && (
             <div className="mb-3">

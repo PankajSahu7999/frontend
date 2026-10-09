@@ -161,7 +161,7 @@ export default function Navbar({ onMenuClick }: NavbarProps) {
                 onKeyDown={(e) => {
                   if (e.key === 'Escape') setIsOpen(false);
                 }}
-                placeholder="Games, Categories"
+                placeholder="Search a casino, country, payment method or topic"
                 className="
                     w-full
                     h-[40px] sm:h-[45px]

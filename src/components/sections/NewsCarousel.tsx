@@ -66,10 +66,7 @@ export function NewsCarousel({ news: propNews }: NewsCarouselProps = {}) {
     published_at: formatPublishedDate(item.published_at),
     title: item.title,
     excerpt: item.excerpt || (item.content ? item.content.replace(/<[^>]*>/g, '').substring(0, 150) + '...' : ''),
-    tags: [
-      { label: 'News', color: 'bg-indigo-50 text-indigo-600' },
-      { label: 'Casino', color: 'bg-blue-50 text-blue-600' },
-    ],
+    tags: item.tags || [],
   }));
 
   useEffect(() => {
