@@ -283,23 +283,8 @@ export function Hero({
                 {activeSlideData.supportingCopy}
               </p>
 
-              {/* Mobile Search Bar (Page 7 Specification) */}
-              <form onSubmit={handleHeroSearch} className="w-full mb-3.5 relative flex items-center">
-                <input
-                  type="text"
-                  value={searchQuery}
-                  onChange={(e) => setSearchQuery(e.target.value)}
-                  placeholder="Search a casino, country, payment method or topic"
-                  className="w-full h-10 pl-9 pr-20 rounded-full bg-slate-900/90 border border-white/20 text-white placeholder:text-slate-400 text-xs focus:outline-none focus:border-amber-400 focus:ring-1 focus:ring-amber-400"
-                />
-                <Search className="absolute left-3 w-3.5 h-3.5 text-slate-400 pointer-events-none" />
-                <button
-                  type="submit"
-                  className="absolute right-1 px-3 h-8 rounded-full bg-gradient-to-r from-amber-500 to-orange-500 text-[#16171D] font-extrabold text-[11px] uppercase tracking-wider shadow-sm"
-                >
-                  Search
-                </button>
-              </form>
+             
+             
 
               {/* Mobile CTAs */}
               <div className="flex flex-col gap-2.5 w-full mb-3">
@@ -485,28 +470,8 @@ export function Hero({
                   {activeSlideData.supportingCopy}
                 </p>
 
-                {/* Hero Search Bar (Page 7 Specification) */}
-                <form
-                  onSubmit={handleHeroSearch}
-                  className="w-full max-w-[520px] relative flex items-center mb-4"
-                >
-                  <div className="relative w-full flex items-center">
-                    <Search className="absolute left-4 w-4 h-4 text-slate-400 pointer-events-none" />
-                    <input
-                      type="text"
-                      value={searchQuery}
-                      onChange={(e) => setSearchQuery(e.target.value)}
-                      placeholder="Search a casino, country, payment method or topic"
-                      className="w-full h-11 pl-11 pr-24 rounded-full bg-slate-900/80 border border-white/20 text-white placeholder:text-slate-400 text-xs sm:text-sm focus:outline-none focus:border-amber-400 focus:ring-1 focus:ring-amber-400 shadow-md backdrop-blur-md transition-all"
-                    />
-                    <button
-                      type="submit"
-                      className="absolute right-1 px-4 h-9 rounded-full bg-gradient-to-r from-amber-500 to-orange-500 hover:from-amber-600 hover:to-orange-600 text-[#16171D] font-extrabold text-xs uppercase tracking-wider transition-all active:scale-95 shadow-sm cursor-pointer"
-                    >
-                      Search
-                    </button>
-                  </div>
-                </form>
+               
+               
 
                 {/* Dual CTAs */}
                 <div className="flex flex-col sm:flex-row items-center gap-3 w-full sm:w-auto mb-3">
