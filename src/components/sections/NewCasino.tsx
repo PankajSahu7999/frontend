@@ -129,8 +129,8 @@ export default function NewCasinoSection({
 
         {/* Second Row */}
         <p className="text-[15px] text-[#5F6368] mt-2">
-          New Rally
-          <span className="text-[#2E68FB]"> every 20 minutes</span> – spin and win!
+          Newly launched online casinos,
+          <span className="text-[#2E68FB]"> recently verified</span> for licensing, fair bonus terms, and payout safety.
         </p>
       </div>
 

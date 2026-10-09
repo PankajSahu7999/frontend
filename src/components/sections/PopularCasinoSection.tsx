@@ -104,8 +104,8 @@ export default function PopularCasinoSection( {
 
         {/* Second Row */}
         <p className="text-[15px] text-[#5F6368] mt-2">
-          New Rally
-          <span className="text-[#2E68FB]"> every 20 minutes</span> – spin and win!
+          Most trusted player choices,
+          <span className="text-[#2E68FB]"> scored and ranked</span> by regulatory standing, game variety, and fast payouts.
         </p>
       </div>
 

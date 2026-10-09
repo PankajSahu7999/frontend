@@ -102,8 +102,8 @@ export default function SpinRallySection({
 
         {/* Second Row */}
         <p className="text-[15px] text-[#5F6368] mt-2">
-          New Rally
-          <span className="text-[#2E68FB]"> every 20 minutes</span> – spin and win!
+          Featured slot tournaments and rally events with
+          <span className="text-[#2E68FB]"> active prize pools</span>, high RTP slots, and fair-play audits.
         </p>
       </div>
 
