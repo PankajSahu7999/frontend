@@ -335,9 +335,11 @@ export default function Navbar({ onMenuClick }: NavbarProps) {
     {/* Flag Image */}
     <div className="h-[20px] rounded-[3px] overflow-hidden shadow-xs border border-slate-200/80 shrink-0 flex items-center justify-center bg-slate-100">
       {mounted ? (
+        
         <img
           src={getCountryFlagUrl(userCountry)}
           alt={`${userCountry} flag`}
+          title={`${userCountry} flag`}
           className="w-full h-full object-cover"
           loading="eager"
           onError={(e) => {

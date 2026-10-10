@@ -2,17 +2,17 @@ export const SITE = {
   name: "Casino Reviews Book",
   siteName: "Casino Reviews Book",
   shortName: "CRB",
-  tagline: "Trusted Casino Reviews, Bonuses & Gambling Guides",
+  tagline: "Online Casino Reviews, Bonuses & Gambling Guides",
 
   url: "https://casinoreviewsbook.com",
   siteUrl: "https://casinoreviewsbook.com",
   baseUrl: new URL("https://casinoreviewsbook.com"),
 
   title:
-    "Trusted Casino Reviews & Bonuses | Casino Reviews Book",
+    "Online Casino Reviews & Ratings | Casino Reviews Book",
 
 description:
-  "Explore trusted online casino reviews, bonuses, crypto casinos, games, payments, licensing, and expert safety ratings.",
+  "Compare online casinos by licensing, ratings, bonus terms, payment methods and payout research. Explore independent reviews before choosing a casino.",
 
   locale: "en_US",
   language: "en-US",

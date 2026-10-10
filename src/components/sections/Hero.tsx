@@ -40,24 +40,24 @@ export const HOMEPAGE_HERO_SLIDES: HeroSlideContent[] = [
       "We check licensing, KYC, bonus terms, payment methods, mobile experience and withdrawals, then turn the findings into clear casino reviews and comparisons. Availability always depends on your country and local rules.",
     primaryCtaText: "Compare Casino Reviews",
     primaryCtaHref: "/compare-casinos",
-    secondaryCtaText: "See How We Test",
+    secondaryCtaText: "How We Review",
     secondaryCtaHref: "#methodology",
     trustLine:
-      "Real-money testing where legally permitted • Licence checks • Bonus-term audits • Payout research • Affiliate disclosure",
+      "Real-money testing • Licence checks • Bonus-term audits • Payout research • Affiliate disclosure",
     bannerImage: "/images/hero/casinos-hero.jpg",
   },
   // Option 2 — Problem-first
   {
     id: "problem-first",
-    eyebrow: "DON'T JUST TRUST THE RATING",
-    h1: "See What We Check",
-    h1Highlight: "Before You Choose an Online Casino",
+    eyebrow: "COUNTRY-SPECIFIC CASINO INFORMATION",
+    h1: "Explore Online Casino",
+    h1Highlight: "Information by Country, Game Type and Bonus",
     supportingCopy:
-      "Go beyond star ratings. Explore licensing, bonus conditions, payment methods, withdrawal research, support testing and the evidence behind each review.",
+      "Learn how licensing rules, legal restrictions, payment availability and casino access vary by jurisdiction. Explore country-specific guides to understand the local context before visiting an operator.",
     primaryCtaText: "Explore Casino Reviews",
     primaryCtaHref: "/casinos",
-    secondaryCtaText: "View Our Methodology",
-    secondaryCtaHref: "#methodology",
+    secondaryCtaText: "Read Casino Guides",
+    secondaryCtaHref: "/guides",
     trustLine:
       "Clear criteria • Visible review dates • Transparent commercial disclosure",
     bannerImage: "/images/hero/bonuses-hero.jpg",
@@ -65,51 +65,44 @@ export const HOMEPAGE_HERO_SLIDES: HeroSlideContent[] = [
   // Option 3 — Comparison-first
   {
     id: "comparison-first",
-    eyebrow: "COMPARE BEFORE YOU CHOOSE",
-    h1: "Compare Online Casino Reviews",
+    eyebrow: "COMPARE FEATURES BEFORE YOU CHOOSE",
+    h1: "Compare Casino Bonuses",
     h1Highlight: "By Safety, Terms, Payments and Withdrawals",
     supportingCopy:
-      "Find the information that matters before you deposit. Compare casino ratings, licence status, bonus terms, payment options and withdrawal research in one place.",
+      "Compare available casino information in one place, from bonus wagering requirements and payment methods to withdrawal limits and processing policies. Review the terms and restrictions that may affect your choices.",
     primaryCtaText: "Compare Casinos",
     primaryCtaHref: "/compare-casinos",
     secondaryCtaText: "Browse by Country",
     secondaryCtaHref: "/casinos/casinos-by-country",
     trustLine:
-      "Research-led reviews • Country-aware information • Responsible gambling guidance",
+      "Research-led reviews • Country-aware information • Research-Based Information",
     bannerImage: "/images/hero/betting-hero.jpg",
   },
 ];
 
 const THEME_SLIDES_MAP: Record<string, string[]> = {
-  casinos: [
-    "/images/hero/casinos-hero.jpg",
-    "/images/hero/bonuses-hero.jpg",
-  ],
-  bonuses: [
-    "/images/hero/bonuses-hero.jpg",
-    "/images/hero/casinos-hero.jpg",
-  ],
-  slots: [
-    "/images/hero/slots-hero.jpg",
-    "/images/hero/bonuses-hero.jpg",
-  ],
-  games: [
-    "/images/hero/games-hero.jpg",
-    "/images/hero/casinos-hero.jpg",
-  ],
-  betting: [
-    "/images/hero/betting-hero.jpg",
-    "/images/hero/casinos-hero.jpg",
-  ],
+  casinos: ["/images/hero/casinos-hero.jpg", "/images/hero/bonuses-hero.jpg"],
+  bonuses: ["/images/hero/bonuses-hero.jpg", "/images/hero/casinos-hero.jpg"],
+  slots: ["/images/hero/slots-hero.jpg", "/images/hero/bonuses-hero.jpg"],
+  games: ["/images/hero/games-hero.jpg", "/images/hero/casinos-hero.jpg"],
+  betting: ["/images/hero/betting-hero.jpg", "/images/hero/casinos-hero.jpg"],
 };
 
 function resolveHeroSlides(title: string, bannerImage?: string): string[] {
   if (bannerImage) return [bannerImage];
   const lower = title.toLowerCase();
-  if (lower.includes("slot") || lower.includes("spin") || lower.includes("jackpot")) {
+  if (
+    lower.includes("slot") ||
+    lower.includes("spin") ||
+    lower.includes("jackpot")
+  ) {
     return THEME_SLIDES_MAP.slots;
   }
-  if (lower.includes("bet") || lower.includes("sport") || lower.includes("odds")) {
+  if (
+    lower.includes("bet") ||
+    lower.includes("sport") ||
+    lower.includes("odds")
+  ) {
     return THEME_SLIDES_MAP.betting;
   }
   if (
@@ -122,7 +115,11 @@ function resolveHeroSlides(title: string, bannerImage?: string): string[] {
   ) {
     return THEME_SLIDES_MAP.games;
   }
-  if (lower.includes("bonus") || lower.includes("promo") || lower.includes("reward")) {
+  if (
+    lower.includes("bonus") ||
+    lower.includes("promo") ||
+    lower.includes("reward")
+  ) {
     return THEME_SLIDES_MAP.bonuses;
   }
   return THEME_SLIDES_MAP.casinos;
@@ -180,14 +177,14 @@ export function Hero({
     (isHomepage
       ? activeSlideData?.eyebrow || "INDEPENDENT CASINO RESEARCH & REVIEWS"
       : title.toLowerCase().includes("slot")
-      ? "PREMIER SLOTS"
-      : title.toLowerCase().includes("bet")
-      ? "SPORTSBOOK & ODDS"
-      : title.toLowerCase().includes("game")
-      ? "CASINO TABLE GAMES"
-      : title.toLowerCase().includes("bonus")
-      ? "EXCLUSIVE BONUSES"
-      : "BEST ONLINE CASINOS");
+        ? "PREMIER SLOTS"
+        : title.toLowerCase().includes("bet")
+          ? "SPORTSBOOK & ODDS"
+          : title.toLowerCase().includes("game")
+            ? "CASINO TABLE GAMES"
+            : title.toLowerCase().includes("bonus")
+              ? "EXCLUSIVE BONUSES"
+              : "BEST ONLINE CASINOS");
 
   return (
     <section className="relative">
@@ -200,7 +197,11 @@ export function Hero({
         <div className="relative w-full h-[180px] bg-slate-950 overflow-hidden">
           <Image
             src={activeBanner}
-            alt={isHomepage ? activeSlideData?.h1 || "Casino Reviews Book" : `${title} - Casino Reviews Book Banner`}
+            alt={
+              isHomepage
+                ? activeSlideData?.h1 || "Casino Reviews Book"
+                : `${title} - Casino Reviews Book Banner`
+            }
             fill
             priority
             sizes="100vw"
@@ -264,7 +265,7 @@ export function Hero({
           {/* Badge */}
           <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-gradient-to-r from-amber-500 to-orange-500 border border-amber-400/40 shadow-xs mb-3">
             <Sparkles className="w-3 h-3 text-white" />
-            <span className="text-[10px] font-extrabold uppercase tracking-wider text-white">
+            <span className="text-[10px] font-medium uppercase tracking-wider text-white">
               {derivedBadge}
             </span>
           </div>
@@ -282,9 +283,6 @@ export function Hero({
               <p className="text-xs text-slate-300 mb-3.5 leading-relaxed font-normal max-w-sm transition-all duration-500">
                 {activeSlideData.supportingCopy}
               </p>
-
-             
-             
 
               {/* Mobile CTAs */}
               <div className="flex flex-col gap-2.5 w-full mb-3">
@@ -337,11 +335,15 @@ export function Hero({
       {/* DESKTOP / TABLET LAYOUT (hidden sm:block)                    */}
       {/* Full-width visual banner with side overlay text              */}
       {/* ============================================================ */}
-      <div className="hidden sm:block relative w-full h-[470px] lg:h-[530px] overflow-hidden rounded-2xl shadow-lg bg-slate-950">
+      <div className="hidden sm:block relative w-full h-[450px] lg:h-[520px] overflow-hidden rounded-2xl shadow-lg bg-slate-950">
         {/* Background Image with smooth transition */}
         <Image
           src={activeBanner}
-          alt={isHomepage ? activeSlideData?.h1 || "Casino Reviews Book" : `${title} - Casino Reviews Book Banner`}
+          alt={
+            isHomepage
+              ? activeSlideData?.h1 || "Casino Reviews Book"
+              : `${title} - Casino Reviews Book Banner`
+          }
           fill
           priority
           sizes="(max-width: 768px) 100vw, (max-width: 1200px) 100vw, 1280px"
@@ -438,7 +440,7 @@ export function Hero({
               "
             >
               <Sparkles className="w-3.5 h-3.5 text-white" />
-              <span className="text-[11px] font-extrabold uppercase tracking-wider text-white">
+              <span className="text-[11px] font-bold uppercase tracking-wider text-white">
                 {derivedBadge}
               </span>
             </div>
@@ -469,9 +471,6 @@ export function Hero({
                 <p className="text-xs sm:text-sm text-slate-200 max-w-[540px] mb-4 leading-relaxed font-medium drop-shadow-[0_1px_4px_rgba(0,0,0,0.8)] transition-all duration-500">
                   {activeSlideData.supportingCopy}
                 </p>
-
-               
-               
 
                 {/* Dual CTAs */}
                 <div className="flex flex-col sm:flex-row items-center gap-3 w-full sm:w-auto mb-3">

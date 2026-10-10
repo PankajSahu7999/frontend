@@ -1,8 +1,8 @@
-'use client';
+"use client";
 
-import React, { useState } from 'react';
-import Link from 'next/link';
-import Image from 'next/image';
+import React, { useState } from "react";
+import Link from "next/link";
+import Image from "next/image";
 import {
   Play,
   ShieldCheck,
@@ -17,14 +17,14 @@ import {
   X,
   BadgeCheck,
   Award,
-  ArrowRight
-} from 'lucide-react';
-import StarRating from '@/components/ui/StarRating';
-import CasinoCardBadge from '@/components/casino/CasinoCardBadge';
-import CasinoAffiliateButton from '@/components/CasinoAffiliateButton';
-import CasinoCardDisclaimer from '@/components/CasinoCardDisclaimer';
-import { getImageUrl } from '@/lib/utils/getImageUrl';
-import { formatPayoutTime } from '@/lib/utils';
+  ArrowRight,
+} from "lucide-react";
+import StarRating from "@/components/ui/StarRating";
+import CasinoCardBadge from "@/components/casino/CasinoCardBadge";
+import CasinoAffiliateButton from "@/components/CasinoAffiliateButton";
+import CasinoCardDisclaimer from "@/components/CasinoCardDisclaimer";
+import { getImageUrl } from "@/lib/utils/getImageUrl";
+import { formatPayoutTime } from "@/lib/utils";
 
 interface GameProps {
   game: any;
@@ -34,39 +34,43 @@ interface GameProps {
 
 const DEFAULT_SPONSORED_SLOTS = [
   {
-    title: 'Lucky Foxilian Hold And Win',
-    provider: '1spin4win',
-    slug: 'lucky-foxilian-hold-and-win-1spin4win',
-    tag: 'Video slots',
-    image: 'https://images.unsplash.com/photo-1606167668584-78701c57f13d?w=400&auto=format&fit=crop&q=80',
+    title: "Lucky Foxilian Hold And Win",
+    provider: "1spin4win",
+    slug: "lucky-foxilian-hold-and-win-1spin4win",
+    tag: "Video slots",
+    image: "/images/slot-placeholder.webp",
   },
   {
-    title: '3 Piggies of Bank',
-    provider: 'Yggdrasil Gaming',
-    slug: '3-piggies-of-bank-yggdrasil-gaming',
-    tag: 'Video slots',
-    image: 'https://images.unsplash.com/photo-1518609878373-06d740f60d8b?w=400&auto=format&fit=crop&q=80',
+    title: "3 Piggies of Bank",
+    provider: "Yggdrasil Gaming",
+    slug: "3-piggies-of-bank-yggdrasil-gaming",
+    tag: "Video slots",
+    image:
+      "https://images.unsplash.com/photo-1518609878373-06d740f60d8b?w=400&auto=format&fit=crop&q=80",
   },
   {
-    title: 'Throne of Elements: Platinum',
-    provider: 'Wazdan',
-    slug: 'throne-of-elements-platinum-wazdan',
-    tag: 'Video slots',
-    image: 'https://images.unsplash.com/photo-1596838132731-3301c3fd4317?w=400&auto=format&fit=crop&q=80',
+    title: "Throne of Elements: Platinum",
+    provider: "Wazdan",
+    slug: "throne-of-elements-platinum-wazdan",
+    tag: "Video slots",
+    image:
+      "https://images.unsplash.com/photo-1596838132731-3301c3fd4317?w=400&auto=format&fit=crop&q=80",
   },
   {
-    title: 'Blessings of Caishen',
-    provider: 'AvatarUX',
-    slug: 'blessings-of-caishen-avatar-ux',
-    tag: 'Video slots',
-    image: 'https://images.unsplash.com/photo-1541278107931-e006523892df?w=400&auto=format&fit=crop&q=80',
+    title: "Blessings of Caishen",
+    provider: "AvatarUX",
+    slug: "blessings-of-caishen-avatar-ux",
+    tag: "Video slots",
+    image:
+      "https://images.unsplash.com/photo-1541278107931-e006523892df?w=400&auto=format&fit=crop&q=80",
   },
   {
-    title: 'Death Dominion',
-    provider: 'Pragmatic Play',
-    slug: 'death-dominion-pragmatic-play',
-    tag: 'Video slots',
-    image: 'https://images.unsplash.com/photo-1520697830682-bbb6e85e2b0b?w=400&auto=format&fit=crop&q=80',
+    title: "Death Dominion",
+    provider: "Pragmatic Play",
+    slug: "death-dominion-pragmatic-play",
+    tag: "Video slots",
+    image:
+      "https://images.unsplash.com/photo-1520697830682-bbb6e85e2b0b?w=400&auto=format&fit=crop&q=80",
   },
 ];
 
@@ -80,36 +84,54 @@ export default function GameDetailClient({
   const heroImage =
     game.hero_banner ||
     game.thumbnail ||
-    'https://images.unsplash.com/photo-1518609878373-06d740f60d8b?w=1600&auto=format&fit=crop&q=80';
+    "https://images.unsplash.com/photo-1518609878373-06d740f60d8b?w=1600&auto=format&fit=crop&q=80";
 
   const specs = [
-    { label: 'Game Type', value: game.game_type || 'Roulette' },
-    { label: 'Game Provider', value: game.provider || 'Real Dealer Studios' },
-    { label: 'RTP', value: game.rtp || '97.3%' },
-    { label: 'Autoplay Option', value: game.autoplay !== false ? 'Yes' : 'No' },
-    { label: 'Multiplier', value: game.multiplier !== false ? 'Yes' : 'No' },
+    { label: "Game Type", value: game.game_type || "Roulette" },
+    { label: "Game Provider", value: game.provider || "Real Dealer Studios" },
+    { label: "RTP", value: game.rtp || "97.3%" },
+    { label: "Autoplay Option", value: game.autoplay !== false ? "Yes" : "No" },
+    { label: "Multiplier", value: game.multiplier !== false ? "Yes" : "No" },
     {
-      label: 'Release Date',
+      label: "Release Date",
       value: game.release_date
-        ? new Date(game.release_date).toISOString().split('T')[0]
-        : '2023-04-12',
+        ? new Date(game.release_date).toISOString().split("T")[0]
+        : "2023-04-12",
     },
-    { label: 'Volatility', value: game.volatility || 'Medium' },
+    { label: "Volatility", value: game.volatility || "Medium" },
     {
-      label: 'Minimum Bet',
-      value: game.min_bet !== null && game.min_bet !== undefined ? `$${game.min_bet}` : '$0.25',
+      label: "Minimum Bet",
+      value:
+        game.min_bet !== null && game.min_bet !== undefined
+          ? `$${game.min_bet}`
+          : "$0.25",
     },
     {
-      label: 'Maximum Bet',
-      value: game.max_bet !== null && game.max_bet !== undefined ? `$${game.max_bet}` : '$1,000',
+      label: "Maximum Bet",
+      value:
+        game.max_bet !== null && game.max_bet !== undefined
+          ? `$${game.max_bet}`
+          : "$1,000",
     },
-    { label: 'In-Game Interaction', value: game.in_game_interaction ? 'Yes' : 'No' },
-    { label: 'Player Customisation', value: game.player_customisation !== false ? 'Yes' : 'No' },
-    { label: 'Rebet Option', value: game.rebet !== false ? 'Yes' : 'No' },
-    { label: 'Side Bet', value: game.side_bet !== false ? 'Yes' : 'No' },
-    { label: 'Undo Option', value: game.undo !== false ? 'Yes' : 'No' },
-    { label: 'Game History', value: game.game_history !== false ? 'Yes' : 'No' },
-    { label: 'Bonus Features', value: game.bonus_features !== false ? 'Yes' : 'No' },
+    {
+      label: "In-Game Interaction",
+      value: game.in_game_interaction ? "Yes" : "No",
+    },
+    {
+      label: "Player Customisation",
+      value: game.player_customisation !== false ? "Yes" : "No",
+    },
+    { label: "Rebet Option", value: game.rebet !== false ? "Yes" : "No" },
+    { label: "Side Bet", value: game.side_bet !== false ? "Yes" : "No" },
+    { label: "Undo Option", value: game.undo !== false ? "Yes" : "No" },
+    {
+      label: "Game History",
+      value: game.game_history !== false ? "Yes" : "No",
+    },
+    {
+      label: "Bonus Features",
+      value: game.bonus_features !== false ? "Yes" : "No",
+    },
   ];
 
   return (
@@ -133,16 +155,19 @@ export default function GameDetailClient({
           className="rounded-[14px] p-6 shadow-sm flex flex-col lg:flex-row gap-6 items-center justify-between"
           style={{
             background:
-              'linear-gradient(231.79deg, #D5EDFF 32.55%, #EEECFF 43.54%, #F9F3FF 53.23%, #F5FCFF 66.16%, #E9F5FF 79.08%)',
+              "linear-gradient(231.79deg, #D5EDFF 32.55%, #EEECFF 43.54%, #F9F3FF 53.23%, #F5FCFF 66.16%, #E9F5FF 79.08%)",
           }}
         >
           <div className="flex flex-col sm:flex-row gap-6 items-center w-full lg:w-auto">
             {/* Visual Thumbnail */}
             <div className="w-[280px] h-[190px] rounded-xl overflow-hidden shadow-sm flex items-center justify-center p-2 bg-white/70 border border-white/80 shrink-0">
-              <img
+              <Image
                 src={heroImage}
-                alt={game.title || 'Game'}
-                className="max-h-full max-w-full rounded-xl object-cover"
+                alt={`${game.title || "Game"} gameplay`}
+                fill
+                sizes="280px"
+                className="rounded-xl object-cover"
+                preload
               />
             </div>
 
@@ -150,10 +175,10 @@ export default function GameDetailClient({
             <div className="flex-1 text-center sm:text-left">
               <div className="flex flex-wrap items-center justify-center sm:justify-start gap-2 mb-2">
                 <span className="px-3 py-1 rounded-full text-white text-[11px] font-semibold border border-[#F59E0B4D] bg-[linear-gradient(90deg,_#F59E0B_0%,_#D97706_100%)]">
-                  {game.game_type || 'Table Game'}
+                  {game.game_type || "Table Game"}
                 </span>
                 <span className="text-xs font-semibold text-[#2E68FB] bg-[#E6EDFF] px-2.5 py-0.5 rounded-full border border-[#B8CEFF]">
-                  Provider: {game.provider || 'Real Dealer Studios'}
+                  Provider: {game.provider || "Real Dealer Studios"}
                 </span>
               </div>
 
@@ -163,20 +188,36 @@ export default function GameDetailClient({
 
               <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 mt-3 text-xs text-gray-700">
                 <div className="p-2 bg-white/60 rounded-lg border border-[#2E68FB20]">
-                  <span className="text-[10px] font-bold text-[#2E68FB] uppercase block">RTP</span>
-                  <span className="font-bold text-emerald-600 text-sm">{game.rtp || '97.3%'}</span>
+                  <span className="text-[10px] font-bold text-[#2E68FB] uppercase block">
+                    RTP
+                  </span>
+                  <span className="font-bold text-emerald-600 text-sm">
+                    {game.rtp || "97.3%"}
+                  </span>
                 </div>
                 <div className="p-2 bg-white/60 rounded-lg border border-[#2E68FB20]">
-                  <span className="text-[10px] font-bold text-[#2E68FB] uppercase block">Volatility</span>
-                  <span className="font-bold text-gray-800 text-sm">{game.volatility || 'Medium'}</span>
+                  <span className="text-[10px] font-bold text-[#2E68FB] uppercase block">
+                    Volatility
+                  </span>
+                  <span className="font-bold text-gray-800 text-sm">
+                    {game.volatility || "Medium"}
+                  </span>
                 </div>
                 <div className="p-2 bg-white/60 rounded-lg border border-[#2E68FB20]">
-                  <span className="text-[10px] font-bold text-[#2E68FB] uppercase block">Min Bet</span>
-                  <span className="font-bold text-gray-800 text-sm">${game.min_bet ?? '0.25'}</span>
+                  <span className="text-[10px] font-bold text-[#2E68FB] uppercase block">
+                    Min Bet
+                  </span>
+                  <span className="font-bold text-gray-800 text-sm">
+                    ${game.min_bet ?? "0.25"}
+                  </span>
                 </div>
                 <div className="p-2 bg-white/60 rounded-lg border border-[#2E68FB20]">
-                  <span className="text-[10px] font-bold text-[#2E68FB] uppercase block">Max Bet</span>
-                  <span className="font-bold text-gray-800 text-sm">${game.max_bet ?? '1,000'}</span>
+                  <span className="text-[10px] font-bold text-[#2E68FB] uppercase block">
+                    Max Bet
+                  </span>
+                  <span className="font-bold text-gray-800 text-sm">
+                    ${game.max_bet ?? "1,000"}
+                  </span>
                 </div>
               </div>
 
@@ -193,8 +234,8 @@ export default function GameDetailClient({
               onClick={() => setDemoOpen(true)}
               className="h-12 rounded-xl text-white text-base font-bold flex items-center justify-center gap-2 shadow-sm transition active:scale-95 cursor-pointer"
               style={{
-                background: 'linear-gradient(180deg, #CDDCFB 0%, #588CF3 100%)',
-                boxShadow: '0px 2px 0px 0px #2E68FB',
+                background: "linear-gradient(180deg, #CDDCFB 0%, #588CF3 100%)",
+                boxShadow: "0px 2px 0px 0px #2E68FB",
               }}
             >
               <Play className="w-4 h-4 fill-white" />
@@ -204,8 +245,8 @@ export default function GameDetailClient({
               href="#where-to-play"
               className="h-12 rounded-xl text-[#16171D] text-sm font-bold flex items-center justify-center gap-1.5 shadow-sm transition active:scale-95"
               style={{
-                background: 'linear-gradient(180deg, #FFE11F 0%, #FF8533 100%)',
-                boxShadow: '0px 2px 0px 0px #E36D1F',
+                background: "linear-gradient(180deg, #FFE11F 0%, #FF8533 100%)",
+                boxShadow: "0px 2px 0px 0px #E36D1F",
               }}
             >
               Where to Play ▶
@@ -227,38 +268,41 @@ export default function GameDetailClient({
               </div>
             </div>
           </div>
-          <span className="text-xs text-gray-500 font-medium">Free play demo available</span>
+          <span className="text-xs text-gray-500 font-medium">
+            Free play demo available
+          </span>
         </div>
 
         <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-3.5">
           {sponsoredSlots.map((slot, idx) => (
             <Link
               key={idx}
-              href={`/games/${slot.slug || 'hockey-fever-roulette'}`}
+              href={`/games/${slot.slug || "hockey-fever-roulette"}`}
               className="card-animated-border rounded-[20px] p-[2px] cursor-pointer flex flex-col h-full group"
             >
               <div
                 className="rounded-[18px] p-3 flex flex-col justify-between h-full"
                 style={{
                   background:
-                    'linear-gradient(231.79deg, #D5EDFF 32.55%, #EEECFF 43.54%, #F9F3FF 53.23%, #F5FCFF 66.16%, #E9F5FF 79.08%)',
+                    "linear-gradient(231.79deg, #D5EDFF 32.55%, #EEECFF 43.54%, #F9F3FF 53.23%, #F5FCFF 66.16%, #E9F5FF 79.08%)",
                 }}
               >
                 <div>
                   <div className="relative h-28 rounded-xl overflow-hidden mb-2 bg-white/70 border border-white/80">
-                    <img
-                      src={
-                        slot.image ||
-                        'https://images.unsplash.com/photo-1606167668584-78701c57f13d?w=400&auto=format&fit=crop&q=80'
-                      }
-                      alt={slot.title}
+                    <Image
+                      src={slot.image || "/images/slot-placeholder.webp"}
+                      alt={`${slot.title} slot game`}
                       className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
+                      fill
+                      loading="lazy"
                     />
                     <span className="absolute top-2 left-2 px-1.5 py-0.5 rounded text-[9px] font-bold uppercase bg-[#16171D]/80 backdrop-blur-xs text-white">
-                      {slot.tag || 'Video slots'}
+                      {slot.tag || "Video slots"}
                     </span>
                   </div>
-                  <div className="text-[11px] text-gray-500 font-medium">{slot.provider}</div>
+                  <div className="text-[11px] text-gray-500 font-medium">
+                    {slot.provider}
+                  </div>
                   <h4 className="text-xs font-bold text-[#16171D] group-hover:text-[#2E68FB] transition line-clamp-1 mt-0.5">
                     {slot.title}
                   </h4>
@@ -281,10 +325,15 @@ export default function GameDetailClient({
           <div className="flex items-center justify-between pb-4 border-b border-gray-200">
             <div className="flex items-center gap-3">
               <div className="w-11 h-11 rounded-full bg-[#E6EDFF] overflow-hidden border border-[#2E68FB30]">
-                <img
+                <Image
                   src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=100&auto=format&fit=crop&q=80"
-                  alt={game.author_name || 'Bojan Jovanovic'}
+                  alt={`Author ${game.author_name || "Bojan Jovanovic"}`}
+                  // alt={game.author_name || "Bojan Jovanovic"}
+                  width={40}
+                  height={40}
+                  sizes="44px"
                   className="w-full h-full object-cover"
+                  loading="lazy"
                 />
               </div>
               <div>
@@ -292,7 +341,7 @@ export default function GameDetailClient({
                   Written By
                 </span>
                 <span className="font-bold text-[#16171D] text-sm">
-                  {game.author_name || 'Bojan Jovanovic'}
+                  {game.author_name || "Bojan Jovanovic"}
                 </span>
               </div>
             </div>
@@ -312,27 +361,31 @@ export default function GameDetailClient({
               className="rounded-2xl p-6 border border-[#2E68FB] shadow-sm"
               style={{
                 background:
-                  'linear-gradient(231.79deg, #D5EDFF 32.55%, #F5FCFF 66.16%, #E9F5FF 79.08%)',
+                  "linear-gradient(231.79deg, #D5EDFF 32.55%, #F5FCFF 66.16%, #E9F5FF 79.08%)",
               }}
             >
               <h2 className="font-poppins text-[22px] font-bold text-[#16171D] mb-3">
-                {game.title} by {game.provider || 'Real Dealer Studios'} Overview
+                {game.title} by {game.provider || "Real Dealer Studios"}{" "}
+                Overview
               </h2>
               <div className="space-y-4 text-sm font-normal text-[#475467] leading-relaxed">
                 <p>
-                  {game.title} is a premier online casino game engineered by{' '}
-                  {game.provider || 'Real Dealer Studios'}, offering top-tier cinematic graphics,
-                  certified random number generation, and seamless mobile gameplay.
+                  {game.title} is a premier online casino game engineered by{" "}
+                  {game.provider || "Real Dealer Studios"}, offering top-tier
+                  cinematic graphics, certified random number generation, and
+                  seamless mobile gameplay.
                 </p>
                 <p>
-                  Unlike standard casino software, {game.title} provides player-centric features
-                  such as intuitive betboards, custom racetrack wagers, and detailed statistical
-                  history charts so you can monitor historical outcomes.
+                  Unlike standard casino software, {game.title} provides
+                  player-centric features such as intuitive betboards, custom
+                  racetrack wagers, and detailed statistical history charts so
+                  you can monitor historical outcomes.
                 </p>
                 <p>
-                  Whether you are testing strategies with free virtual credits or spinning with real
-                  money stakes, every round is verified by independent testing laboratories to
-                  guarantee mathematical fairness.
+                  Whether you are testing strategies with free virtual credits
+                  or spinning with real money stakes, every round is verified by
+                  independent testing laboratories to guarantee mathematical
+                  fairness.
                 </p>
               </div>
             </div>
@@ -344,19 +397,29 @@ export default function GameDetailClient({
               RTP and Table Limits
             </h2>
             <p className="text-sm text-[#475467] leading-relaxed">
-              Like other high-tier releases, {game.title} features an RTP of{' '}
-              <strong className="text-emerald-600 font-bold">{game.rtp || '97.30%'}</strong>. The
-              volatility of the game is rated as{' '}
-              <strong className="text-gray-900 font-bold">{game.volatility || 'Medium'}</strong>,
-              while betting limits accommodate both recreational players and high rollers, ranging
-              from{' '}
+              Like other high-tier releases, {game.title} features an RTP of{" "}
+              <strong className="text-emerald-600 font-bold">
+                {game.rtp || "97.30%"}
+              </strong>
+              . The volatility of the game is rated as{" "}
               <strong className="text-gray-900 font-bold">
-                ${game.min_bet !== null && game.min_bet !== undefined ? game.min_bet : '0.25'}
-              </strong>{' '}
-              to{' '}
+                {game.volatility || "Medium"}
+              </strong>
+              , while betting limits accommodate both recreational players and
+              high rollers, ranging from{" "}
               <strong className="text-gray-900 font-bold">
-                ${game.max_bet !== null && game.max_bet !== undefined ? game.max_bet : '1,000'}
-              </strong>{' '}
+                $
+                {game.min_bet !== null && game.min_bet !== undefined
+                  ? game.min_bet
+                  : "0.25"}
+              </strong>{" "}
+              to{" "}
+              <strong className="text-gray-900 font-bold">
+                $
+                {game.max_bet !== null && game.max_bet !== undefined
+                  ? game.max_bet
+                  : "1,000"}
+              </strong>{" "}
               per round.
             </p>
           </section>
@@ -385,15 +448,22 @@ export default function GameDetailClient({
                     <>
                       <li className="flex items-start gap-2">
                         <span className="text-[#22C55E] font-bold">✓</span>
-                        <span>Cinematic dealer footage & RNG certified fair play</span>
+                        <span>
+                          Cinematic dealer footage & RNG certified fair play
+                        </span>
                       </li>
                       <li className="flex items-start gap-2">
                         <span className="text-[#22C55E] font-bold">✓</span>
-                        <span>High theoretical return to player (RTP: {game.rtp || '97.3%'})</span>
+                        <span>
+                          High theoretical return to player (RTP:{" "}
+                          {game.rtp || "97.3%"})
+                        </span>
                       </li>
                       <li className="flex items-start gap-2">
                         <span className="text-[#22C55E] font-bold">✓</span>
-                        <span>Convenient one-click rebet and autoplay option</span>
+                        <span>
+                          Convenient one-click rebet and autoplay option
+                        </span>
                       </li>
                     </>
                   )}
@@ -417,7 +487,10 @@ export default function GameDetailClient({
                   ) : (
                     <li className="flex items-start gap-2">
                       <span className="text-[#FF5A5A] font-bold">✕</span>
-                      <span>Requires stable high-speed internet for HD video rendering</span>
+                      <span>
+                        Requires stable high-speed internet for HD video
+                        rendering
+                      </span>
                     </li>
                   )}
                 </ul>
@@ -459,16 +532,28 @@ export default function GameDetailClient({
               Contents
             </h4>
             <nav className="space-y-2 text-xs font-semibold text-gray-700">
-              <a href="#overview" className="block hover:text-[#2E68FB] transition">
+              <a
+                href="#overview"
+                className="block hover:text-[#2E68FB] transition"
+              >
                 • Overview
               </a>
-              <a href="#rtp-limits" className="block hover:text-[#2E68FB] transition">
+              <a
+                href="#rtp-limits"
+                className="block hover:text-[#2E68FB] transition"
+              >
                 • RTP and Table Limits
               </a>
-              <a href="#pros-cons" className="block hover:text-[#2E68FB] transition">
+              <a
+                href="#pros-cons"
+                className="block hover:text-[#2E68FB] transition"
+              >
                 • Pros and Cons
               </a>
-              <a href="#where-to-play" className="block hover:text-[#2E68FB] transition">
+              <a
+                href="#where-to-play"
+                className="block hover:text-[#2E68FB] transition"
+              >
                 • Where to Play {game.title}
               </a>
             </nav>
@@ -491,8 +576,8 @@ export default function GameDetailClient({
             Where to Play {game.title}
           </h2>
           <p className="text-xs sm:text-sm text-gray-500 max-w-2xl">
-            Only verified operators from our licensed database offering secure gameplay, verified
-            bonuses, and instant payouts.
+            Only verified operators from our licensed database offering secure
+            gameplay, verified bonuses, and instant payouts.
           </p>
         </div>
 
@@ -508,9 +593,9 @@ export default function GameDetailClient({
               const welcomeBonus =
                 casino.bonuses?.[0]?.amount ||
                 casino.bonuses?.[0]?.title ||
-                '100% up to $1,500 + 150 Free Spins';
+                "100% up to $1,500 + 150 Free Spins";
               const imageUrl = getImageUrl(
-                casino.logo || casino.featured_image || '/images/888.png',
+                casino.logo || casino.featured_image || "/images/888.png",
               );
 
               return (
@@ -520,14 +605,17 @@ export default function GameDetailClient({
                 >
                   {/* Top-Right Corner Tag / Badge */}
                   <div className="absolute top-2 right-3 z-20">
-                    <CasinoCardBadge badge={casino.card_badge} isHot={casino.hot_casino} />
+                    <CasinoCardBadge
+                      badge={casino.card_badge}
+                      isHot={casino.hot_casino}
+                    />
                   </div>
 
                   <div
                     className="flex flex-col p-5 rounded-[22px] justify-between flex-1 w-full h-full relative"
                     style={{
                       background:
-                        'linear-gradient(231.79deg, #D5EDFF 32.55%, #EEECFF 43.54%, #F9F3FF 53.23%, #F5FCFF 66.16%, #E9F5FF 79.08%)',
+                        "linear-gradient(231.79deg, #D5EDFF 32.55%, #EEECFF 43.54%, #F9F3FF 53.23%, #F5FCFF 66.16%, #E9F5FF 79.08%)",
                     }}
                   >
                     <div>
@@ -536,7 +624,7 @@ export default function GameDetailClient({
                         <div className="relative w-16 h-16 sm:w-20 sm:h-20 bg-white rounded-xl overflow-hidden shadow-sm flex-shrink-0 border border-gray-100 p-1">
                           <Image
                             src={imageUrl}
-                            alt={casino.name || 'Casino'}
+                            alt={casino.name || "Casino"}
                             fill
                             className="object-contain p-1"
                             unoptimized
@@ -553,7 +641,7 @@ export default function GameDetailClient({
                           </Link>
                           <p className="text-[12px] text-[#666] mt-1 line-clamp-2 leading-[17px]">
                             {casino.short_description ||
-                              'Certified real money online casino with verified games.'}
+                              "Certified real money online casino with verified games."}
                           </p>
                         </div>
                       </div>
@@ -591,7 +679,9 @@ export default function GameDetailClient({
                             Min Deposit
                           </span>
                           <span className="text-[12px] font-bold text-[#363636] truncate">
-                            {casino.minimum_deposit ? `$${casino.minimum_deposit}` : '$20'}
+                            {casino.minimum_deposit
+                              ? `$${casino.minimum_deposit}`
+                              : "$20"}
                           </span>
                         </div>
 
@@ -613,8 +703,9 @@ export default function GameDetailClient({
                           href={`/casino/${casino.slug}`}
                           className="h-11 rounded-xl flex items-center justify-center font-bold text-[13px] text-[#16171D] transition"
                           style={{
-                            background: 'linear-gradient(180deg, #FFE11F 0%, #FF8533 100%)',
-                            boxShadow: '0px 2px 0px 0px #E36D1F',
+                            background:
+                              "linear-gradient(180deg, #FFE11F 0%, #FF8533 100%)",
+                            boxShadow: "0px 2px 0px 0px #E36D1F",
                           }}
                         >
                           Read Review
@@ -628,8 +719,9 @@ export default function GameDetailClient({
                           }
                           className="h-11 rounded-xl flex items-center justify-center font-bold text-[13px] text-white shadow-sm transition"
                           style={{
-                            background: 'linear-gradient(180deg, #CDDCFB 0%, #588CF3 100%)',
-                            boxShadow: '0px 2px 0px 0px #2E68FB',
+                            background:
+                              "linear-gradient(180deg, #CDDCFB 0%, #588CF3 100%)",
+                            boxShadow: "0px 2px 0px 0px #2E68FB",
                           }}
                         >
                           Play Now ▶
@@ -679,17 +771,21 @@ export default function GameDetailClient({
               ) : (
                 <div className="text-center p-8">
                   <Gamepad2 className="w-16 h-16 text-[#2E68FB] mx-auto mb-3 animate-pulse" />
-                  <h4 className="text-lg font-bold text-white mb-2">Live Demo Simulator</h4>
+                  <h4 className="text-lg font-bold text-white mb-2">
+                    Live Demo Simulator
+                  </h4>
                   <p className="text-xs text-gray-400 max-w-md mx-auto mb-6">
-                    Direct provider embed for {game.title} is available via verified casino
-                    partners. Claim demo tokens or play for real money.
+                    Direct provider embed for {game.title} is available via
+                    verified casino partners. Claim demo tokens or play for real
+                    money.
                   </p>
                   <a
                     href="#where-to-play"
                     onClick={() => setDemoOpen(false)}
                     className="inline-flex items-center gap-2 px-6 py-2.5 rounded-xl font-bold text-xs text-[#16171D]"
                     style={{
-                      background: 'linear-gradient(180deg, #FFE11F 0%, #FF8533 100%)',
+                      background:
+                        "linear-gradient(180deg, #FFE11F 0%, #FF8533 100%)",
                     }}
                   >
                     <span>View Partner Casinos</span>

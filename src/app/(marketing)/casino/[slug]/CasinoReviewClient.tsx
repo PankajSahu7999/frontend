@@ -22,6 +22,7 @@ import CasinoBankingAndLanguages from "@/components/casino/CasinoBankingAndLangu
 import CasinoBonusesSection from "@/components/casino/CasinoBonusesSection";
 import CasinoProsConsSection from "@/components/casino/CasinoProsConsSection";
 import CasinoGamingToolsSection from "@/components/casino/CasinoGamingToolsSection";
+import Image from "next/image";
 
 interface Props {
   casino: any;
@@ -241,10 +242,14 @@ export default function CasinoReviewClient({ casino }: Props) {
         >
           <div className="flex flex-col sm:flex-row gap-6 items-center w-full md:w-auto">
             <div className="w-[290px] h-[194px] rounded-xl flex items-center justify-center p-4 shrink-0">
-              <img
+              <Image
                 src={getImageUrl(casino.logo)}
-                alt={casino.name || "Casino"}
+                alt={`${casino.name || "Casino"} logo`}
+                width={160}
+                height={100}
+                sizes="160px"
                 className="max-h-full max-w-full rounded-2xl object-contain"
+                loading="lazy"
               />
             </div>
             <div className="flex-1 text-center sm:text-left">
@@ -418,17 +423,13 @@ export default function CasinoReviewClient({ casino }: Props) {
         </div>
       </div>
 
-      
-
       {/* CASINO LIVE INTERACTIVE FRAME / ADMIN BANNER */}
       <CasinoWebsitePreview
-        key={`${casino.id || ''}-${casino.slug || ''}-${casino.affiliate_url || ''}`}
+        key={`${casino.id || ""}-${casino.slug || ""}-${casino.affiliate_url || ""}`}
         affiliateUrl={casino.affiliate_url}
         casinoName={casino.name}
         featuredImage={casino.featured_image}
       />
-
-     
 
       {/* DEPOSIT INFO */}
       <div className="mt-10">
@@ -520,8 +521,6 @@ export default function CasinoReviewClient({ casino }: Props) {
         </div>
       </div>
 
-    
-
       {/* SECURITY */}
       <div className="mt-10">
         <div className="inline-flex rounded-full bg-[radial-gradient(circle_at_center,#B8CEFF_0%,#2E68FB_100%)] p-[1px]">
@@ -568,7 +567,7 @@ export default function CasinoReviewClient({ casino }: Props) {
           ))}
         </div>
       </div>
-       {/* BONUSES & PROMOTIONS SLIDER */}
+      {/* BONUSES & PROMOTIONS SLIDER */}
       <CasinoBonusesSection
         casinoId={casino.id}
         casinoName={casino.name}

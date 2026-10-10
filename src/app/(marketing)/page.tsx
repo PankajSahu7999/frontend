@@ -11,9 +11,8 @@ import JsonLd from "@/components/seo/JsonLd";
 import HomeContent from "./HomeContent";
 
 export const metadata = generateSEO({
-  title: "Casino Reviews & Ratings | Casino Reviews Book",
-  description:
-    "Compare independent online casino reviews, ratings, licensing, bonus terms, payment methods and payout research. See what we verify before you choose.",
+  title: SITE.title,
+  description: SITE.description,
   path: "/",
   keywords: [
     "casino reviews",
@@ -37,9 +36,8 @@ export default async function Home() {
     website: websiteSchema(),
     webpage: webpageSchema({
       url: SITE.url,
-      title: "Casino Reviews & Ratings | Casino Reviews Book",
-      description:
-        "Compare independent online casino reviews, ratings, licensing, bonus terms, payment methods and payout research.",
+      title: SITE.title,
+      description: SITE.description,
     }),
     faq: faqSchema({
       pageUrl: "https://casinoreviewsbook.com/",
