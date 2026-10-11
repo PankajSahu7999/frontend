@@ -187,156 +187,9 @@ export function Hero({
               : "BEST ONLINE CASINOS");
 
   return (
-    <section className="relative">
-      {/* ============================================================ */}
-      {/* MOBILE LAYOUT (sm:hidden) - STACKED: Image Top, Text Below  */}
-      {/* No text/image overlap, clear visuals and comfortable reading */}
-      {/* ============================================================ */}
-      <div className="sm:hidden w-full overflow-hidden rounded-2xl shadow-md border border-slate-800/80 bg-[#0B1120]">
-        {/* 1. Mobile Visual Banner (Image Only with carousel controls) */}
-        <div className="relative w-full h-[180px] bg-slate-950 overflow-hidden">
-          <Image
-            src={activeBanner}
-            alt={
-              isHomepage
-                ? activeSlideData?.h1 || "Casino Reviews Book"
-                : `${title} - Casino Reviews Book Banner`
-            }
-            fill
-            priority
-            sizes="100vw"
-            className="object-cover object-center transition-all duration-700 ease-in-out"
-          />
-          <div className="absolute inset-0 bg-gradient-to-t from-[#0B1120] via-transparent to-black/30" />
-
-          {/* Carousel Arrows on Image */}
-          {slides.length > 1 && (
-            <>
-              <button
-                onClick={prevSlide}
-                aria-label="Previous slide"
-                className="
-                  absolute left-2.5 top-1/2 -translate-y-1/2
-                  z-10 w-8 h-8 rounded-full
-                  bg-black/60 hover:bg-black/85 text-white
-                  border border-white/20 backdrop-blur-xs
-                  flex items-center justify-center transition
-                  active:scale-95 shadow-md
-                "
-              >
-                <ChevronLeft className="w-4 h-4 text-white" />
-              </button>
-              <button
-                onClick={nextSlide}
-                aria-label="Next slide"
-                className="
-                  absolute right-2.5 top-1/2 -translate-y-1/2
-                  z-10 w-8 h-8 rounded-full
-                  bg-black/60 hover:bg-black/85 text-white
-                  border border-white/20 backdrop-blur-xs
-                  flex items-center justify-center transition
-                  active:scale-95 shadow-md
-                "
-              >
-                <ChevronRight className="w-4 h-4 text-white" />
-              </button>
-
-              {/* Slide Dots Indicator */}
-              <div className="absolute bottom-2.5 left-1/2 -translate-x-1/2 z-10 flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-black/60 backdrop-blur-sm border border-white/10">
-                {slides.map((_, i) => (
-                  <button
-                    key={i}
-                    onClick={() => setCurrentSlide(i)}
-                    aria-label={`Go to slide ${i + 1}`}
-                    className={`h-1.5 rounded-full transition-all duration-300 ${
-                      i === currentSlide % slides.length
-                        ? "w-4 bg-amber-400"
-                        : "w-1.5 bg-white/40"
-                    }`}
-                  />
-                ))}
-              </div>
-            </>
-          )}
-        </div>
-
-        {/* 2. Mobile Content Area (Zero overlap with the banner image) */}
-        <div className="p-4 sm:p-5 flex flex-col items-center text-center">
-          {/* Badge */}
-          <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-gradient-to-r from-amber-500 to-orange-500 border border-amber-400/40 shadow-xs mb-3">
-            <Sparkles className="w-3 h-3 text-white" />
-            <span className="text-[10px] font-medium uppercase tracking-wider text-white">
-              {derivedBadge}
-            </span>
-          </div>
-
-          {isHomepage && activeSlideData ? (
-            <>
-              {/* Homepage Heading & Dynamic Subtitle */}
-              <div role="heading" aria-level={1} className="font-['Poppins'] font-black text-[20px] text-white leading-snug mb-1.5 tracking-tight transition-all duration-500">
-                {activeSlideData.h1}
-                <span className="text-transparent bg-clip-text bg-gradient-to-r from-amber-300 via-yellow-200 to-amber-400 block text-[13px] font-bold mt-1">
-                  {activeSlideData.h1Highlight}
-                </span>
-              </div>
-
-              <p className="text-xs text-slate-300 mb-3.5 leading-relaxed font-normal max-w-sm transition-all duration-500">
-                {activeSlideData.supportingCopy}
-              </p>
-
-              {/* Mobile CTAs */}
-              <div className="flex flex-col gap-2.5 w-full mb-3">
-                <Link
-                  href={activeSlideData.primaryCtaHref}
-                  className="w-full h-11 flex items-center justify-center transition active:scale-95"
-                >
-                  <div className="w-full h-full rounded-[100px] border border-amber-200/50 bg-[linear-gradient(90deg,#FF990A_0%,#FFC23E_25%,#FFE45E_50%,#FFC23E_75%,#FF990A_100%)] shadow-[inset_0px_-3px_0px_0px_#B45B1B,0px_2px_8px_rgba(0,0,0,0.3)] flex items-center justify-center px-4 text-[13px] font-black text-[#16171D] tracking-wider uppercase">
-                    {activeSlideData.primaryCtaText}
-                  </div>
-                </Link>
-
-                <Link
-                  href={activeSlideData.secondaryCtaHref}
-                  className="w-full h-11 rounded-[100px] border border-white/20 bg-white/10 hover:bg-white/20 backdrop-blur-md flex items-center justify-center text-[12px] font-bold text-white transition active:scale-95"
-                >
-                  {activeSlideData.secondaryCtaText}
-                </Link>
-              </div>
-
-              {/* Trust Line */}
-              <p className="text-[10px] text-slate-400 leading-normal font-medium max-w-xs">
-                {activeSlideData.trustLine}
-              </p>
-            </>
-          ) : (
-            <>
-              {/* Category Page Title */}
-              <div role="heading" aria-level={1} className="font-['Poppins'] font-black text-[22px] text-white leading-tight mb-2 tracking-tight">
-                Find The Best{" "}
-                <span className="text-transparent bg-clip-text bg-gradient-to-r from-amber-300 via-yellow-200 to-amber-400">
-                  {title}
-                </span>
-              </div>
-
-              <p className="text-xs text-slate-300 mb-4 leading-relaxed max-w-sm">
-                {subtitle ||
-                  "Explore honest online casino reviews, exclusive deposit bonuses, and verified crypto gambling sites tested for safety."}
-              </p>
-
-              <button className="w-full h-11 rounded-[100px] border border-amber-200/50 bg-[linear-gradient(90deg,#FF990A_0%,#FFC23E_25%,#FFE45E_50%,#FFC23E_75%,#FF990A_100%)] shadow-[inset_0px_-3px_0px_0px_#B45B1B,0px_2px_8px_rgba(0,0,0,0.3)] flex items-center justify-center px-4 text-[13px] font-black text-[#16171D] tracking-wider uppercase transition active:scale-95">
-                PLAY NOW
-              </button>
-            </>
-          )}
-        </div>
-      </div>
-
-      {/* ============================================================ */}
-      {/* DESKTOP / TABLET LAYOUT (hidden sm:block)                    */}
-      {/* Full-width visual banner with side overlay text              */}
-      {/* ============================================================ */}
-      <div className="hidden sm:block relative w-full h-[450px] lg:h-[520px] overflow-hidden rounded-2xl shadow-lg bg-slate-950">
-        {/* Background Image with smooth transition */}
+    <section className="relative w-full overflow-hidden rounded-2xl border border-slate-800/80 bg-[#0B1120] shadow-lg">
+      {/* Responsive background image */}
+      <div className="absolute inset-0">
         <Image
           src={activeBanner}
           alt={
@@ -346,260 +199,130 @@ export function Hero({
           }
           fill
           priority
-          sizes="(max-width: 768px) 100vw, (max-width: 1200px) 100vw, 1280px"
-          className="object-cover object-right lg:object-center transition-all duration-700 ease-in-out"
+          sizes="(max-width: 639px) 100vw, (max-width: 1279px) 100vw, 1280px"
+          className="object-cover object-center transition-opacity duration-500"
         />
 
-        {/* High-Contrast Directional Overlay */}
-        <div className="absolute inset-0 bg-gradient-to-r from-slate-950/95 via-slate-950/85 to-slate-950/40 z-[1]" />
-        <div className="absolute inset-0 bg-gradient-to-t from-slate-950/70 via-transparent to-black/25 z-[1]" />
+        {/* Responsive image overlays */}
+        <div className="absolute inset-0 bg-gradient-to-t from-[#0B1120] via-[#0B1120]/75 to-black/30 sm:bg-gradient-to-r sm:from-[#0B1120]/95 sm:via-[#0B1120]/80 sm:to-[#0B1120]/30" />
+        <div className="absolute inset-0 bg-gradient-to-t from-[#0B1120]/50 via-transparent to-transparent" />
+      </div>
 
-        {/* Left Arrow */}
-        {slides.length > 1 && (
+      {/* Carousel controls */}
+      {slides.length > 1 && (
+        <>
           <button
+            type="button"
             onClick={prevSlide}
             aria-label="Previous slide"
-            className="
-              absolute left-4 top-1/2 -translate-y-1/2
-              z-20 w-10 h-10 rounded-full
-              bg-slate-900/60 hover:bg-slate-900/90 text-white
-              border border-white/20 backdrop-blur-sm
-              flex items-center justify-center transition-colors shadow-md
-            "
+            className="absolute left-2 top-1/2 z-20 flex h-9 w-9 -translate-y-1/2 items-center justify-center rounded-full border border-white/20 bg-black/60 text-white shadow-md backdrop-blur-sm transition hover:bg-black/85 active:scale-95 sm:left-4 sm:h-10 sm:w-10"
           >
-            <ChevronLeft className="w-5 h-5 text-white" />
+            <ChevronLeft className="h-5 w-5" />
           </button>
-        )}
 
-        {/* Right Arrow */}
-        {slides.length > 1 && (
           <button
+            type="button"
             onClick={nextSlide}
             aria-label="Next slide"
-            className="
-              absolute right-4 top-1/2 -translate-y-1/2
-              z-20 w-10 h-10 rounded-full
-              bg-slate-900/60 hover:bg-slate-900/90 text-white
-              border border-white/20 backdrop-blur-sm
-              flex items-center justify-center transition-colors shadow-md
-            "
+            className="absolute right-2 top-1/2 z-20 flex h-9 w-9 -translate-y-1/2 items-center justify-center rounded-full border border-white/20 bg-black/60 text-white shadow-md backdrop-blur-sm transition hover:bg-black/85 active:scale-95 sm:right-4 sm:h-10 sm:w-10"
           >
-            <ChevronRight className="w-5 h-5 text-white" />
+            <ChevronRight className="h-5 w-5" />
           </button>
-        )}
 
-        {/* Slide Indicator Dots */}
-        {slides.length > 1 && (
-          <div className="absolute bottom-4 left-1/2 -translate-x-1/2 z-20 flex items-center gap-2 px-3 py-1.5 rounded-full bg-slate-900/70 backdrop-blur-md border border-white/10">
+          <div className="absolute bottom-3 left-1/2 z-20 flex -translate-x-1/2 items-center gap-1.5 rounded-full border border-white/10 bg-black/60 px-3 py-2 backdrop-blur-md sm:bottom-4 sm:gap-2">
             {slides.map((_, i) => (
               <button
                 key={i}
+                type="button"
                 onClick={() => setCurrentSlide(i)}
                 aria-label={`Go to slide ${i + 1}`}
-                className={`h-2 rounded-full transition-all duration-300 ${
+                aria-current={
+                  i === currentSlide % slides.length ? "true" : undefined
+                }
+                className={`h-1.5 rounded-full transition-all duration-300 sm:h-2 ${
                   i === currentSlide % slides.length
-                    ? "w-6 bg-amber-400"
-                    : "w-2 bg-white/40 hover:bg-white/70"
+                    ? "w-5 bg-amber-400 sm:w-6"
+                    : "w-1.5 bg-white/50 hover:bg-white/80 sm:w-2"
                 }`}
               />
             ))}
           </div>
-        )}
+        </>
+      )}
 
-        {/* Hero Content */}
-        <div
-          className="
-            relative z-10
-            h-full
-            flex
-            items-center
-            px-6
-            sm:px-10
-            lg:pl-[70px]
-          "
-        >
-          <div
-            className="
-              w-full
-              max-w-[620px]
-              flex flex-col
-              items-center sm:items-start
-              text-center sm:text-left
-            "
-          >
-            {/* High-Contrast Badge */}
-            <div
-              className="
-                inline-flex items-center gap-1.5
-                px-4 py-1.5
-                rounded-full
-                bg-gradient-to-r from-amber-500 to-orange-500
-                border border-amber-400/40
-                shadow-md
-                mb-3.5
-              "
-            >
-              <Sparkles className="w-3.5 h-3.5 text-white" />
-              <span className="text-[11px] font-bold uppercase tracking-wider text-white">
-                {derivedBadge}
-              </span>
-            </div>
-
-            {isHomepage && activeSlideData ? (
-              <>
-                {/* H1 - Dynamic Per Slide (Page 5-6) */}
-                <h1
-                  className="
-                    font-['Poppins']
-                    font-black
-                    text-[26px] sm:text-[32px] lg:text-[38px]
-                    text-white
-                    leading-[1.18]
-                    mb-2.5
-                    tracking-tight
-                    drop-shadow-[0_2px_12px_rgba(0,0,0,0.8)]
-                    transition-all duration-500
-                  "
-                >
-                  {activeSlideData.h1}
-                  <span className="text-transparent bg-clip-text bg-gradient-to-r from-amber-300 via-yellow-200 to-amber-400 block text-[17px] sm:text-[21px] lg:text-[24px] font-bold mt-1">
-                    {activeSlideData.h1Highlight}
-                  </span>
-                </h1>
-
-                {/* Subtitle / Supporting copy */}
-                <p className="text-xs sm:text-sm text-slate-200 max-w-[540px] mb-4 leading-relaxed font-medium drop-shadow-[0_1px_4px_rgba(0,0,0,0.8)] transition-all duration-500">
-                  {activeSlideData.supportingCopy}
-                </p>
-
-                {/* Dual CTAs */}
-                <div className="flex flex-col sm:flex-row items-center gap-3 w-full sm:w-auto mb-3">
-                  <Link
-                    href={activeSlideData.primaryCtaHref}
-                    className="
-                      w-full sm:w-auto
-                      h-[46px] lg:h-[50px]
-                      flex items-center justify-center
-                      transition-all duration-200
-                      hover:scale-105 active:scale-95
-                    "
-                  >
-                    <div
-                      className="
-                        w-full h-full
-                        rounded-[100px]
-                        border border-amber-200/50
-                        bg-[linear-gradient(90deg,#FF990A_0%,#FFC23E_25%,#FFE45E_50%,#FFC23E_75%,#FF990A_100%)]
-                        shadow-[inset_0px_-3px_0px_0px_#B45B1B,0px_2px_8px_rgba(0,0,0,0.3)]
-                        flex items-center justify-center
-                        gap-2
-                        px-6
-                        text-[12px] lg:text-[13px]
-                        font-black
-                        text-[#16171D]
-                        tracking-wider
-                        uppercase
-                      "
-                    >
-                      {activeSlideData.primaryCtaText}
-                    </div>
-                  </Link>
-
-                  <Link
-                    href={activeSlideData.secondaryCtaHref}
-                    className="
-                      w-full sm:w-auto
-                      h-[46px] lg:h-[50px]
-                      px-6
-                      rounded-[100px]
-                      border border-white/40
-                      bg-white/15 hover:bg-white/25
-                      backdrop-blur-md
-                      flex items-center justify-center
-                      text-[12px] lg:text-[13px]
-                      font-bold text-white
-                      transition-all duration-200
-                      hover:scale-105 active:scale-95
-                      cursor-pointer
-                      shadow-sm
-                    "
-                  >
-                    {activeSlideData.secondaryCtaText}
-                  </Link>
-                </div>
-
-                {/* Trust Line */}
-                <p className="text-[11px] text-slate-300/90 leading-relaxed font-medium drop-shadow-[0_1px_3px_rgba(0,0,0,0.8)]">
-                  {activeSlideData.trustLine}
-                </p>
-              </>
-            ) : (
-              <>
-                {/* Standard Category / Topic Title */}
-                <h1
-                  className="
-                    font-['Poppins']
-                    font-black
-                    text-[28px] sm:text-[38px] lg:text-[46px]
-                    text-white
-                    leading-[1.18]
-                    mb-3
-                    tracking-tight
-                    drop-shadow-[0_2px_12px_rgba(0,0,0,0.8)]
-                  "
-                >
-                  Find The Best
-                  <br />
-                  <span className="text-transparent bg-clip-text bg-gradient-to-r from-amber-300 via-yellow-200 to-amber-400">
-                    {title}
-                  </span>
-                </h1>
-
-                {/* Subtitle */}
-                <p className="text-xs sm:text-sm text-slate-200 max-w-[460px] mb-6 leading-relaxed font-medium drop-shadow-[0_1px_4px_rgba(0,0,0,0.8)]">
-                  {subtitle ||
-                    "Explore honest online casino reviews, exclusive deposit bonuses, and verified crypto gambling sites tested for safety."}
-                </p>
-
-                {/* Play Now CTA Button */}
-                <button
-                  className="
-                    w-[180px] lg:w-[210px]
-                    h-[56px] lg:h-[64px]
-                    rounded-[100px]
-                    border-2 border-white/80
-                    p-1.5
-                    bg-white/10
-                    backdrop-blur-md
-                    shadow-[0px_4px_25px_0px_rgba(255,153,10,0.45)]
-                    flex items-center justify-center
-                    transition-all duration-200
-                    hover:scale-105 active:scale-95
-                  "
-                >
-                  <div
-                    className="
-                      w-full h-full
-                      rounded-[100px]
-                      border border-amber-200/50
-                      bg-[linear-gradient(90deg,#FF990A_0%,#FFC23E_25%,#FFE45E_50%,#FFC23E_75%,#FF990A_100%)]
-                      shadow-[inset_0px_-3px_0px_0px_#B45B1B,0px_2px_8px_rgba(0,0,0,0.3)]
-                      flex items-center justify-center
-                      gap-2
-                      px-6
-                      text-[15px] lg:text-[16px]
-                      font-black
-                      text-[#16171D]
-                      tracking-wider
-                      uppercase
-                    "
-                  >
-                    PLAY NOW
-                  </div>
-                </button>
-              </>
-            )}
+      {/* Single responsive content layout */}
+      <div className="relative z-10 flex min-h-[430px] flex-col items-center justify-end px-5 pb-12 pt-52 text-center sm:min-h-[450px] sm:items-start sm:justify-center sm:px-12 sm:pb-16 sm:pt-12 sm:text-left lg:min-h-[520px] lg:px-16 xl:px-[90px]">
+        <div className="flex w-full max-w-[650px] flex-col items-center sm:items-start">
+          {/* Badge */}
+          <div className="mb-3 inline-flex max-w-full items-center gap-1.5 rounded-full border border-amber-400/40 bg-gradient-to-r from-amber-500 to-orange-500 px-3 py-1.5 shadow-md sm:mb-4 sm:px-4">
+            <Sparkles className="h-3.5 w-3.5 shrink-0 text-white" />
+            <span className="text-[10px] font-bold uppercase tracking-wider text-white sm:text-[11px]">
+              {derivedBadge}
+            </span>
           </div>
+
+          {/* Homepage content */}
+          {isHomepage && activeSlideData ? (
+            <>
+              <div className="w-full">
+                <h1 className="font-['Poppins'] text-[20px] font-black leading-tight tracking-tight text-white drop-shadow-lg sm:text-[32px] sm:leading-[1.18] lg:text-[36px] xl:text-[40px]">
+                  {activeSlideData.h1}
+                </h1>
+
+                <p className="mt-2 bg-gradient-to-r from-amber-300 via-yellow-200 to-amber-400 bg-clip-text text-[13px] font-bold leading-snug text-transparent sm:text-[20px] lg:text-[22px]">
+                  {activeSlideData.h1Highlight}
+                </p>
+              </div>
+
+              <p className="mt-3 max-w-[540px] text-xs font-medium leading-relaxed text-slate-200 sm:mt-4 sm:text-sm">
+                {activeSlideData.supportingCopy}
+              </p>
+
+              {/* Responsive CTA buttons */}
+              <div className="mt-5 flex w-full flex-col gap-3 sm:w-auto sm:flex-row sm:items-center">
+                <Link
+                  href={activeSlideData.primaryCtaHref}
+                  className="inline-flex min-h-11 w-full items-center justify-center rounded-full border border-amber-200/50 bg-[linear-gradient(90deg,#FF990A_0%,#FFC23E_25%,#FFE45E_50%,#FFC23E_75%,#FF990A_100%)] px-6 py-3 text-center text-xs font-black uppercase tracking-wider text-[#16171D] shadow-[inset_0px_-3px_0px_0px_#B45B1B,0px_2px_8px_rgba(0,0,0,0.3)] transition hover:brightness-105 active:scale-95 sm:w-auto sm:min-w-[180px] sm:text-sm"
+                >
+                  {activeSlideData.primaryCtaText}
+                </Link>
+
+                <Link
+                  href={activeSlideData.secondaryCtaHref}
+                  className="inline-flex min-h-11 w-full items-center justify-center rounded-full border border-white/30 bg-white/10 px-6 py-3 text-center text-xs font-bold text-white shadow-sm backdrop-blur-md transition hover:bg-white/20 active:scale-95 sm:w-auto sm:min-w-[150px] sm:text-sm"
+                >
+                  {activeSlideData.secondaryCtaText}
+                </Link>
+              </div>
+
+              {/* Trust text */}
+              <p className="mt-4 max-w-[540px] text-[10px] font-medium leading-relaxed text-slate-300 sm:text-[11px]">
+                {activeSlideData.trustLine}
+              </p>
+            </>
+          ) : (
+            /* Category page content */
+            <>
+              <h1 className="font-['Poppins'] text-[22px] font-black leading-tight tracking-tight text-white drop-shadow-lg sm:text-[38px] lg:text-[46px]">
+                Find The Best
+                <span className="mt-1 block bg-gradient-to-r from-amber-300 via-yellow-200 to-amber-400 bg-clip-text text-transparent">
+                  {title}
+                </span>
+              </h1>
+
+              <p className="mt-4 max-w-[500px] text-xs font-medium leading-relaxed text-slate-200 sm:text-sm lg:text-base">
+                {subtitle ||
+                  "Explore honest online casino reviews, exclusive deposit bonuses, and verified crypto gambling sites tested for safety."}
+              </p>
+
+              <Link
+                href="/"
+                className="mt-5 inline-flex min-h-11 w-full items-center justify-center rounded-full border border-amber-200/50 bg-[linear-gradient(90deg,#FF990A_0%,#FFC23E_25%,#FFE45E_50%,#FFC23E_75%,#FF990A_100%)] px-8 py-3 text-center text-xs font-black uppercase tracking-wider text-[#16171D] shadow-[inset_0px_-3px_0px_0px_#B45B1B,0px_2px_8px_rgba(0,0,0,0.3)] transition hover:brightness-105 active:scale-95 sm:w-auto sm:min-w-[180px] sm:text-sm"
+              >
+                PLAY NOW
+              </Link>
+            </>
+          )}
         </div>
       </div>
     </section>

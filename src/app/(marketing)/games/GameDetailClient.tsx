@@ -160,13 +160,24 @@ export default function GameDetailClient({
         >
           <div className="flex flex-col sm:flex-row gap-6 items-center w-full lg:w-auto">
             {/* Visual Thumbnail */}
-            <div className="w-[280px] h-[190px] rounded-xl overflow-hidden shadow-sm flex items-center justify-center p-2 bg-white/70 border border-white/80 shrink-0">
+            {/* <div className="w-[280px] h-[190px] rounded-xl overflow-hidden shadow-sm flex items-center justify-center p-2 bg-white/70 border border-white/80 shrink-0">
+              <Image
+                src={heroImage}
+                alt={`${game.title || "Game"} gameplay`}
+                // fill
+                // sizes="280px"
+                className="rounded-xl object-cover max-w-full max-h-full "
+                preload
+              />
+            </div> */}
+
+            <div className="relative w-[280px] h-[190px] rounded-xl overflow-hidden shadow-sm flex items-center justify-center p-2 bg-white/70 border border-white/80 shrink-0">
               <Image
                 src={heroImage}
                 alt={`${game.title || "Game"} gameplay`}
                 fill
                 sizes="280px"
-                className="rounded-xl object-cover"
+                className="rounded-xl object-contain p-2"
                 preload
               />
             </div>

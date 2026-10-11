@@ -7,7 +7,7 @@ export function websiteSchema() {
 
     url: SITE.url,
 
-    name: SITE.siteName,
+    name: SITE.name,
 
     alternateName: SITE.shortName,
 
@@ -20,14 +20,6 @@ export function websiteSchema() {
       name: SITE.name,
     },
     copyrightHolder: SITE.copyright,
-    potentialAction: {
-      "@type": "SearchAction",
-      target: {
-        "@type": "EntryPoint",
-
-        urlTemplate: `${SITE.url}/search?q={search_term_string}`,
-      },
-      "query-input": "required name=search_term_string",
-    },
+    
   };
 }

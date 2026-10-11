@@ -20,6 +20,7 @@ import { buildApiUrl } from "@/config/api.config";
 import { generateSEO } from "@/lib/seo/metadata";
 import { articleSchema, breadcrumbSchema, buildSchemaGraph } from "@/lib/seo/schemas";
 import JsonLd from "@/components/seo/JsonLd";
+import { SITE } from "@/constants";
 
 interface GuidePageProps {
   params: Promise<{ slug: string }>;
@@ -97,8 +98,8 @@ export default async function SingleGuidePage({ params }: GuidePageProps) {
 
   const heroImageSrc = getGuideDisplayImage(guide);
 
-  const baseUrl = "https://casinoreviewsbook.com";
-  const articleUrl = `${baseUrl}/guides/${guide.slug}`;
+  
+  const articleUrl = `${SITE.url}/guides/${guide.slug}`;
 
   // Structured Data (Schema.org)
   const graph = buildSchemaGraph({
@@ -112,7 +113,7 @@ export default async function SingleGuidePage({ params }: GuidePageProps) {
         "@type": "Person",
         name: guide.author_name || "Casino Expert Analyst",
         ...(guide.author_slug
-          ? { url: `${baseUrl}/authors/${guide.author_slug}` }
+          ? { url: `${SITE.url}/authors/${guide.author_slug}` }
           : {}),
       },
       published: guide.published_at,
@@ -123,7 +124,7 @@ export default async function SingleGuidePage({ params }: GuidePageProps) {
         name: "Casino Reviews Book",
         logo: {
           "@type": "ImageObject",
-          url: `${baseUrl}/logo.png`,
+          url: `${SITE.url}/logo.png`,
         },
       },
       mainEntityOfPage: {
@@ -145,19 +146,19 @@ export default async function SingleGuidePage({ params }: GuidePageProps) {
       items: [
         {
           name: "Home",
-          url: baseUrl,
+          url: SITE.url,
         },
         {
           name: "Casino Guide",
-          url: `${baseUrl}/guides`,
+          url: `${SITE.url}/guides`,
         },
         {
           name: "Casino Guides",
-          url: `${baseUrl}/guides/how-to-win`,
+          url: `${SITE.url}/guides/how-to-win`,
         },
         {
           name: guide.category || "Guides",
-          url: `${baseUrl}/guides/how-to-win#${(guide.category || "more")
+          url: `${SITE.url}/guides/how-to-win#${(guide.category || "more")
             .toLowerCase()
             .replace(/[^a-z0-9]+/g, "-")}`,
         },

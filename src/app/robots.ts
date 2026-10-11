@@ -1,9 +1,9 @@
 import { SITE } from "@/constants";
 import { MetadataRoute } from "next";
 
-const isProduction = process.env.NODE_ENV === "production";
 
 export default function robots(): MetadataRoute.Robots {
+  const isProduction = process.env.NODE_ENV === "production";
   if (!isProduction) {
     return {
       rules: {
@@ -18,7 +18,7 @@ export default function robots(): MetadataRoute.Robots {
       {
         userAgent: "*",
         allow: "/",
-        disallow: ["/admin/", "/api/", "/login/", "/dashboard/", "/private/","/account/","/private/",],
+        disallow: ["/admin/", "/api/", "/login/", "/dashboard/", "/private/","/account/"],
       },
       {
         userAgent: ["Googlebot", "Bingbot", "DuckDuckBot"],
@@ -35,10 +35,11 @@ export default function robots(): MetadataRoute.Robots {
         disallow: ["/admin/", "/api/", "/private/"],
       },
     ],
-    sitemap: [
+        sitemap: [
       `${SITE.url}/sitemap.xml`,
       `${SITE.url}/sitemap-news.xml`,
       `${SITE.url}/sitemap-images.xml`,
+      `${SITE.url}/video-sitemap.xml`,
     ],
   };
 }

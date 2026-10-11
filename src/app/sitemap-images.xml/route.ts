@@ -1,144 +1,224 @@
+// import { NextResponse } from "next/server";
+// import { SITE } from "@/constants";
+// import { getAllCasinos, getAllNews, getAllGuides } from "@/lib/seo/seoApi";
+// import { getGuideDisplayImage } from "@/utils/guideImages";
+
+// // --- SEO XML Helper Functions Built-in ---
+// function escapeXML(str: string): string {
+//   if (!str) return "";
+//   return str
+//     .replace(/&/g, "&amp;")
+//     .replace(/</g, "&lt;")
+//     .replace(/>/g, "&gt;")
+//     .replace(/"/g, "&quot;")
+//     .replace(/'/g, "&apos;");
+// }
+
+// function createXML(body: string): string {
+//   return `<?xml version="1.0" encoding="UTF-8"?>\n${body.trim()}`;
+// }
+
+// export const revalidate = 86400;
+
+// export async function GET() {
+//   try {
+//     // Resolve all asynchronous image datasets concurrently
+//     const [casinosData, newsData, guidesData] = await Promise.all([
+//       getAllCasinos(),
+//       getAllNews(),
+//       getAllGuides(),
+//     ]);
+
+//     // Safety fallback initialization to avoid runtime filter/loop crashes
+//     const casinos = Array.isArray(casinosData) ? casinosData : [];
+//     const news = Array.isArray(newsData) ? newsData : [];
+//     const guides = Array.isArray(guidesData) ? guidesData : [];
+
+//     const urls: string[] = [];
+
+//     // Strip trailing slash from base URL to ensure clean path layout formatting
+//     const baseUrl = SITE.url.endsWith("/") ? SITE.url.slice(0, -1) : SITE.url;
+
+//     /*
+//     |--------------------------------------------------------------------------
+//     | Casino Images
+//     |--------------------------------------------------------------------------
+//     */
+//     casinos.forEach((casino: any) => {
+//       if (!casino?.slug) return;
+//       const images: string[] = [];
+//       const slug = casino.slug.startsWith("/")
+//         ? casino.slug.slice(1)
+//         : casino.slug;
+
+//       if (casino.logo) {
+//         images.push(`
+//     <image:image>
+//       <image:loc>${escapeXML(casino.logo)}</image:loc>
+//       <image:title>${escapeXML(casino.name || "Casino Logo")}</image:title>
+//       <image:caption>${escapeXML(casino.name || "Casino")}</image:caption>
+//     </image:image>`);
+//       }
+
+//       if (casino.screenshot) {
+//         images.push(`
+//     <image:image>
+//       <image:loc>${escapeXML(casino.featured_image || casino.screenshot)}</image:loc>
+//       <image:title>${escapeXML(casino.name || "Casino")} Screenshot</image:title>
+//          <image:caption>${escapeXML(casino.name || "Casino")}</image:caption>
+//     </image:image>`);
+//       }
+
+//       // Only push the URL node if at least one image exists for the casino page
+//       if (images.length > 0) {
+//         urls.push(`
+//   <url>
+//     <loc>${baseUrl}/casino/${slug}</loc>${images.join("")}
+//   </url>`);
+//       }
+//     });
+
+//     /*
+//     |--------------------------------------------------------------------------
+//     | News Images
+//     |--------------------------------------------------------------------------
+//     */
+//     news.forEach((article: any) => {
+//       if (!article?.slug || !article?.featured_image) return;
+//       const slug = article.slug.startsWith("/")
+//         ? article.slug.slice(1)
+//         : article.slug;
+
+//       urls.push(`
+//   <url>
+//     <loc>${baseUrl}/news/${slug}</loc>
+//     <image:image>
+//       <image:loc>${escapeXML(article.featured_image)}</image:loc>
+//       <image:title>${escapeXML(article.title || "News Image")}</image:title>
+//       <image:caption>${escapeXML(article.title || "News")}</image:caption>
+//     </image:image>
+//   </url>`);
+//     });
+
+//     /*
+//     |--------------------------------------------------------------------------
+//     | Guide Images
+//     |--------------------------------------------------------------------------
+//     */
+//     guides.forEach((guide: any) => {
+//       if (!guide?.slug) return;
+//       const slug = guide.slug.startsWith('/') ? guide.slug.slice(1) : guide.slug;
+//       const img = getGuideDisplayImage(guide);
+
+//       if (img) {
+//         urls.push(`
+//   <url>
+//     <loc>${baseUrl}/guides/${slug}</loc>
+//     <image:image>
+//       <image:loc>${escapeXML(img.startsWith('/') ? `${baseUrl}${img}` : img)}</image:loc>
+//       <image:title>${escapeXML(guide.title || 'Guide Image')}</image:title>
+//       <image:caption>${escapeXML(guide.title || 'Guide')}</image:caption>
+//     </image:image>
+//   </url>`);
+//       }
+//     });
+
+//     const xml = createXML(`
+// <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:image="http://www.google.com/schemas/sitemap-image/1.1">
+//   ${urls.join("").trim()}
+// </urlset>
+//     `);
+
+//     return new NextResponse(xml, {
+//       status: 200,
+//       headers: {
+//         "Content-Type": "application/xml; charset=utf-8",
+//         "Cache-Control":
+//           "public, max-age=86400, s-maxage=86400, stale-while-revalidate=3600",
+//       },
+//     });
+//   } catch (error) {
+//     console.error("Image sitemap generation crashed:", error);
+//     return new NextResponse("Internal Server Error", { status: 500 });
+//   }
+// }
+
+
 import { NextResponse } from "next/server";
 import { SITE } from "@/constants";
-import { getAllCasinos, getAllNews, getAllGuides } from "@/lib/seo/seoApi";
-import { getGuideDisplayImage } from "@/utils/guideImages";
+import { getAllNews } from "@/lib/seo/seoApi";
 
-// --- SEO XML Helper Functions Built-in ---
-function escapeXML(str: string): string {
-  if (!str) return "";
-  return str
-    .replace(/&/g, "&amp;")
-    .replace(/</g, "&lt;")
-    .replace(/>/g, "&gt;")
-    .replace(/"/g, "&quot;")
-    .replace(/'/g, "&apos;");
+type NewsItem = {
+  slug: string;
+  title: string;
+  published_at?: string | Date | null;
+  created_at?: string | Date | null;
+};
+
+function escapeXml(value: string): string {
+  return value.replace(/[<>&'"]/g, (char) => {
+    const entities: Record<string, string> = {
+      "<": "&lt;",
+      ">": "&gt;",
+      "&": "&amp;",
+      "'": "&apos;",
+      '"': "&quot;",
+    };
+
+    return entities[char];
+  });
 }
-
-function createXML(body: string): string {
-  return `<?xml version="1.0" encoding="UTF-8"?>\n${body.trim()}`;
-}
-
-export const revalidate = 86400;
 
 export async function GET() {
-  try {
-    // Resolve all asynchronous image datasets concurrently
-    const [casinosData, newsData, guidesData] = await Promise.all([
-      getAllCasinos(),
-      getAllNews(),
-      getAllGuides(),
-    ]);
+  const allNews = (await getAllNews()) as NewsItem[];
+  const now = Date.now();
+  const cutoff = now - 2 * 24 * 60 * 60 * 1000;
 
-    // Safety fallback initialization to avoid runtime filter/loop crashes
-    const casinos = Array.isArray(casinosData) ? casinosData : [];
-    const news = Array.isArray(newsData) ? newsData : [];
-    const guides = Array.isArray(guidesData) ? guidesData : [];
+  const recentNews = allNews.filter((item) => {
+    const publishedDate = item.published_at ?? item.created_at;
 
-    const urls: string[] = [];
+    if (!item.slug || !item.title || !publishedDate) return false;
 
-    // Strip trailing slash from base URL to ensure clean path layout formatting
-    const baseUrl = SITE.url.endsWith("/") ? SITE.url.slice(0, -1) : SITE.url;
+    const timestamp = new Date(publishedDate).getTime();
 
-    /*
-    |--------------------------------------------------------------------------
-    | Casino Images
-    |--------------------------------------------------------------------------
-    */
-    casinos.forEach((casino: any) => {
-      if (!casino?.slug) return;
-      const images: string[] = [];
-      const slug = casino.slug.startsWith("/")
-        ? casino.slug.slice(1)
-        : casino.slug;
+    return (
+      Number.isFinite(timestamp) &&
+      timestamp >= cutoff &&
+      timestamp <= now
+    );
+  });
 
-      if (casino.logo) {
-        images.push(`
-    <image:image>
-      <image:loc>${escapeXML(casino.logo)}</image:loc>
-      <image:title>${escapeXML(casino.name || "Casino Logo")}</image:title>
-      <image:caption>${escapeXML(casino.name || "Casino")}</image:caption>
-    </image:image>`);
-      }
+  const urls = recentNews
+    .map((item) => {
+      const date = new Date(item.published_at ?? item.created_at!);
+      const loc = `${SITE.url.replace(/\/+$/, "")}/news/${item.slug}`;
 
-      if (casino.screenshot) {
-        images.push(`
-    <image:image>
-      <image:loc>${escapeXML(casino.featured_image || casino.screenshot)}</image:loc>
-      <image:title>${escapeXML(casino.name || "Casino")} Screenshot</image:title>
-         <image:caption>${escapeXML(casino.name || "Casino")}</image:caption>
-    </image:image>`);
-      }
+      return `
+        <url>
+          <loc>${escapeXml(loc)}</loc>
+          <news:news>
+            <news:publication>
+              <news:name>CasinoReviewsBook</news:name>
+              <news:language>en</news:language>
+            </news:publication>
+            <news:publication_date>${date.toISOString()}</news:publication_date>
+            <news:title>${escapeXml(item.title)}</news:title>
+          </news:news>
+        </url>`;
+    })
+    .join("");
 
-      // Only push the URL node if at least one image exists for the casino page
-      if (images.length > 0) {
-        urls.push(`
-  <url>
-    <loc>${baseUrl}/casino/${slug}</loc>${images.join("")}
-  </url>`);
-      }
-    });
+  const xml = `<?xml version="1.0" encoding="UTF-8"?>
+    <urlset
+      xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+      xmlns:news="http://www.google.com/schemas/sitemap-news/0.9">
+      ${urls}
+    </urlset>`;
 
-    /*
-    |--------------------------------------------------------------------------
-    | News Images
-    |--------------------------------------------------------------------------
-    */
-    news.forEach((article: any) => {
-      if (!article?.slug || !article?.featured_image) return;
-      const slug = article.slug.startsWith("/")
-        ? article.slug.slice(1)
-        : article.slug;
-
-      urls.push(`
-  <url>
-    <loc>${baseUrl}/news/${slug}</loc>
-    <image:image>
-      <image:loc>${escapeXML(article.featured_image)}</image:loc>
-      <image:title>${escapeXML(article.title || "News Image")}</image:title>
-      <image:caption>${escapeXML(article.title || "News")}</image:caption>
-    </image:image>
-  </url>`);
-    });
-
-    /*
-    |--------------------------------------------------------------------------
-    | Guide Images
-    |--------------------------------------------------------------------------
-    */
-    guides.forEach((guide: any) => {
-      if (!guide?.slug) return;
-      const slug = guide.slug.startsWith('/') ? guide.slug.slice(1) : guide.slug;
-      const img = getGuideDisplayImage(guide);
-
-      if (img) {
-        urls.push(`
-  <url>
-    <loc>${baseUrl}/guides/${slug}</loc>
-    <image:image>
-      <image:loc>${escapeXML(img.startsWith('/') ? `${baseUrl}${img}` : img)}</image:loc>
-      <image:title>${escapeXML(guide.title || 'Guide Image')}</image:title>
-      <image:caption>${escapeXML(guide.title || 'Guide')}</image:caption>
-    </image:image>
-  </url>`);
-      }
-    });
-
-    const xml = createXML(`
-<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:image="http://www.google.com/schemas/sitemap-image/1.1">
-  ${urls.join("").trim()}
-</urlset>
-    `);
-
-    return new NextResponse(xml, {
-      status: 200,
-      headers: {
-        "Content-Type": "application/xml; charset=utf-8",
-        "Cache-Control":
-          "public, max-age=86400, s-maxage=86400, stale-while-revalidate=3600",
-      },
-    });
-  } catch (error) {
-    console.error("Image sitemap generation crashed:", error);
-    return new NextResponse("Internal Server Error", { status: 500 });
-  }
+  return new NextResponse(xml, {
+    headers: {
+      "Content-Type": "application/xml; charset=utf-8",
+      "Cache-Control": "public, max-age=900, s-maxage=900",
+    },
+  });
 }

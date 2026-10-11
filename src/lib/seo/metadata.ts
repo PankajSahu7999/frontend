@@ -42,7 +42,6 @@ export function generateSEO({
     metadataBase: new URL(SITE.url),
     title,
     description,
-    keywords: [...SITE.keywords, ...keywords],
     alternates: {
       canonical: url,
       languages: {
@@ -76,7 +75,7 @@ export function generateSEO({
       title,
       description,
       url,
-      siteName: SITE.siteName,
+      siteName: SITE.name,
       locale: SITE.locale || "en_US",
       type,
       images: [
@@ -98,7 +97,7 @@ export function generateSEO({
 
     twitter: {
       card: "summary_large_image",
-      site: SITE.siteName,
+      site: SITE.name,
       title,
       description,
       creator: SITE.author || SITE.name,
@@ -106,7 +105,7 @@ export function generateSEO({
     },
     appleWebApp: {
       capable: true,
-      title: SITE.siteName,
+      title: SITE.name,
       statusBarStyle: "default",
     },
 

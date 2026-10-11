@@ -5,7 +5,7 @@ export function organizationSchema() {
     "@type": "Organization",
     "@id": `${SITE.url}/#organization`,
 
-    name: SITE.siteName,
+    name: SITE.name,
     legalName: SITE.name,
 
     url: SITE.url,
@@ -46,7 +46,6 @@ export function organizationSchema() {
       email: SITE.email,
     },
     publishingPrinciples: `${SITE.url}/privacy-policy`,
-    foundingDate: SITE.foundingDate,
-    sameAs:SITE.sameAs.filter(Boolean),
+    sameAs: SITE.sameAs.filter(Boolean),
   };
 }

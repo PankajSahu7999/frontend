@@ -1,8 +1,8 @@
-'use client';
+"use client";
 
-import React from 'react';
-import Link from 'next/link';
-import Image from 'next/image';
+import React from "react";
+import Link from "next/link";
+import Image from "next/image";
 import {
   Sparkles,
   Info,
@@ -13,14 +13,14 @@ import {
   CheckCircle2,
   Gamepad2,
   Flame,
-  Award
-} from 'lucide-react';
-import StarRating from '@/components/ui/StarRating';
-import CasinoCardBadge from '@/components/casino/CasinoCardBadge';
-import CasinoAffiliateButton from '@/components/CasinoAffiliateButton';
-import CasinoCardDisclaimer from '@/components/CasinoCardDisclaimer';
-import { getImageUrl } from '@/lib/utils/getImageUrl';
-import { formatPayoutTime } from '@/lib/utils';
+  Award,
+} from "lucide-react";
+import StarRating from "@/components/ui/StarRating";
+import CasinoCardBadge from "@/components/casino/CasinoCardBadge";
+import CasinoAffiliateButton from "@/components/CasinoAffiliateButton";
+import CasinoCardDisclaimer from "@/components/CasinoCardDisclaimer";
+import { getImageUrl } from "@/lib/utils/getImageUrl";
+import { formatPayoutTime } from "@/lib/utils";
 
 interface GameItem {
   id: string;
@@ -53,37 +53,40 @@ interface Props {
 }
 
 const CATEGORIES = [
-  { name: 'Slots', slug: 'slots', icon: '🎰' },
-  { name: 'Lottery Games', slug: 'lottery', icon: '🎟️' },
-  { name: 'Table Games', slug: 'table', icon: '🎡' },
-  { name: 'Card Games', slug: 'card', icon: '♠️' },
-  { name: 'Dice Games', slug: 'dice', icon: '🎲' },
+  { name: "Slots", slug: "slots", icon: "🎰" },
+  { name: "Lottery Games", slug: "lottery", icon: "🎟️" },
+  { name: "Table Games", slug: "table", icon: "🎡" },
+  { name: "Card Games", slug: "card", icon: "♠️" },
+  { name: "Dice Games", slug: "dice", icon: "🎲" },
 ];
 
 const FAQS = [
   {
-    q: 'Why are casino games so popular?',
-    a: 'The primary reason behind the popularity of casino games is the blend of excitement and reward potential. They offer a thrilling mix of chance and strategy, guaranteeing fun and the opportunity to win money. The variety of games, from slots to poker, caters to diverse preferences, enhancing their widespread appeal.',
+    q: "Why are casino games so popular?",
+    a: "The primary reason behind the popularity of casino games is the blend of excitement and reward potential. They offer a thrilling mix of chance and strategy, guaranteeing fun and the opportunity to win money. The variety of games, from slots to poker, caters to diverse preferences, enhancing their widespread appeal.",
   },
   {
-    q: 'What are the different types of casino games?',
-    a: 'Casino games encompass various categories, including table games like roulette; dice games, such as craps or hazard; card games like poker and blackjack; specialty games like bingo and keno; different types of slot machines; and immersive live-dealer games.',
+    q: "What are the different types of casino games?",
+    a: "Casino games encompass various categories, including table games like roulette; dice games, such as craps or hazard; card games like poker and blackjack; specialty games like bingo and keno; different types of slot machines; and immersive live-dealer games.",
   },
   {
-    q: 'Are online casino games fair?',
-    a: 'Yes, online casino games are fair if they are operated by reputable and regulated platforms that use certified random number generators to ensure randomness. Audited and licensed casinos adhere to strict standards, ensuring transparency and fairness.',
+    q: "Are online casino games fair?",
+    a: "Yes, online casino games are fair if they are operated by reputable and regulated platforms that use certified random number generators to ensure randomness. Audited and licensed casinos adhere to strict standards, ensuring transparency and fairness.",
   },
   {
-    q: 'What are the best casino games?',
-    a: 'The best casino games vary based on personal preferences. For instance, players choose blackjack for its strategic depth, slot machines for their simplicity and potential for big wins, poker for its skill-based competition, while players who enjoy the thrill of chance pick roulette and craps.',
+    q: "What are the best casino games?",
+    a: "The best casino games vary based on personal preferences. For instance, players choose blackjack for its strategic depth, slot machines for their simplicity and potential for big wins, poker for its skill-based competition, while players who enjoy the thrill of chance pick roulette and craps.",
   },
   {
-    q: 'How do casino games work?',
-    a: 'Casino games are based on the principle of chance and odds, with a built-in house edge. In digital games, such as online slots, outcomes are determined by random number generators (RNGs). Although strategy and skill influence the outcomes of casino games to a varying degree, luck plays a significant role in all of them.',
+    q: "How do casino games work?",
+    a: "Casino games are based on the principle of chance and odds, with a built-in house edge. In digital games, such as online slots, outcomes are determined by random number generators (RNGs). Although strategy and skill influence the outcomes of casino games to a varying degree, luck plays a significant role in all of them.",
   },
 ];
 
-export default function GamesHubClient({ recommended, topCasinos = [] }: Props) {
+export default function GamesHubClient({
+  recommended,
+  topCasinos = [],
+}: Props) {
   return (
     <div className="mx-auto px-4 py-8 font-sans text-gray-800 min-h-screen max-w-7xl">
       {/* 1. HERO CARD - EXACT THEME MATCH WITH CASINO REVIEW HERO */}
@@ -92,7 +95,7 @@ export default function GamesHubClient({ recommended, topCasinos = [] }: Props) 
           className="rounded-[14px] p-6 sm:p-8 shadow-sm flex flex-col lg:flex-row gap-8 items-center justify-between"
           style={{
             background:
-              'linear-gradient(231.79deg, #D5EDFF 32.55%, #EEECFF 43.54%, #F9F3FF 53.23%, #F5FCFF 66.16%, #E9F5FF 79.08%)',
+              "linear-gradient(231.79deg, #D5EDFF 32.55%, #EEECFF 43.54%, #F9F3FF 53.23%, #F5FCFF 66.16%, #E9F5FF 79.08%)",
           }}
         >
           <div className="max-w-2xl text-center lg:text-left">
@@ -107,9 +110,9 @@ export default function GamesHubClient({ recommended, topCasinos = [] }: Props) 
             </h1>
 
             <p className="mt-3 text-sm text-[#475467] leading-relaxed max-w-xl">
-              Explore the world's most popular online casino games, compare house edges and RTPs,
-              practice in free-play demo mode, and find verified licensed operators to play for real
-              money.
+              Explore the world's most popular online casino games, compare
+              house edges and RTPs, practice in free-play demo mode, and find
+              verified licensed operators to play for real money.
             </p>
 
             {/* Category Quick Chips */}
@@ -133,14 +136,24 @@ export default function GamesHubClient({ recommended, topCasinos = [] }: Props) 
               <span className="text-[11px] font-bold text-[#F59E0B] uppercase flex items-center gap-1">
                 <Sparkles className="w-3.5 h-3.5" /> Featured Game
               </span>
-              <span className="text-[11px] font-semibold text-gray-500">Real Dealer Studios</span>
+              <span className="text-[11px] font-semibold text-gray-500">
+                Real Dealer Studios
+              </span>
             </div>
 
             <div className="relative h-40 rounded-xl overflow-hidden mb-3 border border-[#2E68FB20]">
-              <img
+              {/* <img
                 src="https://images.unsplash.com/photo-1518609878373-06d740f60d8b?w=800&auto=format&fit=crop&q=80"
                 alt="Hockey Fever Roulette"
                 className="w-full h-full object-cover"
+              /> */}
+
+              <Image
+                src="https://images.unsplash.com/photo-1518609878373-06d740f60d8b?w=800&auto=format&fit=crop&q=80"
+                alt="Hockey-themed visual for the Hockey Fever Roulette game"
+                fill
+                sizes="(max-width: 768px) 100vw, 800px"
+                className="object-cover"
               />
               <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent flex items-end p-3">
                 <div>
@@ -158,8 +171,8 @@ export default function GamesHubClient({ recommended, topCasinos = [] }: Props) 
               href="/games/hockey-fever-roulette"
               className="w-full py-2.5 rounded-xl text-[#16171D] text-xs font-bold flex items-center justify-center gap-2 shadow-xs transition"
               style={{
-                background: 'linear-gradient(180deg, #FFE11F 0%, #FF8533 100%)',
-                boxShadow: '0px 2px 0px 0px #E36D1F',
+                background: "linear-gradient(180deg, #FFE11F 0%, #FF8533 100%)",
+                boxShadow: "0px 2px 0px 0px #E36D1F",
               }}
             >
               <span>Play Demo & Review</span>
@@ -174,7 +187,7 @@ export default function GamesHubClient({ recommended, topCasinos = [] }: Props) 
         className="rounded-2xl p-6 mb-10 border border-[#2E68FB] shadow-sm flex flex-col md:flex-row items-start md:items-center justify-between gap-6"
         style={{
           background:
-            'linear-gradient(231.79deg, #D5EDFF 32.55%, #F5FCFF 66.16%, #E9F5FF 79.08%)',
+            "linear-gradient(231.79deg, #D5EDFF 32.55%, #F5FCFF 66.16%, #E9F5FF 79.08%)",
         }}
       >
         <div className="flex items-start gap-3">
@@ -186,19 +199,28 @@ export default function GamesHubClient({ recommended, topCasinos = [] }: Props) 
               Affiliate Disclosure
             </h4>
             <p className="text-xs text-[#475467] mt-1 leading-relaxed">
-              Our content contains affiliate links and we may make a commission on operator
-              registrations and deposits made through these links. We only recommend licensed
-              operators and we would not endorse any brand that is not verified by our experts. Get
-              the truth. Then play.
+              Our content contains affiliate links and we may make a commission
+              on operator registrations and deposits made through these links.
+              We only recommend licensed operators and we would not endorse any
+              brand that is not verified by our experts. Get the truth. Then
+              play.
             </p>
           </div>
         </div>
 
         <div className="flex items-center gap-3 pl-0 md:pl-6 md:border-l border-[#2E68FB30] shrink-0">
           <div className="w-11 h-11 rounded-full bg-[#E6EDFF] border border-[#2E68FB30] shadow-xs overflow-hidden">
-            <img
+            {/* <img
               src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=100&auto=format&fit=crop&q=80"
               alt="Petar Mitrovic"
+              className="w-full h-full object-cover"
+            /> */}
+            <Image
+              src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=100&auto=format&fit=crop&q=80"
+              alt="Petar Mitrovic's profile photo"
+              width={44}
+              height={44}
+              sizes="44px"
               className="w-full h-full object-cover"
             />
           </div>
@@ -206,7 +228,9 @@ export default function GamesHubClient({ recommended, topCasinos = [] }: Props) 
             <span className="text-[10px] uppercase font-bold text-gray-400 block">
               Lead Casino Analyst
             </span>
-            <span className="text-sm font-bold text-[#16171D]">Petar Mitrovic</span>
+            <span className="text-sm font-bold text-[#16171D]">
+              Petar Mitrovic
+            </span>
           </div>
         </div>
       </div>
@@ -233,7 +257,7 @@ export default function GamesHubClient({ recommended, topCasinos = [] }: Props) 
               className="rounded-[22px] p-6 flex flex-col justify-between h-full"
               style={{
                 background:
-                  'linear-gradient(231.79deg, #D5EDFF 32.55%, #EEECFF 43.54%, #F9F3FF 53.23%, #F5FCFF 66.16%, #E9F5FF 79.08%)',
+                  "linear-gradient(231.79deg, #D5EDFF 32.55%, #EEECFF 43.54%, #F9F3FF 53.23%, #F5FCFF 66.16%, #E9F5FF 79.08%)",
               }}
             >
               <div>
@@ -246,9 +270,9 @@ export default function GamesHubClient({ recommended, topCasinos = [] }: Props) 
                   </span>
                 </div>
                 <p className="text-xs text-gray-600 leading-relaxed mb-4">
-                  Poker is one of the most played casino games in the world, but online poker has
-                  only boosted its popularity. Peruse our poker selection and find out what makes
-                  this game so timeless.
+                  Poker is one of the most played casino games in the world, but
+                  online poker has only boosted its popularity. Peruse our poker
+                  selection and find out what makes this game so timeless.
                 </p>
 
                 <div className="space-y-2.5">
@@ -266,7 +290,9 @@ export default function GamesHubClient({ recommended, topCasinos = [] }: Props) 
                           <div className="text-xs font-bold text-gray-900 group-hover:text-[#2E68FB] transition">
                             {game.title}
                           </div>
-                          <div className="text-[11px] text-gray-500">{game.provider}</div>
+                          <div className="text-[11px] text-gray-500">
+                            {game.provider}
+                          </div>
                         </div>
                       </div>
                       <div className="flex items-center gap-2">
@@ -290,7 +316,7 @@ export default function GamesHubClient({ recommended, topCasinos = [] }: Props) 
               className="rounded-[22px] p-6 flex flex-col justify-between h-full"
               style={{
                 background:
-                  'linear-gradient(231.79deg, #D5EDFF 32.55%, #EEECFF 43.54%, #F9F3FF 53.23%, #F5FCFF 66.16%, #E9F5FF 79.08%)',
+                  "linear-gradient(231.79deg, #D5EDFF 32.55%, #EEECFF 43.54%, #F9F3FF 53.23%, #F5FCFF 66.16%, #E9F5FF 79.08%)",
               }}
             >
               <div>
@@ -303,9 +329,9 @@ export default function GamesHubClient({ recommended, topCasinos = [] }: Props) 
                   </span>
                 </div>
                 <p className="text-xs text-gray-600 leading-relaxed mb-4">
-                  Roulette has been popular for hundreds of years; today you don't even have to leave
-                  your home to spin the wheel. Find your new favourite online roulette games right
-                  here.
+                  Roulette has been popular for hundreds of years; today you
+                  don't even have to leave your home to spin the wheel. Find
+                  your new favourite online roulette games right here.
                 </p>
 
                 <div className="space-y-2.5">
@@ -323,7 +349,9 @@ export default function GamesHubClient({ recommended, topCasinos = [] }: Props) 
                           <div className="text-xs font-bold text-gray-900 group-hover:text-[#2E68FB] transition">
                             {game.title}
                           </div>
-                          <div className="text-[11px] text-gray-500">{game.provider}</div>
+                          <div className="text-[11px] text-gray-500">
+                            {game.provider}
+                          </div>
                         </div>
                       </div>
                       <div className="flex items-center gap-2">
@@ -347,7 +375,7 @@ export default function GamesHubClient({ recommended, topCasinos = [] }: Props) 
               className="rounded-[22px] p-6 flex flex-col justify-between h-full"
               style={{
                 background:
-                  'linear-gradient(231.79deg, #D5EDFF 32.55%, #EEECFF 43.54%, #F9F3FF 53.23%, #F5FCFF 66.16%, #E9F5FF 79.08%)',
+                  "linear-gradient(231.79deg, #D5EDFF 32.55%, #EEECFF 43.54%, #F9F3FF 53.23%, #F5FCFF 66.16%, #E9F5FF 79.08%)",
               }}
             >
               <div>
@@ -360,8 +388,8 @@ export default function GamesHubClient({ recommended, topCasinos = [] }: Props) 
                   </span>
                 </div>
                 <p className="text-xs text-gray-600 leading-relaxed mb-4">
-                  Blackjack never goes out of style, and online blackjack only makes it more
-                  accessible. Is number 21 in the cards for you?
+                  Blackjack never goes out of style, and online blackjack only
+                  makes it more accessible. Is number 21 in the cards for you?
                 </p>
 
                 <div className="space-y-2.5">
@@ -379,7 +407,9 @@ export default function GamesHubClient({ recommended, topCasinos = [] }: Props) 
                           <div className="text-xs font-bold text-gray-900 group-hover:text-[#2E68FB] transition">
                             {game.title}
                           </div>
-                          <div className="text-[11px] text-gray-500">{game.provider}</div>
+                          <div className="text-[11px] text-gray-500">
+                            {game.provider}
+                          </div>
                         </div>
                       </div>
                       <div className="flex items-center gap-2">
@@ -403,7 +433,7 @@ export default function GamesHubClient({ recommended, topCasinos = [] }: Props) 
               className="rounded-[22px] p-6 flex flex-col justify-between h-full"
               style={{
                 background:
-                  'linear-gradient(231.79deg, #D5EDFF 32.55%, #EEECFF 43.54%, #F9F3FF 53.23%, #F5FCFF 66.16%, #E9F5FF 79.08%)',
+                  "linear-gradient(231.79deg, #D5EDFF 32.55%, #EEECFF 43.54%, #F9F3FF 53.23%, #F5FCFF 66.16%, #E9F5FF 79.08%)",
               }}
             >
               <div>
@@ -416,8 +446,8 @@ export default function GamesHubClient({ recommended, topCasinos = [] }: Props) 
                   </span>
                 </div>
                 <p className="text-xs text-gray-600 leading-relaxed mb-4">
-                  Looking for a fast-paced game with plenty of betting options? Take a seat at an
-                  online craps table.
+                  Looking for a fast-paced game with plenty of betting options?
+                  Take a seat at an online craps table.
                 </p>
 
                 <div className="space-y-2.5">
@@ -435,7 +465,9 @@ export default function GamesHubClient({ recommended, topCasinos = [] }: Props) 
                           <div className="text-xs font-bold text-gray-900 group-hover:text-[#2E68FB] transition">
                             {game.title}
                           </div>
-                          <div className="text-[11px] text-gray-500">{game.provider}</div>
+                          <div className="text-[11px] text-gray-500">
+                            {game.provider}
+                          </div>
                         </div>
                       </div>
                       <div className="flex items-center gap-2">
@@ -471,8 +503,8 @@ export default function GamesHubClient({ recommended, topCasinos = [] }: Props) 
               Top Rated Casinos for Table & Slot Games
             </h2>
             <p className="text-xs sm:text-sm text-gray-500 max-w-2xl">
-              Play these certified games at authorized, licensed online casinos featuring fast
-              withdrawals and generous bonuses.
+              Play these certified games at authorized, licensed online casinos
+              featuring fast withdrawals and generous bonuses.
             </p>
           </div>
 
@@ -481,9 +513,9 @@ export default function GamesHubClient({ recommended, topCasinos = [] }: Props) 
               const welcomeBonus =
                 casino.bonuses?.[0]?.amount ||
                 casino.bonuses?.[0]?.title ||
-                '100% up to $1,500 + 150 Free Spins';
+                "100% up to $1,500 + 150 Free Spins";
               const imageUrl = getImageUrl(
-                casino.logo || casino.featured_image || '/images/888.png',
+                casino.logo || casino.featured_image || "/images/888.png",
               );
 
               return (
@@ -493,14 +525,17 @@ export default function GamesHubClient({ recommended, topCasinos = [] }: Props) 
                 >
                   {/* Top-Right Corner Tag / Badge */}
                   <div className="absolute top-2 right-3 z-20">
-                    <CasinoCardBadge badge={casino.card_badge} isHot={casino.hot_casino} />
+                    <CasinoCardBadge
+                      badge={casino.card_badge}
+                      isHot={casino.hot_casino}
+                    />
                   </div>
 
                   <div
                     className="flex flex-col p-5 rounded-[22px] justify-between flex-1 w-full h-full relative"
                     style={{
                       background:
-                        'linear-gradient(231.79deg, #D5EDFF 32.55%, #EEECFF 43.54%, #F9F3FF 53.23%, #F5FCFF 66.16%, #E9F5FF 79.08%)',
+                        "linear-gradient(231.79deg, #D5EDFF 32.55%, #EEECFF 43.54%, #F9F3FF 53.23%, #F5FCFF 66.16%, #E9F5FF 79.08%)",
                     }}
                   >
                     <div>
@@ -509,7 +544,7 @@ export default function GamesHubClient({ recommended, topCasinos = [] }: Props) 
                         <div className="relative w-16 h-16 sm:w-20 sm:h-20 bg-white rounded-xl overflow-hidden shadow-sm flex-shrink-0 border border-gray-100 p-1">
                           <Image
                             src={imageUrl}
-                            alt={casino.name || 'Casino'}
+                            alt={casino.name || "Casino"}
                             fill
                             className="object-contain p-1"
                             unoptimized
@@ -526,7 +561,7 @@ export default function GamesHubClient({ recommended, topCasinos = [] }: Props) 
                           </Link>
                           <p className="text-[12px] text-[#666] mt-1 line-clamp-2 leading-[17px]">
                             {casino.short_description ||
-                              'Certified real money online casino with verified games.'}
+                              "Certified real money online casino with verified games."}
                           </p>
                         </div>
                       </div>
@@ -564,7 +599,9 @@ export default function GamesHubClient({ recommended, topCasinos = [] }: Props) 
                             Min Deposit
                           </span>
                           <span className="text-[12px] font-bold text-[#363636] truncate">
-                            {casino.minimum_deposit ? `$${casino.minimum_deposit}` : '$20'}
+                            {casino.minimum_deposit
+                              ? `$${casino.minimum_deposit}`
+                              : "$20"}
                           </span>
                         </div>
 
@@ -586,8 +623,9 @@ export default function GamesHubClient({ recommended, topCasinos = [] }: Props) 
                           href={`/casino/${casino.slug}`}
                           className="h-11 rounded-xl flex items-center justify-center font-bold text-[13px] text-[#16171D] transition"
                           style={{
-                            background: 'linear-gradient(180deg, #FFE11F 0%, #FF8533 100%)',
-                            boxShadow: '0px 2px 0px 0px #E36D1F',
+                            background:
+                              "linear-gradient(180deg, #FFE11F 0%, #FF8533 100%)",
+                            boxShadow: "0px 2px 0px 0px #E36D1F",
                           }}
                         >
                           Read Review
@@ -601,8 +639,9 @@ export default function GamesHubClient({ recommended, topCasinos = [] }: Props) 
                           }
                           className="h-11 rounded-xl flex items-center justify-center font-bold text-[13px] text-white shadow-sm transition"
                           style={{
-                            background: 'linear-gradient(180deg, #CDDCFB 0%, #588CF3 100%)',
-                            boxShadow: '0px 2px 0px 0px #2E68FB',
+                            background:
+                              "linear-gradient(180deg, #CDDCFB 0%, #588CF3 100%)",
+                            boxShadow: "0px 2px 0px 0px #2E68FB",
                           }}
                         >
                           Play Now ▶
@@ -627,93 +666,118 @@ export default function GamesHubClient({ recommended, topCasinos = [] }: Props) 
             className="rounded-2xl p-6 border border-[#2E68FB] shadow-sm"
             style={{
               background:
-                'linear-gradient(231.79deg, #D5EDFF 32.55%, #F5FCFF 66.16%, #E9F5FF 79.08%)',
+                "linear-gradient(231.79deg, #D5EDFF 32.55%, #F5FCFF 66.16%, #E9F5FF 79.08%)",
             }}
           >
             <p className="text-base sm:text-lg font-medium text-[#16171D] leading-relaxed">
-              Whether you’re into blackjack, poker, live casino games or slots, you can find the
-              best online casino games here and play them at your favourite online casino. Learn all
-              there is about different types of casino games, check their odds, see which games are
+              Whether you’re into blackjack, poker, live casino games or slots,
+              you can find the best online casino games here and play them at
+              your favourite online casino. Learn all there is about different
+              types of casino games, check their odds, see which games are
               popular among players and choose the ones that suit you.
             </p>
           </div>
 
-          <section id="what-are-casino-games" className="pt-4 border-t border-gray-200">
+          <section
+            id="what-are-casino-games"
+            className="pt-4 border-t border-gray-200"
+          >
             <h2 className="font-poppins text-[22px] font-bold text-[#16171D] mb-3">
               What Are Casino Games?
             </h2>
             <p className="mb-3">
-              Casino games are games of luck you can play in offshore and online casinos. The games
-              give players a chance to win money, which is one of the main reasons why people
-              engage in the first place.
+              Casino games are games of luck you can play in offshore and online
+              casinos. The games give players a chance to win money, which is
+              one of the main reasons why people engage in the first place.
             </p>
             <p className="mb-3">
-              Although casino games are primarily games of luck, there’s a dose of skill involved,
-              especially in table and card games. Different playing strategies exist for each game,
-              which players research to increase their chances of winning.
+              Although casino games are primarily games of luck, there’s a dose
+              of skill involved, especially in table and card games. Different
+              playing strategies exist for each game, which players research to
+              increase their chances of winning.
             </p>
             <p>
-              In addition, casino games are entertaining, especially if you play them in
-              land-based casinos, where the social factor is also involved for specific games. On
-              the other hand, there’s a great variety of online casino games, especially online
-              slots. People can join slot and poker tournaments or enjoy live dealer games from the
-              comfort of their homes.
+              In addition, casino games are entertaining, especially if you play
+              them in land-based casinos, where the social factor is also
+              involved for specific games. On the other hand, there’s a great
+              variety of online casino games, especially online slots. People
+              can join slot and poker tournaments or enjoy live dealer games
+              from the comfort of their homes.
             </p>
           </section>
 
-          <section id="how-do-games-work" className="pt-4 border-t border-gray-200">
+          <section
+            id="how-do-games-work"
+            className="pt-4 border-t border-gray-200"
+          >
             <h2 className="font-poppins text-[22px] font-bold text-[#16171D] mb-3">
               How Do Casino Games Work?
             </h2>
             <p className="mb-3">
-              All casino games provide a long-term advantage to the casino often referred to as
-              “house”, while the players have a possibility to score some wins, but they lose in the
-              long run. You should differentiate between gaming machines, table games and random
-              number games because the mechanics and dynamics of each game is different.
+              All casino games provide a long-term advantage to the casino often
+              referred to as “house”, while the players have a possibility to
+              score some wins, but they lose in the long run. You should
+              differentiate between gaming machines, table games and random
+              number games because the mechanics and dynamics of each game is
+              different.
             </p>
             <p className="mb-3">
-              Gaming machines are slots and pachinko games. Online slots come with the
-              return-to-player percentage and volatility, which shows what you can expect. They are
-              purely based on luck. On the other hand, table games have a dose of skill and players
-              either compete against the casino or each other.
+              Gaming machines are slots and pachinko games. Online slots come
+              with the return-to-player percentage and volatility, which shows
+              what you can expect. They are purely based on luck. On the other
+              hand, table games have a dose of skill and players either compete
+              against the casino or each other.
             </p>
             <p>
-              Some games combine these mechanics and roulette is the perfect example. It involves
-              random numbers, while there’s a skill and social element involved where players try to
-              beat the house.
+              Some games combine these mechanics and roulette is the perfect
+              example. It involves random numbers, while there’s a skill and
+              social element involved where players try to beat the house.
             </p>
           </section>
 
-          <section id="different-types" className="pt-4 border-t border-gray-200">
+          <section
+            id="different-types"
+            className="pt-4 border-t border-gray-200"
+          >
             <h2 className="font-poppins text-[22px] font-bold text-[#16171D] mb-3">
               Different Types of Casino Games
             </h2>
             <p className="mb-4">
-              There is a large number of casino games you can play both in land-based and online
-              casinos. Some of the most common games include:
+              There is a large number of casino games you can play both in
+              land-based and online casinos. Some of the most common games
+              include:
             </p>
             <div className="grid grid-cols-2 sm:grid-cols-3 gap-3 mb-4">
-              {['Slots', 'Table games', 'Card games', 'Dice games', 'Lottery', 'Bingo'].map(
-                (item) => (
-                  <div
-                    key={item}
-                    className="p-3 bg-white rounded-xl border border-[#2E68FB40] text-xs font-bold text-[#16171D] flex items-center gap-2 shadow-2xs"
-                  >
-                    <CheckCircle2 className="w-4 h-4 text-[#2E68FB]" />
-                    <span>{item}</span>
-                  </div>
-                ),
-              )}
+              {[
+                "Slots",
+                "Table games",
+                "Card games",
+                "Dice games",
+                "Lottery",
+                "Bingo",
+              ].map((item) => (
+                <div
+                  key={item}
+                  className="p-3 bg-white rounded-xl border border-[#2E68FB40] text-xs font-bold text-[#16171D] flex items-center gap-2 shadow-2xs"
+                >
+                  <CheckCircle2 className="w-4 h-4 text-[#2E68FB]" />
+                  <span>{item}</span>
+                </div>
+              ))}
             </div>
             <p>
-              In each of these categories, you can find different types of games. When we’re talking
-              about slots, you can find classic, modern, progressive jackpot games, megaways, bonus
-              buys, etc. The same can be done for all other games, as there are numerous versions for
-              every game.
+              In each of these categories, you can find different types of
+              games. When we’re talking about slots, you can find classic,
+              modern, progressive jackpot games, megaways, bonus buys, etc. The
+              same can be done for all other games, as there are numerous
+              versions for every game.
             </p>
           </section>
 
-          <section id="winning-potential" className="pt-4 border-t border-gray-200">
+          <section
+            id="winning-potential"
+            className="pt-4 border-t border-gray-200"
+          >
             <h2 className="font-poppins text-[22px] font-bold text-[#16171D] mb-3">
               Casino Games With the Best Winning Potential
             </h2>
@@ -723,9 +787,9 @@ export default function GamesHubClient({ recommended, topCasinos = [] }: Props) 
                   Games With the Best Odds
                 </h4>
                 <p className="text-xs text-gray-800 leading-relaxed mt-2">
-                  Blackjack has the best mathematical odds (~42% win, ~49% loss, ~9% tie, with a
-                  house edge as low as 0.5%). Baccarat Banker bets also maintain a low house edge
-                  of 1.06%.
+                  Blackjack has the best mathematical odds (~42% win, ~49% loss,
+                  ~9% tie, with a house edge as low as 0.5%). Baccarat Banker
+                  bets also maintain a low house edge of 1.06%.
                 </p>
               </div>
               <div className="p-5 rounded-2xl bg-[#FFF5F5] border border-[#FF5A5A]">
@@ -733,9 +797,9 @@ export default function GamesHubClient({ recommended, topCasinos = [] }: Props) 
                   Games With the Worst Odds
                 </h4>
                 <p className="text-xs text-gray-800 leading-relaxed mt-2">
-                  Keno and national lottery games come with high house edges (often exceeding
-                  20-30%). Guessing exact numbers is statistically harder, though jackpots can be
-                  substantial.
+                  Keno and national lottery games come with high house edges
+                  (often exceeding 20-30%). Guessing exact numbers is
+                  statistically harder, though jackpots can be substantial.
                 </p>
               </div>
             </div>
@@ -752,11 +816,20 @@ export default function GamesHubClient({ recommended, topCasinos = [] }: Props) 
 
             <nav className="space-y-2 text-xs font-semibold text-gray-600">
               {[
-                { id: 'what-are-casino-games', title: 'What Are Casino Games?' },
-                { id: 'how-do-games-work', title: 'How Do Casino Games Work?' },
-                { id: 'different-types', title: 'Different Types of Casino Games' },
-                { id: 'winning-potential', title: 'Casino Games With Best Winning Potential' },
-                { id: 'faqs', title: 'Frequently Asked Questions (FAQ)' },
+                {
+                  id: "what-are-casino-games",
+                  title: "What Are Casino Games?",
+                },
+                { id: "how-do-games-work", title: "How Do Casino Games Work?" },
+                {
+                  id: "different-types",
+                  title: "Different Types of Casino Games",
+                },
+                {
+                  id: "winning-potential",
+                  title: "Casino Games With Best Winning Potential",
+                },
+                { id: "faqs", title: "Frequently Asked Questions (FAQ)" },
               ].map((item) => (
                 <a
                   key={item.id}
@@ -774,15 +847,15 @@ export default function GamesHubClient({ recommended, topCasinos = [] }: Props) 
                 className="rounded-xl p-3.5 border border-[#2E68FB30]"
                 style={{
                   background:
-                    'linear-gradient(231.79deg, #D5EDFF 32.55%, #F5FCFF 66.16%, #E9F5FF 79.08%)',
+                    "linear-gradient(231.79deg, #D5EDFF 32.55%, #F5FCFF 66.16%, #E9F5FF 79.08%)",
                 }}
               >
                 <span className="text-[11px] font-bold text-[#16171D] block mb-1">
                   Looking for a specific game?
                 </span>
                 <p className="text-[11px] text-[#475467] leading-relaxed mb-3">
-                  Check out individual game reviews for RTP breakdowns, betting limits, and free
-                  demo launchers.
+                  Check out individual game reviews for RTP breakdowns, betting
+                  limits, and free demo launchers.
                 </p>
                 <Link
                   href="/games/hockey-fever-roulette"
@@ -818,13 +891,15 @@ export default function GamesHubClient({ recommended, topCasinos = [] }: Props) 
             <details
               key={index}
               open={index === 0}
-              className={`group ${index !== FAQS.length - 1 ? 'border-b border-[#EEF2FF]' : ''}`}
+              className={`group ${index !== FAQS.length - 1 ? "border-b border-[#EEF2FF]" : ""}`}
             >
               <summary className="flex cursor-pointer list-none items-center justify-between px-6 py-5 font-semibold text-[#16171D] group-open:text-[#2E68FB]">
                 {faq.q}
                 <ChevronRight className="h-5 w-5 transition group-open:rotate-90 text-[#2E68FB]" />
               </summary>
-              <p className="px-6 pb-6 text-[14px] text-[#7C7C7C] leading-7">{faq.a}</p>
+              <p className="px-6 pb-6 text-[14px] text-[#7C7C7C] leading-7">
+                {faq.a}
+              </p>
             </details>
           ))}
         </div>
