@@ -40,7 +40,7 @@ export default async function Home() {
       description: SITE.description,
     }),
     faq: faqSchema({
-      pageUrl: "https://casinoreviewsbook.com/",
+      pageUrl: SITE.url,
       faqs: [
         {
           question: "What is Casino Reviews Book?",

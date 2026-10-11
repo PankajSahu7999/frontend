@@ -204,6 +204,8 @@ export default function Sidebar({ open, onClose }: SidebarProps) {
                                 xmlns="http://www.w3.org/2000/svg"
                                 viewBox="260 210 770 240"
                                 className="w-full h-auto max-h-[68px] block"
+                                role="img"
+                                aria-label="Casino Reviews Book Logo"
                             >
                                 <defs>
                                     <linearGradient

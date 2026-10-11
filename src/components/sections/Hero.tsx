@@ -272,13 +272,13 @@ export function Hero({
 
           {isHomepage && activeSlideData ? (
             <>
-              {/* Homepage H1 & Dynamic Subtitle */}
-              <h1 className="font-['Poppins'] font-black text-[20px] text-white leading-snug mb-1.5 tracking-tight transition-all duration-500">
+              {/* Homepage Heading & Dynamic Subtitle */}
+              <div role="heading" aria-level={1} className="font-['Poppins'] font-black text-[20px] text-white leading-snug mb-1.5 tracking-tight transition-all duration-500">
                 {activeSlideData.h1}
                 <span className="text-transparent bg-clip-text bg-gradient-to-r from-amber-300 via-yellow-200 to-amber-400 block text-[13px] font-bold mt-1">
                   {activeSlideData.h1Highlight}
                 </span>
-              </h1>
+              </div>
 
               <p className="text-xs text-slate-300 mb-3.5 leading-relaxed font-normal max-w-sm transition-all duration-500">
                 {activeSlideData.supportingCopy}
@@ -311,12 +311,12 @@ export function Hero({
           ) : (
             <>
               {/* Category Page Title */}
-              <h1 className="font-['Poppins'] font-black text-[22px] text-white leading-tight mb-2 tracking-tight">
+              <div role="heading" aria-level={1} className="font-['Poppins'] font-black text-[22px] text-white leading-tight mb-2 tracking-tight">
                 Find The Best{" "}
                 <span className="text-transparent bg-clip-text bg-gradient-to-r from-amber-300 via-yellow-200 to-amber-400">
                   {title}
                 </span>
-              </h1>
+              </div>
 
               <p className="text-xs text-slate-300 mb-4 leading-relaxed max-w-sm">
                 {subtitle ||

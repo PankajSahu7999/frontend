@@ -19,6 +19,8 @@ export function Footer() {
                   /* Tight viewBox scaled for narrow width + 3-line text */
                   viewBox="250 200 660 260"
                   className="w-full h-auto max-h-[100px] block"
+                  role="img"
+                  aria-label="Casino Reviews Book Logo"
                 >
                   <defs>
                     <linearGradient
@@ -276,28 +278,28 @@ export function Footer() {
                 <li><Link href="/provably-fair">Provably fair</Link></li>
               </ul>
               <div className="flex gap-5 mt-8">
-                <Link href="#">
+                <Link href="#" aria-label="Join our Discord community">
                   <Image
                     src="/icons/discord.png"
-                    alt="Discord"
+                    alt="Casino Reviews Book Discord Community"
                     width={24}
                     height={24}
                   />
                 </Link>
 
-                <Link href="#">
+                <Link href="#" aria-label="Follow us on Instagram">
                   <Image
                     src="/icons/instagram.png"
-                    alt="Instagram"
+                    alt="Casino Reviews Book Instagram Profile"
                     width={24}
                     height={24}
                   />
                 </Link>
 
-                <Link href="#">
+                <Link href="#" aria-label="Follow us on Twitter">
                   <Image
                     src="/icons/twitter.png"
-                    alt="Twitter"
+                    alt="Casino Reviews Book Twitter Account"
                     width={24}
                     height={24}
                   />
@@ -347,7 +349,7 @@ export function Footer() {
                 className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md bg-white/80 border border-slate-200/90 hover:border-blue-400 hover:shadow-2xs transition-all text-slate-700"
                 title="GamCare - Gambling Support"
               >
-                <svg viewBox="0 0 32 32" className="w-3.5 h-3.5 text-slate-700 shrink-0" fill="currentColor">
+                <svg viewBox="0 0 32 32" className="w-3.5 h-3.5 text-slate-700 shrink-0" fill="currentColor" role="img" aria-label="GamCare Logo">
                   <path d="M16 4C9.37 4 4 9.37 4 16c0 6.63 5.37 12 12 12 5.08 0 9.42-3.16 11.16-7.66l-3.34-1.25C22.61 22.25 19.53 24.5 16 24.5 11.31 24.5 7.5 20.69 7.5 16S11.31 7.5 16 7.5c2.97 0 5.6 1.54 7.12 3.88L20 14h10V4l-3.15 3.15C24.47 4.54 20.5 4 16 4z"/>
                 </svg>
                 <span className="text-[10px] font-black tracking-wider text-slate-800 uppercase">GAMCARE</span>

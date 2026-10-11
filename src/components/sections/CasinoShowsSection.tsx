@@ -1,6 +1,7 @@
 'use client';
 
 import Image from 'next/image';
+import Link from 'next/link';
 import { useRef } from 'react';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
 import { useCasinos } from '@/hooks/useRedux';
@@ -37,12 +38,14 @@ export default function CasinoShowsSection({
    * If casinos prop is not passed:
    *     use Redux filtered casinos
    */
-  const displayCasinos =
+  const rawCasinos =
     casinos !== undefined
       ? casinos
       : filteredCasinos.length > 0
         ? filteredCasinos
         : reduxCasinos;
+
+  const displayCasinos = rawCasinos.slice(0, 8);
 
     const scrollLeft = () => {
         if (scrollContainerRef.current) {
@@ -58,7 +61,7 @@ export default function CasinoShowsSection({
 
     if (loading) {
         return (
-            <section className="w-full py-10">
+            <section className="w-full py-10 min-h-[440px]">
                 <div className="flex items-center justify-center h-[280px]">
                     <div className="text-slate-500">Loading...</div>
                 </div>
@@ -68,7 +71,7 @@ export default function CasinoShowsSection({
 
     if (displayCasinos.length === 0) {
         return (
-            <section className="w-full py-10">
+            <section className="w-full py-10 min-h-[440px]">
                 <div className="flex items-center justify-center h-[280px]">
                     <div className="text-slate-500">No casinos found matching your filters.</div>
                 </div>
@@ -77,7 +80,7 @@ export default function CasinoShowsSection({
     }
 
     return (
-        <section className="w-full py-10">
+        <section className="w-full py-10 min-h-[440px]">
             {/* Header */}
       <div className="mb-6">
         {/* First Row */}
@@ -91,10 +94,13 @@ export default function CasinoShowsSection({
                     </h2>
                 </div>
           <div className="flex items-center gap-3">
-            <button className="hidden md:flex items-center bg-white px-4 py-2 rounded-full text-sm font-medium shadow-sm text-[#16171D]">
+            <Link
+              href="/games"
+              className="hidden md:flex items-center bg-white px-4 py-2 rounded-full text-sm font-medium shadow-sm text-[#16171D] hover:text-[#2E68FB] transition-colors"
+            >
               See all
-              <span className="ml-2 text-[#98A2B3]">{displayCasinos.length}</span>
-            </button>
+              <span className="ml-2 text-[#98A2B3]">{rawCasinos.length}</span>
+            </Link>
             <button
               className="w-10 h-10 rounded-full bg-white flex items-center justify-center shadow-sm border border-gray-100"
               onClick={scrollLeft}

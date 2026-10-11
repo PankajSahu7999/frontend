@@ -72,12 +72,12 @@ export default function GlobalLoader({
         </div>
 
         {/* Brand Title */}
-        <h1 className="font-poppins text-[34px] font-extrabold tracking-tight leading-none">
+        <div className="font-poppins text-[34px] font-extrabold tracking-tight leading-none" role="heading" aria-level={2}>
           <span className="text-[#16171D]">Casino Review </span>
           <span className="bg-gradient-to-r from-[#4D99FC] via-[#0B69F5] to-[#0649D9] bg-clip-text text-transparent">
             Book
           </span>
-        </h1>
+        </div>
 
         {/* Label */}
         <p className="mt-4 text-xs font-bold tracking-[0.2em] text-[#0B69F5]/80 uppercase">

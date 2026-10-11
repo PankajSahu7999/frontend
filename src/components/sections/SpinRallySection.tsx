@@ -30,12 +30,14 @@ export default function SpinRallySection({
    * If casinos prop is not passed:
    *     use Redux filtered casinos
    */
-  const displayCasinos =
+  const rawCasinos =
     casinos !== undefined
       ? casinos
       : filteredCasinos.length > 0
         ? filteredCasinos
         : reduxCasinos;
+
+  const displayCasinos = rawCasinos.slice(0, 8);
 
   const scrollLeft = () => {
     if (scrollContainerRef.current) {
@@ -70,7 +72,7 @@ export default function SpinRallySection({
   }
 
   return (
-    <section className="w-full py-8">
+    <section className="w-full py-8 min-h-[440px]">
       {/* Header */}
       <div className="mb-6">
         {/* First Row */}
@@ -80,10 +82,13 @@ export default function SpinRallySection({
           </h2>
 
           <div className="flex items-center gap-3">
-            <button className="hidden md:flex items-center bg-white px-4 py-2 rounded-full text-sm font-medium shadow-sm text-[#16171D]">
+            <Link
+              href="/slots"
+              className="hidden md:flex items-center bg-white px-4 py-2 rounded-full text-sm font-medium shadow-sm text-[#16171D] hover:text-[#2E68FB] transition-colors"
+            >
               See all
-              <span className="ml-2 text-[#98A2B3]">{displayCasinos.length}</span>
-            </button>
+              <span className="ml-2 text-[#98A2B3]">{rawCasinos.length}</span>
+            </Link>
             <button
               className="w-10 h-10 rounded-full bg-white flex items-center justify-center shadow-sm border border-gray-100"
               onClick={scrollLeft}

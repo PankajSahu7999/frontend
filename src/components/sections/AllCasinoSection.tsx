@@ -63,13 +63,17 @@ export default function AllCasinoSection({
     currentPage * itemsPerPage
   );
 
-  if (loading && casinos === undefined) {
+  if (loading || (casinos === undefined && reduxCasinos.length === 0)) {
     return (
-      <section className="w-full flex flex-col items-center py-12 px-4 max-w-7xl mx-auto">
-        <div className="flex items-center justify-center min-h-[400px]">
-          <div className="animate-pulse text-slate-500 font-medium">
-            Loading premium casinos...
-          </div>
+      <section className="w-full flex flex-col items-center py-12 px-4 max-w-7xl mx-auto min-h-[500px]">
+        <div className="w-full max-w-2xl mx-auto mb-10 text-center animate-pulse">
+          <div className="h-9 w-64 bg-slate-200 rounded-lg mx-auto mb-3" />
+          <div className="h-4 w-96 bg-slate-100 rounded mx-auto" />
+        </div>
+        <div className="w-full flex flex-col gap-6 items-center">
+          {[1, 2, 3].map((n) => (
+            <div key={n} className="w-full h-44 rounded-2xl bg-slate-100/80 animate-pulse border border-slate-200/50" />
+          ))}
         </div>
       </section>
     );
@@ -80,7 +84,7 @@ export default function AllCasinoSection({
   }
 
     return (
-        <section className="w-full flex flex-col items-center py-12 px-4 max-w-7xl mx-auto">
+        <section className="w-full flex flex-col items-center py-12 px-4 max-w-7xl mx-auto min-h-[500px]">
             {/* Heading Section */}
             <div className="mb-10 text-center">
                 <h2 className="font-poppins font-bold text-3xl md:text-4xl tracking-tight text-slate-900">
