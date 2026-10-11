@@ -137,7 +137,7 @@ export const DEFAULT_SEO: Metadata = {
 
   generator: "Next.js",
 
-  referrer: "origin-when-cross-origin",
+  referrer: "strict-origin-when-cross-origin",
 
   creator: SITE.author,
 
@@ -154,6 +154,10 @@ export const DEFAULT_SEO: Metadata = {
 
   alternates: {
     canonical: SITE.url,
+    languages: {
+      en: SITE.url,
+      "x-default": SITE.url,
+    },
   },
 
   robots: {

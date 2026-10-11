@@ -43,12 +43,16 @@ export function generateSEO({
     title,
     description,
     keywords: [...SITE.keywords, ...keywords],
-    // alternates: {
-    //   canonical: url,
-    // },
+    alternates: {
+      canonical: url,
+      languages: {
+        en: url,
+        "x-default": url,
+      },
+    },
     applicationName: SITE.applicationName,
     category: "Casino",
-    referrer: "origin-when-cross-origin",
+    referrer: "strict-origin-when-cross-origin",
     authors: authors?.length
       ? authors.map((name) => ({ name }))
       : [{ name: SITE.author || SITE.name }],

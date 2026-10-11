@@ -44,7 +44,7 @@ export const HOMEPAGE_HERO_SLIDES: HeroSlideContent[] = [
     secondaryCtaHref: "#methodology",
     trustLine:
       "Real-money testing • Licence checks • Bonus-term audits • Payout research • Affiliate disclosure",
-    bannerImage: "/images/hero/casinos-hero.jpg",
+    bannerImage: "/images/hero/casinos-hero.webp",
   },
   // Option 2 — Problem-first
   {
@@ -60,7 +60,7 @@ export const HOMEPAGE_HERO_SLIDES: HeroSlideContent[] = [
     secondaryCtaHref: "/guides",
     trustLine:
       "Clear criteria • Visible review dates • Transparent commercial disclosure",
-    bannerImage: "/images/hero/bonuses-hero.jpg",
+    bannerImage: "/images/hero/bonuses-hero.webp",
   },
   // Option 3 — Comparison-first
   {
@@ -76,16 +76,16 @@ export const HOMEPAGE_HERO_SLIDES: HeroSlideContent[] = [
     secondaryCtaHref: "/casinos/casinos-by-country",
     trustLine:
       "Research-led reviews • Country-aware information • Research-Based Information",
-    bannerImage: "/images/hero/betting-hero.jpg",
+    bannerImage: "/images/hero/betting-hero.webp",
   },
 ];
 
 const THEME_SLIDES_MAP: Record<string, string[]> = {
-  casinos: ["/images/hero/casinos-hero.jpg", "/images/hero/bonuses-hero.jpg"],
-  bonuses: ["/images/hero/bonuses-hero.jpg", "/images/hero/casinos-hero.jpg"],
-  slots: ["/images/hero/slots-hero.jpg", "/images/hero/bonuses-hero.jpg"],
-  games: ["/images/hero/games-hero.jpg", "/images/hero/casinos-hero.jpg"],
-  betting: ["/images/hero/betting-hero.jpg", "/images/hero/casinos-hero.jpg"],
+  casinos: ["/images/hero/casinos-hero.webp", "/images/hero/bonuses-hero.webp"],
+  bonuses: ["/images/hero/bonuses-hero.webp", "/images/hero/casinos-hero.webp"],
+  slots: ["/images/hero/slots-hero.webp", "/images/hero/bonuses-hero.webp"],
+  games: ["/images/hero/games-hero.webp", "/images/hero/casinos-hero.webp"],
+  betting: ["/images/hero/betting-hero.webp", "/images/hero/casinos-hero.webp"],
 };
 
 function resolveHeroSlides(title: string, bannerImage?: string): string[] {
