@@ -55,6 +55,18 @@ export const SITE = {
     "https://github.com/casinoreviewsbook",
   ],
 
+  keywords: [
+    "online casino reviews",
+    "casino ratings",
+    "casino licensing",
+    "casino bonus terms",
+    "wagering requirements",
+    "casino withdrawal times",
+    "casino payment methods",
+    "online casino safety",
+    "responsible gambling",
+  ],
+
   image: {
     url: "https://casinoreviewsbook.com/icons/og-image.png",
     width: 1200,

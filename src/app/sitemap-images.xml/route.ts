@@ -170,7 +170,8 @@ function escapeXml(value: string): string {
 }
 
 export async function GET() {
-  const allNews = (await getAllNews()) as NewsItem[];
+  const newsData = await getAllNews();
+  const allNews: NewsItem[] = Array.isArray(newsData) ? newsData : [];
   const now = Date.now();
   const cutoff = now - 2 * 24 * 60 * 60 * 1000;
 

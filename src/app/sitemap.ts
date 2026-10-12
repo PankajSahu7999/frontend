@@ -121,13 +121,14 @@ function pageUrl(path: string): string {
 }
 
 function toEntries(
-  items: SitemapRecord[],
+  items: SitemapRecord[] | null | undefined,
   path: string,
   priority: number,
   frequency: "daily" | "weekly"
 ): MetadataRoute.Sitemap {
+  if (!Array.isArray(items)) return [];
   return items
-    .filter((item) => typeof item.slug === "string" && item.slug.length > 0)
+    .filter((item) => item && typeof item.slug === "string" && item.slug.length > 0)
     .map((item) => {
       const lastModified = validDate(
         item.updated_at,
