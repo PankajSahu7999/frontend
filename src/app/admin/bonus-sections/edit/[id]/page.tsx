@@ -407,6 +407,7 @@ export default function EditBonusSectionPage() {
                                 src={casinoLogo}
                                 alt={item.casino?.name || 'Casino'}
                                 fill
+                                loading="lazy"
                                 className="object-contain p-1"
                               />
                             </div>

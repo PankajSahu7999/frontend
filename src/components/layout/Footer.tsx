@@ -284,6 +284,7 @@ export function Footer() {
                     alt="Casino Reviews Book Discord Community"
                     width={24}
                     height={24}
+                    loading="lazy"
                   />
                 </Link>
 
@@ -293,6 +294,7 @@ export function Footer() {
                     alt="Casino Reviews Book Instagram Profile"
                     width={24}
                     height={24}
+                    loading="lazy"
                   />
                 </Link>
 
@@ -302,6 +304,7 @@ export function Footer() {
                     alt="Casino Reviews Book Twitter Account"
                     width={24}
                     height={24}
+                    loading="lazy"
                   />
                 </Link>
               </div>

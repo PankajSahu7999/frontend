@@ -154,6 +154,7 @@ export default function GamesHubClient({
                 fill
                 sizes="(max-width: 768px) 100vw, 800px"
                 className="object-cover"
+                loading="lazy"
               />
               <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent flex items-end p-3">
                 <div>
@@ -221,6 +222,7 @@ export default function GamesHubClient({
               width={44}
               height={44}
               sizes="44px"
+              loading="lazy"
               className="w-full h-full object-cover"
             />
           </div>
@@ -548,6 +550,7 @@ export default function GamesHubClient({
                             fill
                             className="object-contain p-1"
                             unoptimized
+                            loading="lazy"
                           />
                         </div>
                         <div className="min-w-0 flex-1 pr-12">

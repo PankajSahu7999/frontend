@@ -140,6 +140,7 @@ export default function CasinoBonusesClient({
           src="/images/hero/bonuses-hero.jpg"
           alt="Best Online Casino Bonuses & Promotions"
           fill
+          loading="lazy"
           priority
           sizes="(max-width: 768px) 100vw, 1280px"
           className="object-cover object-right lg:object-center"
@@ -158,9 +159,9 @@ export default function CasinoBonusesClient({
               Best Online Casino Bonuses
             </h1>
             <p className="text-xs sm:text-sm text-slate-200 max-w-xl font-medium leading-relaxed drop-shadow-[0_1px_4px_rgba(0,0,0,0.8)]">
-              Discover verified welcome packages, zero-deposit free spins, crypto
-              deposit boosts, and weekly cashback deals with honest wagering
-              terms.
+              Discover verified welcome packages, zero-deposit free spins,
+              crypto deposit boosts, and weekly cashback deals with honest
+              wagering terms.
             </p>
           </div>
 
@@ -345,6 +346,7 @@ export default function CasinoBonusesClient({
                                 fill
                                 className="object-contain p-1"
                                 unoptimized
+                                loading="lazy"
                               />
                             </div>
                             <div className="min-w-0">
@@ -425,14 +427,16 @@ export default function CasinoBonusesClient({
                                 Games
                               </span>
                               <span className="text-[12px] font-bold text-[#00B67A] truncate">
-                                {casino.games_count ? `${casino.games_count}+ Games` : "2500+ Games"}
+                                {casino.games_count
+                                  ? `${casino.games_count}+ Games`
+                                  : "2500+ Games"}
                               </span>
                             </div>
 
                             {/* Payout */}
                             <div
                               className="p-2 bg-white/60 border border-[#2E68FB20] rounded-lg min-h-[52px] flex flex-col justify-center"
-                              title={casino.withdrawal_time || 'Instant / 24h'}
+                              title={casino.withdrawal_time || "Instant / 24h"}
                             >
                               <span className="block text-[9px] font-semibold text-[#2E68FB] uppercase">
                                 Payout

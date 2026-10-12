@@ -186,6 +186,7 @@ function CasinoCard({ casino, index }: { casino: any; index: number }) {
                             height={150}
                             className="w-full h-full object-contain mix-blend-multiply"
                             unoptimized
+                            loading="lazy"
                         />
                     </div>
                     {/* Mobile Header Info */}

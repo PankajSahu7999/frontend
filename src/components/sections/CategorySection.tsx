@@ -65,6 +65,7 @@ export default function CategorySection() {
                                         alt={category.title}
                                         width={173}
                                         height={173}
+                                        loading="lazy"
                                         className="object-contain"
                                     />
                                 </div>

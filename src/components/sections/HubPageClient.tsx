@@ -155,6 +155,7 @@ export default function HubPageClient({
           src={bannerImage}
           alt={pageTitle}
           fill
+          loading="lazy"
           priority
           sizes="(max-width: 768px) 100vw, 1280px"
           className="object-cover object-right lg:object-center"
@@ -341,6 +342,7 @@ export default function HubPageClient({
                                 src={imageUrl}
                                 alt={casino.name || "Casino"}
                                 fill
+                                loading="lazy"
                                 className="object-contain p-1"
                                 unoptimized
                               />

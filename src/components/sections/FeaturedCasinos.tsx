@@ -80,6 +80,7 @@ export async function FeaturedCasinos() {
                   height={60}
                   className="object-contain"
                   unoptimized
+                  loading="lazy"
                 />
               </CardHeader>
 

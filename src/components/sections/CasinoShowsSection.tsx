@@ -195,6 +195,7 @@ function CasinoCard({ casino }: { casino: any }) {
                     fill
                     className="object-contain"
                     unoptimized
+                    loading="lazy"
                 />
             </div>
 
@@ -220,6 +221,7 @@ function CasinoCard({ casino }: { casino: any }) {
                     fill
                     className="object-contain"
                     unoptimized
+                    loading="lazy"
                 />
             </div>
 
@@ -242,6 +244,7 @@ function CasinoCard({ casino }: { casino: any }) {
                     fill
                     className="object-contain"
                     unoptimized
+                    loading="lazy"
                 />
             </div>
 

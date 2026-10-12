@@ -269,6 +269,7 @@ export default function Navbar({ onMenuClick }: NavbarProps) {
                               fill
                               className="object-contain p-0.5"
                               unoptimized
+                              loading="lazy"
                             />
                           </div>
 
@@ -398,6 +399,7 @@ export default function Navbar({ onMenuClick }: NavbarProps) {
                       width={32}
                       height={32}
                       unoptimized
+                      loading="lazy"
                       className="w-full h-full object-cover"
                     />
                   </span>

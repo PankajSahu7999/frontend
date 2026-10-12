@@ -179,6 +179,7 @@ export default function GameDetailClient({
                 sizes="280px"
                 className="rounded-xl object-contain p-2"
                 preload
+                loading="lazy"
               />
             </div>
 
@@ -639,6 +640,7 @@ export default function GameDetailClient({
                             fill
                             className="object-contain p-1"
                             unoptimized
+                            loading="lazy"
                           />
                         </div>
                         <div className="min-w-0 flex-1 pr-12">

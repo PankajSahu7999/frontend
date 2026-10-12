@@ -315,7 +315,7 @@ export default function Sidebar({ open, onClose }: SidebarProps) {
                         <div className="absolute w-[45px] h-[48px] top-[8px] left-[12px] bg-[#2E68FB]/30 blur-[20px] rounded-full pointer-events-none" />
                         <div className="absolute w-[51px] h-[54px] top-[-7px] left-[166px] bg-[#2E68FB]/30 blur-[20px] rounded-full pointer-events-none" />
                         <div className="flex items-center justify-center overflow-hidden shrink-0 z-10">
-                            <Image src="/icons/Group8.png" alt="Bonus" width={32} height={32} className="object-contain" />
+                            <Image src="/icons/Group8.png" alt="Bonus" width={32} height={32} className="object-contain" loading="lazy" />
                         </div>
                         <div className="leading-tight z-10">
                             <p className="text-[15px] font-semibold text-[#111827]">Join Now</p>
@@ -438,6 +438,7 @@ export default function Sidebar({ open, onClose }: SidebarProps) {
                                 alt="Earn and Refer - Casino Reviews Book" 
                                 fill
                                 sizes="212px"
+                                loading="lazy"
                                 className="object-cover" 
                             />
                             <div className="absolute inset-0 rounded-[20px] bg-[linear-gradient(180deg,rgba(58,62,69,0.0001)_0%,rgba(27,29,33,0.92)_56%)]" />

@@ -123,6 +123,7 @@ export function TelegramSection() {
               width={248}
               height={227}
               className="object-contain"
+              loading="lazy"
             />
           </div>
         </div>

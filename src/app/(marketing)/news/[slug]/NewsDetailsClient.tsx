@@ -93,6 +93,7 @@ export default function NewsDetailsClient({ news }: Props) {
               src={news.featured_image}
               alt={news.title || 'News cover image'}
               fill
+              loading="lazy"
               priority
               sizes="(max-width: 1024px) 100vw, 900px"
               className="object-cover"

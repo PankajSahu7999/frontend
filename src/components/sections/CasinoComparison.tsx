@@ -483,6 +483,7 @@ export default function CasinoComparison() {
                         alt={casino.name}
                         fill
                         sizes="40px"
+                        loading="lazy"
                         className="object-contain p-1"
                         unoptimized
                       />
@@ -603,6 +604,7 @@ export default function CasinoComparison() {
                               alt={casino.name}
                               fill
                               sizes="56px"
+                              loading="lazy"
                               className="object-contain p-1"
                               unoptimized
                             />

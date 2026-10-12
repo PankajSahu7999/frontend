@@ -101,6 +101,7 @@ function CasinoCard({ casino, index }: { casino: Casino; index: number }) {
               height={140}
               className="w-full h-full object-contain mix-blend-multiply"
               unoptimized
+              loading="lazy"
             />
           </div>
           <div className="flex flex-col lg:hidden flex-1">

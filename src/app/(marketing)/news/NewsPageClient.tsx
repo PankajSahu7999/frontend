@@ -18,24 +18,45 @@ function getCleanExcerpt(item: any, maxLength = 160): string {
     return item.meta_description.trim();
   }
   if (item.excerpt && item.excerpt.trim()) {
-    return item.excerpt.replace(/<[^>]*>/g, ' ').replace(/\s+/g, ' ').trim();
+    return item.excerpt
+      .replace(/<[^>]*>/g, " ")
+      .replace(/\s+/g, " ")
+      .trim();
   }
   if (item.content) {
-    const clean = item.content.replace(/<[^>]*>/g, ' ').replace(/\s+/g, ' ').trim();
-    return clean.length > maxLength ? clean.substring(0, maxLength) + '...' : clean;
+    const clean = item.content
+      .replace(/<[^>]*>/g, " ")
+      .replace(/\s+/g, " ")
+      .trim();
+    return clean.length > maxLength
+      ? clean.substring(0, maxLength) + "..."
+      : clean;
   }
-  return '';
+  return "";
 }
 
 function formatDate(dateStr?: string) {
-  if (!dateStr) return 'Recent';
+  if (!dateStr) return "Recent";
   try {
     const d = new Date(dateStr);
-    if (isNaN(d.getTime())) return 'Recent';
-    const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+    if (isNaN(d.getTime())) return "Recent";
+    const months = [
+      "Jan",
+      "Feb",
+      "Mar",
+      "Apr",
+      "May",
+      "Jun",
+      "Jul",
+      "Aug",
+      "Sep",
+      "Oct",
+      "Nov",
+      "Dec",
+    ];
     return `${months[d.getUTCMonth()]} ${d.getUTCDate()}, ${d.getUTCFullYear()}`;
   } catch {
-    return 'Recent';
+    return "Recent";
   }
 }
 
@@ -43,9 +64,11 @@ export default function NewsPage({ initialNews = [] }: NewsPageProps) {
   const dispatch = useDispatch<AppDispatch>();
   const [searchTerm, setSearchTerm] = useState("");
 
-  const { news: reduxNews, loading: reduxLoading, error } = useSelector(
-    (state: RootState) => state.news,
-  );
+  const {
+    news: reduxNews,
+    loading: reduxLoading,
+    error,
+  } = useSelector((state: RootState) => state.news);
 
   useEffect(() => {
     if (initialNews.length > 0) {
@@ -55,11 +78,14 @@ export default function NewsPage({ initialNews = [] }: NewsPageProps) {
     }
   }, [dispatch, initialNews]);
 
-  const activeNews = (initialNews && initialNews.length > 0)
-    ? (reduxNews.length > initialNews.length ? reduxNews : initialNews)
-    : reduxNews;
+  const activeNews =
+    initialNews && initialNews.length > 0
+      ? reduxNews.length > initialNews.length
+        ? reduxNews
+        : initialNews
+      : reduxNews;
 
-  const loading = (initialNews && initialNews.length > 0) ? false : reduxLoading;
+  const loading = initialNews && initialNews.length > 0 ? false : reduxLoading;
 
   // Skeleton Loading State
   if (loading) {
@@ -100,10 +126,7 @@ export default function NewsPage({ initialNews = [] }: NewsPageProps) {
     const title = item.title?.toLowerCase() || "";
     const cleanExcerpt = getCleanExcerpt(item, 500).toLowerCase();
 
-    return (
-      title.includes(searchQuery) ||
-      cleanExcerpt.includes(searchQuery)
-    );
+    return title.includes(searchQuery) || cleanExcerpt.includes(searchQuery);
   });
 
   const heroNews = filteredNews[0];
@@ -157,6 +180,7 @@ export default function NewsPage({ initialNews = [] }: NewsPageProps) {
                         src={heroNews.featured_image}
                         alt={heroNews.title || "Featured News"}
                         fill
+                        loading="lazy"
                         priority
                         sizes="(max-width: 1024px) 100vw, 60vw"
                         className="object-cover group-hover:scale-105 transition-transform duration-500 ease-out"
@@ -172,8 +196,12 @@ export default function NewsPage({ initialNews = [] }: NewsPageProps) {
                   <div className="lg:col-span-5 p-6 sm:p-8 lg:pr-10">
                     <div className="flex items-center gap-2 text-xs font-medium text-gray-500 mb-3">
                       <Clock className="w-3.5 h-3.5" />
-                      <time dateTime={heroNews.published_at || heroNews.created_at}>
-                        {formatDate(heroNews.published_at || heroNews.created_at)}
+                      <time
+                        dateTime={heroNews.published_at || heroNews.created_at}
+                      >
+                        {formatDate(
+                          heroNews.published_at || heroNews.created_at,
+                        )}
                       </time>
                     </div>
 

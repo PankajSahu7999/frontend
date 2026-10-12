@@ -162,6 +162,7 @@ function CasinoCard({ casino }: { casino: any }) {
               fill
               className="object-contain p-1"
               unoptimized
+              loading="lazy"
             />
           </div>
           <div className="min-w-0 flex-1 pr-14">
