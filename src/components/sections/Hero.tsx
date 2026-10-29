@@ -201,7 +201,6 @@ export function Hero({
           priority
           sizes="(max-width: 639px) 100vw, (max-width: 1279px) 100vw, 1280px"
           className="object-cover object-center transition-opacity duration-500"
-          loading="lazy"
         />
 
         {/* Responsive image overlays */}

@@ -180,7 +180,6 @@ export default function NewsPage({ initialNews = [] }: NewsPageProps) {
                         src={heroNews.featured_image}
                         alt={heroNews.title || "Featured News"}
                         fill
-                        loading="lazy"
                         priority
                         sizes="(max-width: 1024px) 100vw, 60vw"
                         className="object-cover group-hover:scale-105 transition-transform duration-500 ease-out"

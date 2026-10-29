@@ -155,7 +155,6 @@ export default function HubPageClient({
           src={bannerImage}
           alt={pageTitle}
           fill
-          loading="lazy"
           priority
           sizes="(max-width: 768px) 100vw, 1280px"
           className="object-cover object-right lg:object-center"

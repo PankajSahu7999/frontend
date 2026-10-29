@@ -74,7 +74,6 @@ export function BonuesSection2() {
                 src="/images/challenges-icons.png"
                 alt="Diamond, Star Coin, x10 Multiplier, Crown"
                 fill
-                loading="lazy"
                 className="object-contain sm:object-right-center"
                 priority
               />

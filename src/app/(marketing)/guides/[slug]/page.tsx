@@ -237,7 +237,6 @@ export default async function SingleGuidePage({ params }: GuidePageProps) {
                 src={heroImageSrc}
                 alt={guide.title}
                 fill
-                loading="lazy"
                 priority
                 className="object-cover hover:scale-105 transition-transform duration-300 brightness-95 hover:brightness-100"
                 sizes="(max-width: 768px) 100vw, 320px"
