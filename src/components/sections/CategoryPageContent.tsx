@@ -1,5 +1,7 @@
 'use client';
 
+import { useCurrency } from '@/context/CurrencyContext';
+
 import { useEffect, useState, useCallback } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
@@ -67,6 +69,7 @@ const ITEMS_PER_PAGE = 8;
    CASINO CARD
 ───────────────────────────────────────── */
 function CasinoCard({ casino, index }: { casino: Casino; index: number }) {
+  const { formatAmount, formatBonusText } = useCurrency();
   const [expanded, setExpanded] = useState(false);
   const imageUrl = getImageUrl(casino.logo || casino.featured_image);
   const welcomeBonus = casino.bonuses?.[0] || null;
@@ -156,7 +159,7 @@ function CasinoCard({ casino, index }: { casino: Casino; index: number }) {
                   Min Deposit
                 </p>
                 <p className="text-xs font-semibold text-slate-800 mt-0.5 truncate">
-                  {casino.minimum_deposit ? `$${casino.minimum_deposit}` : 'N/A'}
+                  {casino.minimum_deposit ? formatAmount(casino.minimum_deposit) : 'N/A'}
                 </p>
               </div>
               <div className="border-l border-slate-200" title={casino.withdrawal_time || 'N/A'}>
@@ -189,7 +192,7 @@ function CasinoCard({ casino, index }: { casino: Casino; index: number }) {
               Exclusive Offer
             </p>
             <h3 className="text-base font-black text-slate-900 leading-snug px-1">
-              {welcomeBonus ? welcomeBonus.title : casino.short_description || '100% Welcome Bonus'}
+              {welcomeBonus ? formatBonusText(welcomeBonus.title) : formatBonusText(casino.short_description) || '100% Welcome Bonus'}
             </h3>
           </div>
           <div className="w-full flex flex-col gap-2.5 max-w-xs lg:max-w-none">

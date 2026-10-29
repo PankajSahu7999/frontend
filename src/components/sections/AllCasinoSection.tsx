@@ -1,5 +1,7 @@
 'use client';
 
+import { useCurrency } from '@/context/CurrencyContext';
+
 import Image from 'next/image';
 import Link from 'next/link';
 import { useState, useRef } from 'react';
@@ -146,6 +148,7 @@ export default function AllCasinoSection({
 }
 
 function CasinoCard({ casino, index }: { casino: any; index: number }) {
+    const { formatBonusText } = useCurrency();
     const [isOpen, setIsOpen] = useState(false);
     const welcomeBonus = casino.bonuses?.[0] || null;
     const imageUrl = getImageUrl(casino.logo || casino.featured_image);
@@ -290,7 +293,7 @@ function CasinoCard({ casino, index }: { casino: any; index: number }) {
                     <div className="text-center mb-5 lg:mb-6 w-full">
                         <p className="text-xs font-bold text-indigo-600 uppercase tracking-widest mb-1.5">Exclusive Offer</p>
                         <h3 className="text-lg lg:text-xl font-black text-slate-900 leading-snug px-1">
-                            {welcomeBonus ? welcomeBonus.title : casino.short_description || '100% Welcome Bonus'}
+                            {welcomeBonus ? formatBonusText(welcomeBonus.title) : formatBonusText(casino.short_description) || '100% Welcome Bonus'}
                         </h3>
                     </div>
 

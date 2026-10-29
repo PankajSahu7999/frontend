@@ -1,5 +1,7 @@
 'use client';
 
+import { useCurrency } from '@/context/CurrencyContext';
+
 import { useState, useEffect, useRef } from 'react';
 import Image from 'next/image';
 import { ChevronLeft, ChevronRight, Star } from 'lucide-react';
@@ -114,7 +116,9 @@ export default function SimilarCasinosSection({ slug }: SimilarCasinosSectionPro
 }
 
 function SimilarCasinoCard({ casino }: { casino: any }) {
-  const welcomeBonus = casino.bonuses?.[0]?.amount || '$2,500 + 10% Cashback';
+  const { formatAmount, formatBonusText } = useCurrency();
+  const rawBonus = casino.bonuses?.[0]?.amount || '$2,500 + 10% Cashback';
+  const welcomeBonus = formatBonusText(rawBonus);
   const imageUrl = getImageUrl(casino.logo || casino.featured_image || '/images/888.png');
 
   return (
@@ -187,7 +191,7 @@ function SimilarCasinoCard({ casino }: { casino: any }) {
                   Min Deposit
                 </span>
                 <span className="text-[12px] font-bold text-[#363636] truncate">
-                  {casino.minimum_deposit ? `$${casino.minimum_deposit}` : '€20'}
+                  {casino.minimum_deposit ? formatAmount(casino.minimum_deposit) : formatAmount(20)}
                 </span>
               </div>
 

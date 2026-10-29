@@ -1,5 +1,7 @@
 'use client';
 
+import { useCurrency } from '@/context/CurrencyContext';
+
 import { useEffect, useMemo, useRef, useState } from 'react';
 import {
   Check,
@@ -57,6 +59,7 @@ interface ComparisonCasino {
 const FALLBACK_LOGO = '/images/888.png';
 
 export default function CasinoComparison() {
+  const { formatAmount } = useCurrency();
   const { casinos } = useCasinos();
 
   const [selectedCasinos, setSelectedCasinos] = useState<
@@ -749,9 +752,7 @@ export default function CasinoComparison() {
                           winner={index === depositWinner}
                         >
                           <strong>
-                            {casino.minimum_deposit
-                              ? `£${casino.minimum_deposit}`
-                              : 'Not listed'}
+                            {casino.minimum_deposit ? formatAmount(casino.minimum_deposit) : 'Not listed'}
                           </strong>
                         </ValueCell>
                       ))}
@@ -954,9 +955,7 @@ export default function CasinoComparison() {
                           key={casino.id}
                           winner={index === depositWinner}
                         >
-                          {casino.minimum_deposit
-                            ? `£${casino.minimum_deposit}`
-                            : 'Not listed'}
+                          {casino.minimum_deposit ? formatAmount(casino.minimum_deposit) : 'Not listed'}
                         </ValueCell>
                       ))}
 

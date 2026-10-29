@@ -1,5 +1,7 @@
 'use client';
 
+import { useCurrency } from '@/context/CurrencyContext';
+
 import React, { useRef, useState } from 'react';
 import Link from 'next/link';
 import { ChevronLeft, ChevronRight, ShieldCheck, ExternalLink, Copy, Check, Info } from 'lucide-react';
@@ -31,6 +33,7 @@ export default function CasinoBonusesSection({
   defaultAffiliateUrl,
   bonuses = [],
 }: CasinoBonusesSectionProps) {
+  const { formatBonusText, formatAmount } = useCurrency();
   const scrollContainerRef = useRef<HTMLDivElement>(null);
   const [copiedCode, setCopiedCode] = useState<string | null>(null);
   const [activeModalBonus, setActiveModalBonus] = useState<CasinoBonusItem | null>(null);
@@ -121,7 +124,7 @@ export default function CasinoBonusesSection({
           {displayBonuses.map((bonus, idx) => {
             const affiliateTarget = bonus.affiliate_url || defaultAffiliateUrl || '#';
             const badgeType = bonus.type || 'Welcome Bonus';
-            const minDeposit = bonus.minimum_deposit || '$15';
+            const minDeposit = bonus.minimum_deposit ? formatBonusText(bonus.minimum_deposit) : formatAmount(15);
             const wagering = bonus.wagering_requirement || '30x(d+b)';
             const hasPercentage = Boolean(bonus.bonus_percentage && bonus.bonus_percentage.trim());
             const bonusMetricLabel = hasPercentage ? 'Bonus Percentage' : 'Bonus Value';
@@ -143,7 +146,7 @@ export default function CasinoBonusesSection({
 
                   {/* Title */}
                   <h3 className="mt-3.5 font-bold text-[15px] sm:text-[16px] text-slate-900 leading-snug min-h-[24px] line-clamp-2">
-                    {bonus.title}
+                    {formatBonusText(bonus.title)}
                   </h3>
 
                   {/* Metrics Grid */}
@@ -197,7 +200,7 @@ export default function CasinoBonusesSection({
                     {bonusMetricLabel}
                   </span>
                   <span className="text-sm font-bold text-slate-900 block mt-0.5">
-                    {bonusMetricValue}
+                    {formatBonusText(bonusMetricValue)}
                   </span>
                 </div>
                 <div className="mt-3">

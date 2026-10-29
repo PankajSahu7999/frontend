@@ -1,7 +1,8 @@
-﻿'use client';
+'use client';
 
 import React, { useState } from 'react';
 import { Info, X, ShieldAlert } from 'lucide-react';
+import { useCurrency } from '@/context/CurrencyContext';
 
 interface CasinoCardDisclaimerProps {
   casinoName?: string;
@@ -13,10 +14,11 @@ export default function CasinoCardDisclaimer({
   customText,
 }: CasinoCardDisclaimerProps) {
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const { symbol } = useCurrency();
 
   const fullDisclaimer =
     customText ||
-    `18+ only. New customers only. Welcome bonus wagering requirements apply (standard 35x-40x). Minimum deposit $10-$20 required. Max bet with active bonus applies. Valid for 30 days. Full terms and conditions apply. Play responsibly. Need help? Visit begambleaware.org or call 1-800-GAMBLER.`;
+    `18+ only. New customers only. Welcome bonus wagering requirements apply (standard 35x-40x). Minimum deposit ${symbol}10-${symbol}20 required. Max bet with active bonus applies. Valid for 30 days. Full terms and conditions apply. Play responsibly. Need help? Visit begambleaware.org or call 1-800-GAMBLER.`;
 
   return (
     <div className="relative mt-2.5 pt-2 border-t border-slate-200/50 text-center">

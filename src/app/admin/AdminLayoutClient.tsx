@@ -1,22 +1,40 @@
 'use client';
 
 import Link from 'next/link';
-import { useState } from 'react';
+import { useRouter } from 'next/navigation';
+import { useState, useEffect } from 'react';
 import { 
   Mail, LayoutDashboard, Settings, Users, Building2, Tags, 
   Gamepad2, FileText, Newspaper, Star, HelpCircle, Image, 
-  Link as LinkIcon, FolderOpen, ScrollText, Menu, X, Globe, Ban, BarChart3, BookOpen, Gift
+  Link as LinkIcon, FolderOpen, ScrollText, Menu, X, Globe, Ban, BarChart3, BookOpen, Gift, LogOut
 } from 'lucide-react';
-
 
 export default function AdminClientLayout({
  children,
 }:{
  children:React.ReactNode
 }){
-
-
+  const router = useRouter();
   const [sidebarOpen, setSidebarOpen] = useState(false);
+  const [adminUser, setAdminUser] = useState<{ email?: string; first_name?: string; last_name?: string } | null>(null);
+
+  useEffect(() => {
+    try {
+      const stored = localStorage.getItem('crb_admin_user');
+      if (stored) {
+        setAdminUser(JSON.parse(stored));
+      }
+    } catch {
+      // ignore
+    }
+  }, []);
+
+  const handleLogout = () => {
+    document.cookie = 'crb_admin_token=; Max-Age=0; path=/;';
+    localStorage.removeItem('crb_admin_token');
+    localStorage.removeItem('crb_admin_user');
+    router.push('/admin/login');
+  };
 
   const NavItem = ({ href, icon: Icon, children, active = false }: any) => (
     <Link 
@@ -118,6 +136,17 @@ export default function AdminClientLayout({
             <NavItem href="/admin/banned-countries" icon={Ban}>Banned Countries</NavItem>
           </NavGroup>
         </nav>
+
+        {/* Sidebar Footer Logout */}
+        <div className="p-3 border-t border-slate-800 bg-slate-900/60 sticky bottom-0">
+          <button
+            onClick={handleLogout}
+            className="w-full flex items-center gap-3 px-3 py-2 text-sm font-medium text-rose-400 hover:text-rose-300 hover:bg-rose-500/10 rounded-lg transition-colors cursor-pointer"
+          >
+            <LogOut size={18} />
+            <span>Sign Out</span>
+          </button>
+        </div>
       </aside>
 
       {/* Main Content */}
@@ -133,11 +162,23 @@ export default function AdminClientLayout({
             </button>
             <h1 className="text-lg font-semibold text-slate-900 tracking-tight">Admin Console</h1>
           </div>
-          <div className="flex items-center gap-3 bg-slate-50 pl-3 pr-1.5 py-1.5 rounded-full border border-slate-200/60">
-            <span className="text-xs font-medium text-slate-600">Admin</span>
-            <div className="w-7 h-7 rounded-full bg-indigo-600 flex items-center justify-center text-white text-xs font-semibold shadow-sm">
-              A
+          <div className="flex items-center gap-2 sm:gap-3">
+            <div className="flex items-center gap-2 sm:gap-3 bg-slate-50 pl-3 pr-1.5 py-1.5 rounded-full border border-slate-200/60">
+              <span className="text-xs font-medium text-slate-700 max-w-[140px] truncate">
+                {adminUser?.first_name || adminUser?.email || 'Admin'}
+              </span>
+              <div className="w-7 h-7 rounded-full bg-indigo-600 flex items-center justify-center text-white text-xs font-semibold shadow-sm uppercase">
+                {(adminUser?.first_name?.[0] || adminUser?.email?.[0] || 'A')}
+              </div>
             </div>
+            <button
+              onClick={handleLogout}
+              title="Sign Out"
+              className="flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium text-rose-600 hover:text-rose-700 hover:bg-rose-50 border border-rose-200 rounded-lg transition-colors cursor-pointer"
+            >
+              <LogOut size={14} />
+              <span className="hidden sm:inline">Logout</span>
+            </button>
           </div>
         </header>
         <div className="p-4 sm:p-8 max-w-[1600px] mx-auto">
@@ -146,5 +187,4 @@ export default function AdminClientLayout({
       </main>
     </div>
   );
-
 }
