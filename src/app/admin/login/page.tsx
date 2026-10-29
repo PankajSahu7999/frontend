@@ -79,9 +79,7 @@ export default function AdminLoginPage() {
       {/* Top Navbar */}
       <header className="relative z-10 w-full max-w-7xl mx-auto px-4 sm:px-8 py-6 flex items-center justify-between">
         <div className="flex items-center gap-3">
-          <div className="w-10 h-10 rounded-xl bg-gradient-to-tr from-indigo-600 to-indigo-400 flex items-center justify-center font-black text-white shadow-lg shadow-indigo-600/30 text-sm tracking-wide">
-            CRB
-          </div>
+         
           <div>
             <span className="text-base font-bold text-white tracking-tight leading-none block">
               Casino Reviews <span className="text-indigo-400">Book</span>
@@ -106,13 +104,9 @@ export default function AdminLoginPage() {
         <div className="bg-slate-900/80 border border-slate-800/90 rounded-3xl p-8 sm:p-10 shadow-2xl shadow-black/80 backdrop-blur-xl">
           {/* Header */}
           <div className="text-center mb-8">
-            <div className="w-14 h-14 mx-auto mb-4 rounded-2xl bg-indigo-500/10 border border-indigo-500/20 flex items-center justify-center text-indigo-400 shadow-inner">
-              <Lock size={24} />
-            </div>
+           
             <h1 className="text-2xl font-black text-white tracking-tight">Admin Sign In</h1>
-            <p className="text-xs text-slate-400 mt-2 max-w-xs mx-auto leading-relaxed">
-              Sign in with your administrator credentials to access the CRB control console.
-            </p>
+          
           </div>
 
           {/* Error Message Alert */}
@@ -179,19 +173,6 @@ export default function AdminLoginPage() {
               </div>
             </div>
 
-            {/* Remember Me Toggle */}
-            <div className="flex items-center justify-between pt-1">
-              <label className="flex items-center gap-2.5 cursor-pointer text-xs text-slate-300 select-none">
-                <input
-                  type="checkbox"
-                  checked={rememberMe}
-                  onChange={(e) => setRememberMe(e.target.checked)}
-                  className="w-4 h-4 rounded bg-slate-950 border-slate-800 text-indigo-600 focus:ring-indigo-500 focus:ring-offset-0 focus:ring-offset-transparent cursor-pointer"
-                />
-                <span>Remember this device for 7 days</span>
-              </label>
-            </div>
-
             {/* Submit Button */}
             <button
               type="submit"
@@ -212,11 +193,7 @@ export default function AdminLoginPage() {
             </button>
           </form>
 
-          {/* Security Notice */}
-          <div className="mt-8 pt-6 border-t border-slate-800/80 flex items-center justify-center gap-2 text-[11px] text-slate-500">
-            <ShieldCheck size={14} className="text-emerald-500" />
-            <span>256-bit TLS encrypted session &bull; Unauthorized access prohibited</span>
-          </div>
+          
         </div>
       </main>
 
