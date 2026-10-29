@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { Lock, Mail, AlertCircle, Eye, EyeOff, ShieldCheck, Loader2, ArrowLeft, ArrowRight, Shield } from 'lucide-react';
@@ -17,6 +17,16 @@ export default function AdminLoginPage() {
   const [rememberMe, setRememberMe] = useState(true);
   const [isLoading, setIsLoading] = useState(false);
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
+
+  useEffect(() => {
+    // Proactively clear any stale admin cookies/tokens when arriving on the login page
+    document.cookie = 'crb_admin_token=; path=/; max-age=0; expires=Thu, 01 Jan 1970 00:00:00 GMT; SameSite=Lax;';
+    document.cookie = 'crb_admin_token=; path=/; max-age=0; expires=Thu, 01 Jan 1970 00:00:00 GMT;';
+    try {
+      localStorage.removeItem('crb_admin_token');
+      localStorage.removeItem('crb_admin_user');
+    } catch {}
+  }, []);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -59,9 +69,8 @@ export default function AdminLoginPage() {
         localStorage.setItem('crb_admin_token', data.token);
       } catch {}
 
-      // Navigate to destination
-      router.push(redirectPath);
-      router.refresh();
+      // Navigate to destination with full reload so browser and middleware get fresh state
+      window.location.href = redirectPath;
     } catch (err: any) {
       console.error('Login error:', err);
       setErrorMessage('Network error while connecting to server. Please try again.');

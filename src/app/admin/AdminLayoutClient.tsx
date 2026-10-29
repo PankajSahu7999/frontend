@@ -30,11 +30,25 @@ export default function AdminClientLayout({
     }
   }, []);
 
-  const handleLogout = () => {
-    document.cookie = 'crb_admin_token=; Max-Age=0; path=/;';
-    localStorage.removeItem('crb_admin_token');
-    localStorage.removeItem('crb_admin_user');
-    router.push('/admin/login');
+  const handleLogout = async () => {
+    // 1. Clear cookie on client
+    document.cookie = 'crb_admin_token=; path=/; max-age=0; expires=Thu, 01 Jan 1970 00:00:00 GMT; SameSite=Lax;';
+    document.cookie = 'crb_admin_token=; path=/; max-age=0; expires=Thu, 01 Jan 1970 00:00:00 GMT;';
+
+    // 2. Clear local and session storage
+    try {
+      localStorage.removeItem('crb_admin_token');
+      localStorage.removeItem('crb_admin_user');
+      sessionStorage.clear();
+    } catch {}
+
+    // 3. Inform server to delete cookie
+    try {
+      await fetch('/api/admin-logout', { method: 'POST' });
+    } catch {}
+
+    // 4. Hard redirect to /admin/login to clear Next.js client router cache
+    window.location.href = '/admin/login';
   };
 
   // If on login page, render children standalone without admin sidebar or topbar
