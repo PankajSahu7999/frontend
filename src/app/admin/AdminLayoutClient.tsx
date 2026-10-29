@@ -1,7 +1,7 @@
 'use client';
 
 import Link from 'next/link';
-import { useRouter } from 'next/navigation';
+import { useRouter, usePathname } from 'next/navigation';
 import { useState, useEffect } from 'react';
 import { 
   Mail, LayoutDashboard, Settings, Users, Building2, Tags, 
@@ -15,6 +15,7 @@ export default function AdminClientLayout({
  children:React.ReactNode
 }){
   const router = useRouter();
+  const pathname = usePathname();
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [adminUser, setAdminUser] = useState<{ email?: string; first_name?: string; last_name?: string } | null>(null);
 
@@ -35,6 +36,11 @@ export default function AdminClientLayout({
     localStorage.removeItem('crb_admin_user');
     router.push('/admin/login');
   };
+
+  // If on login page, render children standalone without admin sidebar or topbar
+  if (pathname === '/admin/login') {
+    return <>{children}</>;
+  }
 
   const NavItem = ({ href, icon: Icon, children, active = false }: any) => (
     <Link 
