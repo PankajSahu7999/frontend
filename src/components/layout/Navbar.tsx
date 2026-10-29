@@ -18,6 +18,7 @@ import {
   storeCountryCode,
 } from '@/lib/countryDetection';
 import { formatRating } from '@/components/ui/StarRating';
+import { useCurrency } from '@/context/CurrencyContext';
 
 interface NavbarProps {
   onMenuClick: () => void;
@@ -37,7 +38,9 @@ export default function Navbar({ onMenuClick }: NavbarProps) {
   const [modalOpen, setModalOpen] = useState(false);
   const [userMenuOpen, setUserMenuOpen] = useState(false);
   const [mounted, setMounted] = useState(false);
+  const { countryCode, symbol, setCountry } = useCurrency();
   const [userCountry, setUserCountry] = useState<string>('US');
+  const activeCountry = countryCode || userCountry || 'US';
   const [countryDropdownOpen, setCountryDropdownOpen] = useState(false);
   const countryRef = useRef<HTMLDivElement>(null);
 
@@ -317,47 +320,100 @@ export default function Navbar({ onMenuClick }: NavbarProps) {
 
             {/* User Country Badge */}
            <div ref={countryRef} className="relative">
-  <div
-    className="
-      hidden md:flex
-      items-center
-      justify-center
-      gap-2.5
-      h-[48px]
-      rounded-[20px]
-      px-3.5
-      text-sm
-      font-bold
-      text-[#1E293B]
-      whitespace-nowrap
-    "
-    title={mounted ? `Current Location: ${userCountry}` : 'Detecting location...'}
-  >
-    {/* Flag Image */}
-    <div className="h-[20px] rounded-[3px] overflow-hidden shadow-xs border border-slate-200/80 shrink-0 flex items-center justify-center bg-slate-100">
-      {mounted ? (
-        
-        <img
-          src={getCountryFlagUrl(userCountry)}
-          alt={`${userCountry} flag`}
-          title={`${userCountry} flag`}
-          className="w-full h-full object-cover"
-          loading="eager"
-          onError={(e) => {
-            e.currentTarget.src = `https://react-circle-flags.pages.dev/${userCountry.toLowerCase()}.svg`;
-          }}
-        />
-      ) : (
-        <span className="text-sm">🌐</span>
-      )}
-    </div>
+              <button
+                type="button"
+                onClick={() => setCountryDropdownOpen(!countryDropdownOpen)}
+                className="
+                  hidden md:flex
+                  items-center
+                  justify-center
+                  gap-2
+                  h-[48px]
+                  rounded-[20px]
+                  px-3.5
+                  text-sm
+                  font-bold
+                  text-[#1E293B]
+                  whitespace-nowrap
+                  bg-white/90 hover:bg-white border border-slate-200/80 hover:border-slate-300 shadow-xs transition-all cursor-pointer
+                "
+                title={mounted ? `Region: ${activeCountry} (${symbol}) - Click to change region or currency` : 'Detecting location...'}
+              >
+                {/* Flag Image */}
+                <div className="w-[20px] h-[15px] rounded-[2px] overflow-hidden shadow-xs border border-slate-200/80 shrink-0 flex items-center justify-center bg-slate-100">
+                  {mounted ? (
+                    <img
+                      src={getCountryFlagUrl(activeCountry)}
+                      alt={`${activeCountry} flag`}
+                      className="w-full h-full object-cover"
+                      loading="eager"
+                      onError={(e) => {
+                        e.currentTarget.src = `https://react-circle-flags.pages.dev/${activeCountry.toLowerCase()}.svg`;
+                      }}
+                    />
+                  ) : (
+                    <span className="text-xs">🌐</span>
+                  )}
+                </div>
 
-    {/* Country Code */}
-    <span className="text-sm uppercase tracking-wider text-slate-800 font-extrabold">
-      {mounted ? userCountry : '--'}
-    </span>
-  </div>
-</div>
+                {/* Country Code & Currency Symbol */}
+                <span className="text-xs uppercase tracking-wider text-slate-800 font-extrabold flex items-center gap-1">
+                  <span>{mounted ? activeCountry : '--'}</span>
+                  <span className="text-[#2E68FB] font-bold">({symbol})</span>
+                </span>
+                <ChevronDown size={13} className={`text-slate-400 transition-transform duration-200 ${countryDropdownOpen ? 'rotate-180' : ''}`} />
+              </button>
+
+              {/* Country Selection Dropdown */}
+              {countryDropdownOpen && (
+                <div className="absolute right-0 top-[54px] w-56 rounded-2xl bg-white shadow-2xl border border-slate-100 z-50 p-2 animate-in fade-in zoom-in-95 duration-150">
+                  <div className="px-3 py-1.5 text-[10px] font-bold uppercase tracking-wider text-slate-400 border-b border-slate-100 flex items-center justify-between">
+                    <span>Region & Currency</span>
+                    <button
+                      type="button"
+                      onClick={() => {
+                        setCountry('AUTO');
+                        setCountryDropdownOpen(false);
+                      }}
+                      className="text-[#2E68FB] hover:underline normal-case text-[11px] font-semibold cursor-pointer"
+                    >
+                      Auto-Detect
+                    </button>
+                  </div>
+                  <div className="max-h-60 overflow-y-auto mt-1 space-y-0.5">
+                    {POPULAR_COUNTRIES.map((c) => {
+                      const isSelected = activeCountry === c.code;
+                      const cSymbol = c.currencySymbol || (c.code === 'GB' ? '£' : '$');
+                      return (
+                        <button
+                          key={c.code}
+                          type="button"
+                          onClick={() => {
+                            setCountry(c.code);
+                            setCountryDropdownOpen(false);
+                          }}
+                          className={`w-full flex items-center justify-between px-3 py-2 rounded-xl text-xs font-semibold transition-colors cursor-pointer ${
+                            isSelected ? 'bg-blue-50 text-[#2E68FB]' : 'text-slate-700 hover:bg-slate-50'
+                          }`}
+                        >
+                          <div className="flex items-center gap-2.5">
+                            <img
+                              src={getCountryFlagUrl(c.code)}
+                              alt={c.name}
+                              className="w-4 h-3 object-cover rounded-xs border border-slate-200"
+                            />
+                            <span>{c.name}</span>
+                          </div>
+                          <span className={`text-[11px] font-bold ${isSelected ? 'text-[#2E68FB]' : 'text-slate-400'}`}>
+                            {cSymbol}
+                          </span>
+                        </button>
+                      );
+                    })}
+                  </div>
+                </div>
+              )}
+            </div>
 
             {/* Register Button OR User Pill */}
             {mounted && currentUser ? (

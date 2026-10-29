@@ -91,7 +91,7 @@ const nextConfig: NextConfig = {
               "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com",
               "font-src 'self' https://fonts.gstatic.com data:",
               "img-src 'self' data: blob: https:",
-              "connect-src 'self' https://api.casinoreviewsbook.com http://localhost:4000 https://www.google-analytics.com https://*.google-analytics.com https://*.analytics.google.com https://*.googletagmanager.com",
+              "connect-src 'self' https://api.casinoreviewsbook.com http://localhost:4000 https://www.google-analytics.com https://*.google-analytics.com https://*.analytics.google.com https://*.googletagmanager.com https://api.country.is https://ipwho.is https://freeipapi.com",
               "frame-src 'self' https:",
               "frame-ancestors 'self'",
               "base-uri 'self'",
