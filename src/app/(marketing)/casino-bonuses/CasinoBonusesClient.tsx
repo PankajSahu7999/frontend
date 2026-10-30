@@ -20,6 +20,7 @@ import CasinoCardDisclaimer from "@/components/CasinoCardDisclaimer";
 import { getImageUrl } from "@/lib/utils/getImageUrl";
 import { formatPayoutTime } from "@/lib/utils";
 import StarRating from "@/components/ui/StarRating";
+import { useCurrency } from "@/context/CurrencyContext";
 
 const ICON_MAP: Record<string, any> = {
   Gift,
@@ -83,6 +84,7 @@ interface CasinoBonusesClientProps {
 export default function CasinoBonusesClient({
   initialSections = [],
 }: CasinoBonusesClientProps) {
+  const { formatAmount, formatBonusText } = useCurrency();
   const [sections] = useState<BonusSectionData[]>(initialSections);
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedSectionSlug, setSelectedSectionSlug] = useState<string>("all");
@@ -313,10 +315,11 @@ export default function CasinoBonusesClient({
                         casino.featured_image ||
                         "/images/888.png",
                     );
-                    const welcomeBonus =
+                    const rawBonus =
                       item.custom_title ||
                       casino.bonuses?.[0]?.amount ||
                       "$2,500 + 10% Cashback";
+                    const welcomeBonus = formatBonusText(rawBonus);
                     const claimUrl =
                       item.claim_url ||
                       casino.website_url ||
@@ -403,10 +406,11 @@ export default function CasinoBonusesClient({
                                 Min Deposit
                               </span>
                               <span className="text-[12px] font-bold text-[#363636]">
-                                {item.min_deposit ||
-                                  (casino.minimum_deposit
-                                    ? `$${casino.minimum_deposit}`
-                                    : "$20")}
+                                {item.min_deposit
+                                  ? formatBonusText(item.min_deposit)
+                                  : (casino.minimum_deposit
+                                    ? formatAmount(casino.minimum_deposit)
+                                    : formatAmount(20))}
                               </span>
                             </div>
 

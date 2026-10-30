@@ -359,7 +359,7 @@ export default function Navbar({ onMenuClick }: NavbarProps) {
                 {/* Country Code & Currency Symbol */}
                 <span className="text-xs uppercase tracking-wider text-slate-800 font-extrabold flex items-center gap-1">
                   <span>{mounted ? activeCountry : '--'}</span>
-                  <span className="text-[#2E68FB] font-bold">({symbol})</span>
+                 
                 </span>
                 <ChevronDown size={13} className={`text-slate-400 transition-transform duration-200 ${countryDropdownOpen ? 'rotate-180' : ''}`} />
               </button>
@@ -368,7 +368,7 @@ export default function Navbar({ onMenuClick }: NavbarProps) {
               {countryDropdownOpen && (
                 <div className="absolute right-0 top-[54px] w-56 rounded-2xl bg-white shadow-2xl border border-slate-100 z-50 p-2 animate-in fade-in zoom-in-95 duration-150">
                   <div className="px-3 py-1.5 text-[10px] font-bold uppercase tracking-wider text-slate-400 border-b border-slate-100 flex items-center justify-between">
-                    <span>Region & Currency</span>
+                    <span>Region </span>
                     <button
                       type="button"
                       onClick={() => {
@@ -404,9 +404,7 @@ export default function Navbar({ onMenuClick }: NavbarProps) {
                             />
                             <span>{c.name}</span>
                           </div>
-                          <span className={`text-[11px] font-bold ${isSelected ? 'text-[#2E68FB]' : 'text-slate-400'}`}>
-                            {cSymbol}
-                          </span>
+                        
                         </button>
                       );
                     })}

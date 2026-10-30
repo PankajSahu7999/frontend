@@ -21,6 +21,7 @@ import CasinoAffiliateButton from "@/components/CasinoAffiliateButton";
 import CasinoCardDisclaimer from "@/components/CasinoCardDisclaimer";
 import { getImageUrl } from "@/lib/utils/getImageUrl";
 import { formatPayoutTime } from "@/lib/utils";
+import { useCurrency } from "@/context/CurrencyContext";
 
 interface GameItem {
   id: string;
@@ -87,6 +88,7 @@ export default function GamesHubClient({
   recommended,
   topCasinos = [],
 }: Props) {
+  const { formatAmount, formatBonusText } = useCurrency();
   return (
     <div className="mx-auto px-4 py-8 font-sans text-gray-800 min-h-screen max-w-7xl">
       {/* 1. HERO CARD - EXACT THEME MATCH WITH CASINO REVIEW HERO */}
@@ -512,10 +514,11 @@ export default function GamesHubClient({
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {topCasinos.map((casino) => {
-              const welcomeBonus =
+              const rawCardBonus =
                 casino.bonuses?.[0]?.amount ||
                 casino.bonuses?.[0]?.title ||
                 "100% up to $1,500 + 150 Free Spins";
+              const welcomeBonus = formatBonusText(rawCardBonus);
               const imageUrl = getImageUrl(
                 casino.logo || casino.featured_image || "/images/888.png",
               );
@@ -603,8 +606,8 @@ export default function GamesHubClient({
                           </span>
                           <span className="text-[12px] font-bold text-[#363636] truncate">
                             {casino.minimum_deposit
-                              ? `$${casino.minimum_deposit}`
-                              : "$20"}
+                              ? formatAmount(casino.minimum_deposit)
+                              : formatAmount(20)}
                           </span>
                         </div>
 

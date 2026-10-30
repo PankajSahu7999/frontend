@@ -25,6 +25,7 @@ import CasinoAffiliateButton from "@/components/CasinoAffiliateButton";
 import CasinoCardDisclaimer from "@/components/CasinoCardDisclaimer";
 import { getImageUrl } from "@/lib/utils/getImageUrl";
 import { formatPayoutTime } from "@/lib/utils";
+import { useCurrency } from "@/context/CurrencyContext";
 
 interface GameProps {
   game: any;
@@ -79,6 +80,7 @@ export default function GameDetailClient({
   sponsoredSlots = DEFAULT_SPONSORED_SLOTS,
   topCasinos = [],
 }: GameProps) {
+  const { formatAmount, formatBonusText } = useCurrency();
   const [demoOpen, setDemoOpen] = useState(false);
 
   const heroImage =
@@ -103,15 +105,15 @@ export default function GameDetailClient({
       label: "Minimum Bet",
       value:
         game.min_bet !== null && game.min_bet !== undefined
-          ? `$${game.min_bet}`
-          : "$0.25",
+          ? formatAmount(game.min_bet)
+          : formatAmount("0.25"),
     },
     {
       label: "Maximum Bet",
       value:
         game.max_bet !== null && game.max_bet !== undefined
-          ? `$${game.max_bet}`
-          : "$1,000",
+          ? formatAmount(game.max_bet)
+          : formatAmount("1,000"),
     },
     {
       label: "In-Game Interaction",
@@ -220,7 +222,7 @@ export default function GameDetailClient({
                     Min Bet
                   </span>
                   <span className="font-bold text-gray-800 text-sm">
-                    ${game.min_bet ?? "0.25"}
+                    {formatAmount(game.min_bet ?? "0.25")}
                   </span>
                 </div>
                 <div className="p-2 bg-white/60 rounded-lg border border-[#2E68FB20]">
@@ -228,7 +230,7 @@ export default function GameDetailClient({
                     Max Bet
                   </span>
                   <span className="font-bold text-gray-800 text-sm">
-                    ${game.max_bet ?? "1,000"}
+                    {formatAmount(game.max_bet ?? "1,000")}
                   </span>
                 </div>
               </div>
@@ -420,17 +422,15 @@ export default function GameDetailClient({
               , while betting limits accommodate both recreational players and
               high rollers, ranging from{" "}
               <strong className="text-gray-900 font-bold">
-                $
                 {game.min_bet !== null && game.min_bet !== undefined
-                  ? game.min_bet
-                  : "0.25"}
+                  ? formatAmount(game.min_bet)
+                  : formatAmount("0.25")}
               </strong>{" "}
               to{" "}
               <strong className="text-gray-900 font-bold">
-                $
                 {game.max_bet !== null && game.max_bet !== undefined
-                  ? game.max_bet
-                  : "1,000"}
+                  ? formatAmount(game.max_bet)
+                  : formatAmount("1,000")}
               </strong>{" "}
               per round.
             </p>
@@ -602,10 +602,11 @@ export default function GameDetailClient({
         ) : (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {topCasinos.map((casino) => {
-              const welcomeBonus =
+              const rawCardBonus =
                 casino.bonuses?.[0]?.amount ||
                 casino.bonuses?.[0]?.title ||
                 "100% up to $1,500 + 150 Free Spins";
+              const welcomeBonus = formatBonusText(rawCardBonus);
               const imageUrl = getImageUrl(
                 casino.logo || casino.featured_image || "/images/888.png",
               );
@@ -693,8 +694,8 @@ export default function GameDetailClient({
                           </span>
                           <span className="text-[12px] font-bold text-[#363636] truncate">
                             {casino.minimum_deposit
-                              ? `$${casino.minimum_deposit}`
-                              : "$20"}
+                              ? formatAmount(casino.minimum_deposit)
+                              : formatAmount(20)}
                           </span>
                         </div>
 
@@ -813,3 +814,4 @@ export default function GameDetailClient({
     </div>
   );
 }
+

@@ -233,7 +233,7 @@ export default function CasinoBonusesSection({
                   {activeModalBonus.type || 'Bonus Terms'}
                 </span>
                 <h4 className="text-lg font-bold text-slate-900 mt-1">
-                  {activeModalBonus.title}
+                  {formatBonusText(activeModalBonus.title)}
                 </h4>
               </div>
               <button
@@ -248,7 +248,9 @@ export default function CasinoBonusesSection({
             <div className="space-y-3 text-xs text-slate-600">
               <div className="flex justify-between py-1.5 border-b border-slate-100">
                 <span className="text-slate-500 font-medium">Minimum Deposit:</span>
-                <span className="font-bold text-slate-900">{activeModalBonus.minimum_deposit || '$15'}</span>
+                <span className="font-bold text-slate-900">
+                  {activeModalBonus.minimum_deposit ? formatBonusText(activeModalBonus.minimum_deposit) : formatAmount(15)}
+                </span>
               </div>
               <div className="flex justify-between py-1.5 border-b border-slate-100">
                 <span className="text-slate-500 font-medium">Wagering Requirement:</span>

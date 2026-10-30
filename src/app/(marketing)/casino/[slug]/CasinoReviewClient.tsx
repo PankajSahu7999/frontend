@@ -23,6 +23,7 @@ import CasinoBonusesSection from "@/components/casino/CasinoBonusesSection";
 import CasinoProsConsSection from "@/components/casino/CasinoProsConsSection";
 import CasinoGamingToolsSection from "@/components/casino/CasinoGamingToolsSection";
 import Image from "next/image";
+import { useCurrency } from "@/context/CurrencyContext";
 
 interface Props {
   casino: any;
@@ -50,9 +51,14 @@ interface Props {
 // }
 
 export default function CasinoReviewClient({ casino }: Props) {
+  const { formatAmount, formatBonusText, isUK } = useCurrency();
+
   // Safe Fallbacks
-  const mainBonusTitle =
-    casino.bonuses?.[0]?.title || "100% up to $1,500 + 150 Free Spins";
+  const rawBonusTitle =
+    casino.bonuses?.[0]?.title ||
+    casino.bonuses?.[0]?.amount ||
+    "100% up to $1,500 + 150 Free Spins";
+  const mainBonusTitle = formatBonusText(rawBonusTitle);
 
   const games = casino.game_types?.length
     ? casino.game_types.map((gt: any, i: number) => ({
@@ -273,8 +279,8 @@ export default function CasinoReviewClient({ casino }: Props) {
               </div>
               <div className="grid grid-cols-2 gap-x-0 gap-y-1 mt-3 text-xs text-gray-600">
                 <p>
-                  🎥<span className="font-semibold">MIN DEPOSIT:</span> $
-                  {casino.minimum_deposit}
+                  🎥<span className="font-semibold">MIN DEPOSIT:</span>{" "}
+                  {formatAmount(casino.minimum_deposit, formatAmount(10))}
                 </p>
                 <p>
                   🎡<span className="font-semibold">PAYOUT:</span> Instant - 12h
@@ -393,7 +399,7 @@ export default function CasinoReviewClient({ casino }: Props) {
               Currencies
             </span>
             <span className="text-[14px] font-bold text-[#2E68FB] mt-1 block">
-              USD, EUR, BTC, LTC, ETH
+              {isUK ? "GBP, EUR, USD, BTC, LTC, ETH" : "USD, EUR, BTC, LTC, ETH"}
             </span>
           </div>
           <div className="border border-[#2E68FB] rounded-xl p-3">
@@ -409,7 +415,7 @@ export default function CasinoReviewClient({ casino }: Props) {
               Min Deposit
             </span>
             <span className="text-[14px] font-bold text-[#2E68FB] mt-1 block">
-              ${casino.minimum_deposit}
+              {formatAmount(casino.minimum_deposit, formatAmount(10))}
             </span>
           </div>
           <div className="border border-[#2E68FB] rounded-xl p-3">
@@ -449,7 +455,7 @@ export default function CasinoReviewClient({ casino }: Props) {
               Minimum Deposit
             </h3>
             <p className="mt-3 font-poppins text-[34px] font-bold leading-none text-[#00D084]">
-              $10
+              {formatAmount(casino.minimum_deposit, formatAmount(10))}
             </p>
             <p className="mt-2 text-[12px] text-[#666]">Low barrier to entry</p>
           </div>
@@ -458,7 +464,7 @@ export default function CasinoReviewClient({ casino }: Props) {
               Maximum Deposit
             </h3>
             <p className="mt-3 font-poppins text-[34px] font-bold leading-none text-[#2E68FB]">
-              $10,000
+              {formatAmount(10000)}
             </p>
             <p className="mt-2 text-[12px] text-[#666]">Per transaction</p>
           </div>
@@ -681,11 +687,11 @@ export default function CasinoReviewClient({ casino }: Props) {
               className={`group ${index !== faqs.length - 1 ? "border-b border-[#EEF2FF]" : ""}`}
             >
               <summary className="flex cursor-pointer list-none items-center justify-between px-6 py-6 font-semibold text-[#16171D] group-open:text-[#2E68FB]">
-                {faq.question}
+                {formatBonusText(faq.question)}
                 <ChevronRight className="h-5 w-5 transition group-open:rotate-90 text-[#2E68FB]" />
               </summary>
               <p className="px-6 pb-6 text-[14px] text-[#7C7C7C] leading-7">
-                {faq.answer}
+                {formatBonusText(faq.answer)}
               </p>
             </details>
           ))}
