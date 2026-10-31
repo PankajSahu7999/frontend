@@ -51,7 +51,7 @@ interface Props {
 // }
 
 export default function CasinoReviewClient({ casino }: Props) {
-  const { formatAmount, formatBonusText, isUK } = useCurrency();
+  const { formatAmount, formatBonusText, isUK, currency } = useCurrency();
 
   // Safe Fallbacks
   const rawBonusTitle =
@@ -399,7 +399,9 @@ export default function CasinoReviewClient({ casino }: Props) {
               Currencies
             </span>
             <span className="text-[14px] font-bold text-[#2E68FB] mt-1 block">
-              {isUK ? "GBP, EUR, USD, BTC, LTC, ETH" : "USD, EUR, BTC, LTC, ETH"}
+              {currency && currency !== "USD"
+                ? `${currency}, USD, EUR, BTC, LTC, ETH`
+                : "USD, EUR, BTC, LTC, ETH"}
             </span>
           </div>
           <div className="border border-[#2E68FB] rounded-xl p-3">

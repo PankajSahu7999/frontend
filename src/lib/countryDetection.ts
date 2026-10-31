@@ -7,14 +7,14 @@ export interface CountryInfo {
 }
 
 export const POPULAR_COUNTRIES: CountryInfo[] = [
+  { code: 'CA', name: 'Canada', currencySymbol: 'CAD $' },
+  { code: 'AU', name: 'Australia', currencySymbol: 'AU$' },
+  { code: 'NZ', name: 'New Zealand', currencySymbol: 'NZ$' },
   { code: 'GB', name: 'United Kingdom', currencySymbol: '£' },
   { code: 'US', name: 'United States', currencySymbol: '$' },
-  { code: 'CA', name: 'Canada', currencySymbol: '$' },
-  { code: 'AU', name: 'Australia', currencySymbol: '$' },
   { code: 'DE', name: 'Germany', currencySymbol: '€' },
-  { code: 'IN', name: 'India', currencySymbol: '$' },
+  { code: 'IN', name: 'India', currencySymbol: '₹' },
   { code: 'IE', name: 'Ireland', currencySymbol: '€' },
-  { code: 'NZ', name: 'New Zealand', currencySymbol: '$' },
   { code: 'ZA', name: 'South Africa', currencySymbol: 'R' },
   { code: 'BR', name: 'Brazil', currencySymbol: 'R$' },
   { code: 'JP', name: 'Japan', currencySymbol: '¥' },
