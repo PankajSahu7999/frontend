@@ -1,6 +1,7 @@
 'use client';
 
 import { useCurrency } from '@/context/CurrencyContext';
+import { buildAffiliateClickUrl } from '@/lib/tracking';
 
 import Image from 'next/image';
 import Link from 'next/link';
@@ -302,8 +303,10 @@ function CasinoCard({ casino, index }: { casino: any; index: number }) {
                         <button
                             className="btn-play-now w-full py-3.5 lg:py-4 px-6 rounded-xl font-bold text-sm lg:text-base text-white bg-gradient-to-b from-blue-500 to-indigo-600 hover:from-blue-600 hover:to-indigo-700 flex items-center justify-center gap-2 shadow-md shadow-indigo-100"
                             onClick={() => {
-                                if (casino.website_url) {
-                                    window.open(casino.website_url, '_blank', 'noopener,noreferrer');
+                                const targetUrl = casino.affiliate_url || casino.default_affiliate_url || casino.website_url;
+                                if (targetUrl) {
+                                    const { url } = buildAffiliateClickUrl(targetUrl, casino.id);
+                                    window.open(url, '_blank', 'noopener,noreferrer');
                                 }
                             }}
                         >

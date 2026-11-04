@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import { getUserCountryCode } from '@/lib/countryDetection';
+import { buildAffiliateClickUrl } from '@/lib/tracking';
 
 interface CasinoAffiliateButtonProps {
   casinoId: string;
@@ -33,7 +34,7 @@ export default function CasinoAffiliateButton({
           setIsLoading(false);
           return;
         }
-        const apiUrl = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:4000/api';
+        const apiUrl = process.env.NEXT_PUBLIC_API_URL || 'https://api.casinoreviewsbook.com/api';
         const res = await fetch(
           `${apiUrl}/casino-affiliate-links/casino/${encodeURIComponent(casinoId)}/country/${encodeURIComponent(countryCode)}`
         );
@@ -54,18 +55,25 @@ export default function CasinoAffiliateButton({
     fetchAffiliateLink();
   }, [casinoId, defaultUrl]);
 
+  const handleClick = (e: React.MouseEvent<HTMLAnchorElement>) => {
+    if (isLoading) {
+      e.preventDefault();
+      return;
+    }
+
+    // Generate a fresh unique click ID for every user click
+    const { url } = buildAffiliateClickUrl(affiliateUrl || defaultUrl, casinoId);
+    e.currentTarget.href = url;
+  };
+
   return (
     <a
-      href={affiliateUrl}
+      href={affiliateUrl || defaultUrl || '#'}
       target="_blank"
       rel="noopener noreferrer"
       className={className}
       style={style}
-      onClick={(e) => {
-        if (isLoading) {
-          e.preventDefault();
-        }
-      }}
+      onClick={handleClick}
     >
       {children}
     </a>
