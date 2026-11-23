@@ -7,8 +7,9 @@ import { buildApiUrl } from "@/config/api.config";
 export const dynamic = "force-dynamic";
 
 export async function generateMetadata(): Promise<Metadata> {
+  const currentYear = new Date().getFullYear();
   return generateSEO({
-    title: "Best Sports Betting Sites 2025 - Top Sportsbooks & Live Odds",
+    title: `Best Sports Betting Sites ${currentYear} - Top Sportsbooks & Live Odds`,
     description:
       "Find the best online sports betting sites with competitive odds, live in-play wagering, esports coverage, and exclusive sports free bet bonuses.",
     path: "betting",

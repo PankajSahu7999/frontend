@@ -7,8 +7,9 @@ import { buildApiUrl } from "@/config/api.config";
 export const dynamic = "force-dynamic";
 
 export async function generateMetadata(): Promise<Metadata> {
+  const currentYear = new Date().getFullYear();
   return generateSEO({
-    title: "Best Online Slots 2025 - High RTP, Megaways & Jackpots",
+    title: `Best Online Slots ${currentYear} - High RTP, Megaways & Jackpots`,
     description:
       "Play the best online slots with high RTP, exciting Megaways mechanics, bonus buys, and record progressive jackpots at trusted slot sites.",
     path: "slots",

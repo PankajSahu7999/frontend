@@ -7,8 +7,9 @@ import { buildApiUrl } from "@/config/api.config";
 export const dynamic = "force-dynamic";
 
 export async function generateMetadata(): Promise<Metadata> {
+  const currentYear = new Date().getFullYear();
   return generateSEO({
-    title: "Best Online Casinos 2025 - Verified Ratings & Reviews",
+    title: `Best Online Casinos ${currentYear} - Verified Ratings & Reviews`,
     description:
       "Explore our directory of trusted, top-rated online casinos. Filter by ratings, payment methods, game variety, and exclusive welcome packages.",
     path: "casinos",
@@ -41,10 +42,11 @@ async function getCasinoSectionsData(): Promise<HubSectionData[]> {
 
 export default async function CasinosHubPage() {
   const sections = await getCasinoSectionsData();
+  const currentYear = new Date().getFullYear();
 
   return (
     <HubPageClient
-      pageTitle="Best Online Casinos 2025"
+      pageTitle={`Best Online Casinos ${currentYear}`}
       pageSubtitle="Browse verified, top-tier online casinos evaluated for player safety, fast cashouts, game variety, and high-value welcome bonuses."
       bannerBadge="VERIFIED CASINOS DIRECTORY"
       bannerImage="/images/hero/casinos-hero.jpg"
