@@ -19,6 +19,7 @@ import { useAppDispatch, useCasinos } from "@/hooks/useRedux";
 import { filterCasinosByTags, filterCasinosAdvanced, setInitialCasinos } from "@/store/slices/casinoSlice";
 import { setInitialNews } from "@/store/slices/newsSlice";
 import { NewsCarousel } from "@/components/sections/NewsCarousel";
+import TrendingReviewsSection from "@/components/sections/TrendingReviewsSection";
 import { HomeSEOSection } from "@/components/sections/HomeSEOSection";
 import ResponsiblePlayBanner from "@/components/sections/ResponsiblePlayBanner";
 import { FAQSection } from "@/components/sections/FAQSection";
@@ -107,6 +108,9 @@ export default function HomeContent({
       
       {/* 15. Latest Industry News Carousel */}
       <NewsCarousel news={initialNews} />
+
+      {/* 15.5 Trending & Most Popular Casino Reviews (SEO Internal Link Hub) */}
+      <TrendingReviewsSection />
 
       {/* 16. Topical Authority Editorial Section */}
       <HomeSEOSection />
