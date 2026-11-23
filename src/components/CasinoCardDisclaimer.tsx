@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Info, X, ShieldAlert } from 'lucide-react';
 import { useCurrency } from '@/context/CurrencyContext';
 
@@ -16,19 +16,34 @@ export default function CasinoCardDisclaimer({
   const [isModalOpen, setIsModalOpen] = useState(false);
   const { symbol } = useCurrency();
 
+  // Close modal when Escape key is pressed
+  useEffect(() => {
+    if (!isModalOpen) return;
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') {
+        setIsModalOpen(false);
+      }
+    };
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, [isModalOpen]);
+
   const fullDisclaimer =
     customText ||
     `18+ only. New customers only. Welcome bonus wagering requirements apply (standard 35x-40x). Minimum deposit ${symbol}10-${symbol}20 required. Max bet with active bonus applies. Valid for 30 days. Full terms and conditions apply. Play responsibly. Need help? Visit begambleaware.org or call 1-800-GAMBLER.`;
 
   return (
     <div className="relative mt-2.5 pt-2 border-t border-slate-200/50 text-center">
-      {/* Disclaimer Trigger Button (Hover & Click) */}
+      {/* Disclaimer Trigger Button (Strictly Click-Only) */}
       <button
         type="button"
-        onClick={() => setIsModalOpen(true)}
-        onMouseEnter={() => setIsModalOpen(true)}
+        onClick={(e) => {
+          e.preventDefault();
+          e.stopPropagation();
+          setIsModalOpen(true);
+        }}
         className="inline-flex items-center justify-center gap-1 text-[10px] text-slate-500 hover:text-blue-600 transition-colors group cursor-pointer"
-        title="View full disclaimer and bonus terms"
+        title="Click to view full terms and conditions"
       >
         <span className="truncate max-w-[280px]">
           * 18+ | T&amp;Cs Apply | Play Responsibly
@@ -36,16 +51,19 @@ export default function CasinoCardDisclaimer({
         <Info className="w-3 h-3 text-slate-400 group-hover:text-blue-600 shrink-0" />
       </button>
 
-      {/* Popover Modal (Renders when isModalOpen is true) */}
+      {/* Popover Modal (Renders on Click ONLY) */}
       {isModalOpen && (
         <div 
           className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/50 backdrop-blur-xs animate-in fade-in duration-150"
-          onClick={() => setIsModalOpen(false)}
+          onClick={(e) => {
+            e.preventDefault();
+            e.stopPropagation();
+            setIsModalOpen(false);
+          }}
         >
           <div
             className="relative w-full max-w-sm bg-white rounded-2xl p-5 shadow-2xl border border-slate-200 text-left animate-in zoom-in-95 duration-200"
             onClick={(e) => e.stopPropagation()}
-            onMouseLeave={() => setIsModalOpen(false)}
           >
             {/* Header */}
             <div className="flex items-center justify-between pb-3 border-b border-slate-100 mb-3">
@@ -63,8 +81,13 @@ export default function CasinoCardDisclaimer({
 
               <button
                 type="button"
-                onClick={() => setIsModalOpen(false)}
-                className="w-6 h-6 rounded-full bg-slate-100 hover:bg-slate-200 text-slate-500 flex items-center justify-center transition-colors"
+                onClick={(e) => {
+                  e.preventDefault();
+                  e.stopPropagation();
+                  setIsModalOpen(false);
+                }}
+                className="w-6 h-6 rounded-full bg-slate-100 hover:bg-slate-200 text-slate-500 flex items-center justify-center transition-colors cursor-pointer"
+                aria-label="Close disclaimer modal"
               >
                 <X className="w-3.5 h-3.5" />
               </button>
@@ -89,8 +112,12 @@ export default function CasinoCardDisclaimer({
               <span>BeGambleAware.org</span>
               <button
                 type="button"
-                onClick={() => setIsModalOpen(false)}
-                className="px-3 py-1 rounded-lg bg-blue-50 text-blue-600 font-bold hover:bg-blue-100 transition-colors"
+                onClick={(e) => {
+                  e.preventDefault();
+                  e.stopPropagation();
+                  setIsModalOpen(false);
+                }}
+                className="px-3 py-1 rounded-lg bg-blue-50 text-blue-600 font-bold hover:bg-blue-100 transition-colors cursor-pointer"
               >
                 Got It
               </button>

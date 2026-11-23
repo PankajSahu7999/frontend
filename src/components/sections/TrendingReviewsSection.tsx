@@ -1,5 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
+import CasinoCardDisclaimer from "@/components/CasinoCardDisclaimer";
 import {
   TrendingUp,
   Star,
@@ -210,6 +211,9 @@ export default function TrendingReviewsSection() {
               <span>Read {item.name} Review</span>
               <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-0.5 transition-transform" />
             </Link>
+
+            {/* Click-Only T&C Disclaimer */}
+            <CasinoCardDisclaimer casinoName={item.name} />
           </div>
         ))}
       </div>
