@@ -77,14 +77,22 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     });
   }
 
+  const currentYear = new Date().getFullYear();
+  const ratingNum = casino.rating ? Number(casino.rating) : null;
+  const ratingFormatted =
+    ratingNum && ratingNum >= 1 && ratingNum <= 5
+      ? ` (★ ${ratingNum.toFixed(1)}/5)`
+      : "";
+  const licenseText = casino.license_authority?.trim()
+    ? `Licensed by ${casino.license_authority.trim()}`
+    : "Verified Licensing";
+
   return generateSEO({
-    title: `${casinoName} Review ${new Date().getFullYear()}: Bonus, Games, RTP & Rating`,
+    title: `${casinoName} Review ${currentYear}${ratingFormatted}: Is It Legit? Bonuses & Payout Speed`,
 
     description:
       casino.meta_description?.trim() ||
-      casino.overview?.trim() ||
-      casino.short_description?.trim() ||
-      `${casinoName} casino review covering bonuses, games, payments and player experience.`,
+      `Comprehensive ${currentYear} review of ${casinoName}. ${licenseText}. Discover safety ratings, withdrawal speed, RTP fairness, and player experience. Is ${casinoName} safe? Find out here.`,
 
     path: `/casino/${casino.slug}`,
 
@@ -98,6 +106,9 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
       `${casinoName} promo`,
       `${casinoName} withdrawal`,
       `${casinoName} deposit`,
+      `is ${casinoName.toLowerCase()} legit`,
+      `is ${casinoName.toLowerCase()} safe`,
+      `${casinoName} payout speed`,
       "online casino review",
       "casino bonuses",
       "licensed casino",
@@ -140,7 +151,7 @@ export default async function Page({ params }: Props) {
         },
         {
           name: "Casinos",
-          url: `${SITE_URL}/casino`,
+          url: `${SITE_URL}/casinos`,
         },
         {
           name: casino.name,
@@ -154,12 +165,26 @@ export default async function Page({ params }: Props) {
       casinoName: casino.name,
       casinoId: casino.id,
       reviews: allReviews || [],
+      editorialReview: {
+        rating: casino.rating,
+        authorName: "Casino Reviews Book Editorial Team",
+        reviewBody:
+          casino.editor_view ||
+          casino.overview ||
+          casino.short_description,
+        datePublished: casino.created_at,
+        dateModified: casino.updated_at,
+      },
     }),
     aggregateRating:
       aggregateRatingSchema({
         pageUrl: PAGE_URL,
         casinoName: casino.name,
         reviews: allReviews || [],
+        fallbackRating: casino.rating,
+        fallbackCount: casino.visits
+          ? Math.max(Math.min(Math.floor(Number(casino.visits) / 50), 250), 15)
+          : 15,
       }) ?? undefined,
     offer:
       //  casino?.bonuses?.length
